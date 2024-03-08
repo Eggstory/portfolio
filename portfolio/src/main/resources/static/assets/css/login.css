@@ -1,0 +1,56 @@
+
+.input-container > input {
+  height: 50px;
+  padding: 12px;
+}
+
+button {
+  height: 40px;
+}
+
+.wrap {
+  display: flex;
+  height: 600px;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo {
+  width: 300px;
+  height: 150px;
+}
+
+img {
+  width: 300px;
+  height: 100px;
+  background-size: cover;
+}
+
+.login-type {
+  height: 50px;
+}
+
+.input-container {
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+}
+
+.btn {
+  height: 50px;
+  border: 1px solid gray;
+}
+
+.id-warn, .pw-warn{
+  padding-left: 10px;
+  padding-top: 6px;
+  height: 18px;
+  font-size: 16px;
+  color: red;
+}

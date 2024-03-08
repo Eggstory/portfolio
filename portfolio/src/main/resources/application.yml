@@ -8,20 +8,55 @@ spring:
       enabled: true
       path: /h2
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: khm9963@gmail.com
+    password: hqkwitcmigdcugvz
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+    auth-code-expiration-millis: 1800000
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+
   datasource:
-    driver-class-name: org.h2.Driver
+    driver-class-name: org.mariadb.jdbc.Driver
+    # org.h2.Driver
     # mariaDB -> org.mariadb.jdbc.Driver
-    url: jdbc:h2:mem:test
+    url: jdbc:mariadb://localhost:3306/portfolio
+    #  jdbc:h2:mem:test
     # In-Memory \uBAA8\uB4DC (\uC7AC\uC2DC\uC791 \uC2DC \uB370\uC774\uD130 \uC0AD\uC81C\uB428) : mem
     # Embedded \uBAA8\uB4DC (\uB85C\uCEEC\uC5D0 \uB370\uC774\uD130 \uC800\uC7A5) : ~
     # Server \uBAA8\uB4DC (\uB85C\uCEEC\uC5D0 \uB370\uC774\uD130 \uC800\uC7A5 & H2 \uC124\uCE58 \uD544\uC694)
     # mariaDB -> jdbc:mariadb://localhost:3306/DB\uBA85
-    username: sa
-    password:
+    username: root
+    password: 1234
 
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    # org.hibernate.dialect.H2Dialect
+    # mariaDB -> org.hibernate.dialect.MariaDB103Dialect
     show-sql: true
     properties:
       hibernate:
 #        format_sql: true     # \uC548 \uB418\uAE38\uB798 \uC8FC\uC11D\uD568
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+
+
+file:
+  dir: C:/test/
+

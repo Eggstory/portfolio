@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <div th:replace="~{/client/fragments/Head.html :: common-head}" />
+
+    <script src="/assets/js/boardList.js"></script>
+    <link rel="stylesheet" href="/assets/css/boardList.css" type="text/css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="main-container">
+        <table>
+          <colgroup>
+            <col class="col1" />
+            <col class="col2" />
+            <col class="col3" />
+            <col class="col4" />
+            <col class="col5" />
+            <col class="col6" />
+            <col class="col7" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>번호</th>
+              <th>말머리</th>
+              <th>제목</th>
+              <th>글쓴이</th>
+              <th>작성일</th>
+              <th>조회</th>
+              <th>추천</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>111111</td>
+              <td>공지</td>
+              <td class="table-title">
+                드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자
+              </td>
+              <td>4</td>
+              <td>5</td>
+              <td>6</td>
+              <td>7</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="button-container">
+          <div>
+            <button>전체글</button>
+            <button>개념글</button>
+          </div>
+          <button>글쓰기</button>
+        </div>
+        <div class="page_wrap">
+          <div class="page_nation">
+            <a class="arrow pprev" href="#"><<</a>
+            <a class="arrow prev" href="#"><</a>
+            <a href="#" class="active">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">5</a>
+            <a href="#">6</a>
+            <a href="#">7</a>
+            <a href="#">8</a>
+            <a href="#">9</a>
+            <a href="#">10</a>
+            <a class="arrow next" href="#">></a>
+            <a class="arrow nnext" href="#">>></a>
+          </div>
+        </div>
+        <div class="empty-space"></div>
+        <div class="search">
+          <input type="text" placeholder="검색어 입력">
+          <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

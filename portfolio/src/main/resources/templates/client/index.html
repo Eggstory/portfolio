@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>home</title>
+
+    <div th:replace="~{/client/fragments/Head.html :: common-head}" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script src="/assets/js/index.js"></script>
+    <link rel="stylesheet" href="/assets/css/index.css" type="text/css" />
+  </head>
+  <body>
+    <div class="wrap">
+      <div th:replace="~{/client/fragments/nav.html :: common-nav}" />
+      <main class="main-container">
+        <div class="main-thum">
+          <img src="/images/mainThum.jpg" class="main-img" alt="" />
+        </div>
+        <section class="section">
+          <div class="section-wrap">
+            <div class="section-title">
+              <b> 타이틀 </b>
+              <span> 서브 타이틀 </span>
+            </div>
+            <div class="section-grid">
+              <div class="section-content background-white">
+                <div class="section-thum">
+                  <img
+                    src="https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_960_720.jpg 1x, https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_1280.jpg"
+                    alt=""
+                  />
+                </div>
+                <div class="section-descript">
+                  <b class="font-size20">타이틀</b>
+                  <span class="font-size20">그냥 침대</span>
+                </div>
+              </div>
+              <div class="section-content background-white">
+                <div class="section-thum">
+                  <img
+                    src="https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_960_720.jpg 1x, https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_1280.jpg"
+                    alt=""
+                  />
+                </div>
+                <div class="section-descript">
+                  <b class="font-size20">타이틀</b>
+                  <span class="font-size20">그냥 침대</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section background-white">
+          <div class="section-wrap">
+            <div class="section-title">
+              <b> 타이틀 </b>
+              <span> 서브 타이틀 </span>
+            </div>
+            <div class="section-grid">
+              <div class="section-content background-white">
+                <div class="section-thum">
+                  <img
+                    src="https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_960_720.jpg 1x, https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_1280.jpg"
+                    alt=""
+                  />
+                </div>
+                <div class="section-descript">
+                  <b class="font-size20">타이틀</b>
+                  <span class="font-size20">그냥 침대</span>
+                </div>
+              </div>
+              <div class="section-content">
+                <div class="section-thum">
+                  <img
+                    src="https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_960_720.jpg 1x, https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_1280.jpg"
+                    alt=""
+                  />
+                </div>
+                <div class="section-descript">
+                  <b class="font-size20">타이틀</b>
+                  <span class="font-size20">그냥 침대</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+
+        </section>
+      </main>
+
+      <div class="footer font-size20">
+        푸터
+      </div>
+    </div>
+  </body>
+</html>
