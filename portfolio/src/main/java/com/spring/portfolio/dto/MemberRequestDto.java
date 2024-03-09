@@ -18,14 +18,16 @@ public class MemberRequestDto {
     private String memberAddress;
     private String memberPost;
     private String memberPhone;
-    private Timestamp createDate;
-    private Timestamp updateDate;
+//    private Timestamp createDate;
+//    private Timestamp updateDate;
     private String memberLock;
-    private String memberRole;
+    private Role memberRole;
+    private int failedAttempt;
+    private Timestamp lockTime;
 
 
     @Builder
-    public MemberRequestDto(String memberId, String memberPw, String memberName, String memberMail, String memberAddress, String memberPost, String memberPhone, String memberLock, String memberRole) {
+    public MemberRequestDto(String memberId, String memberPw, String memberName, String memberMail, String memberAddress, String memberPost, String memberPhone) {
         this.memberId = memberId;
         this.memberPw = memberPw;
         this.memberName = memberName;
@@ -34,7 +36,9 @@ public class MemberRequestDto {
         this.memberPost = memberPost;
         this.memberPhone = memberPhone;
         this.memberLock = "ACTIVE";
-        this.memberRole = "ROLE_USER";
+        this.memberRole = Role.USER;
+        this.failedAttempt = 0;
+        this.lockTime = null;
     }
 
 
@@ -50,6 +54,7 @@ public class MemberRequestDto {
                 .memberPhone(memberPhone)
                 .memberLock(memberLock)
                 .memberRole(memberRole)
+                .failedAttempt(failedAttempt)
                 .build();
     }
 

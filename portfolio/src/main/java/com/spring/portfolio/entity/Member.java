@@ -1,17 +1,17 @@
 package com.spring.portfolio.entity;
 
+import com.spring.portfolio.dto.Role;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -27,10 +27,16 @@ public class Member extends BaseEntity {
     private String memberPost;
     private String memberPhone;
     private String memberLock;
-    private String memberRole;
+
+    @ColumnDefault("'USER'")
+    @Enumerated(EnumType.STRING)
+    private Role memberRole;
+
+    private int failedAttempt;
+    private Timestamp lockTime;
 
     @Builder
-    public Member(String memberId, String memberPw, String memberName, String memberMail, String memberAddress, String memberPost, String memberPhone, String memberLock, String memberRole) {
+    public Member(String memberId, String memberPw, String memberName, String memberMail, String memberAddress, String memberPost, String memberPhone, String memberLock, Role memberRole, int failedAttempt) {
         this.memberId = memberId;
         this.memberPw = memberPw;
         this.memberName = memberName;
@@ -40,6 +46,26 @@ public class Member extends BaseEntity {
         this.memberPhone = memberPhone;
         this.memberLock = memberLock;
         this.memberRole = memberRole;
+        this.failedAttempt = failedAttempt;
+    }
+
+
+    public void updateLock(String locked, Timestamp date) {
+        this.memberLock = locked;
+        this.lockTime = date;
+    }
+
+
+    public void addFailedAttempt(boolean b) {
+        if(b) {
+            this.failedAttempt = failedAttempt + 1;
+        } else {
+            this.failedAttempt = 0;
+        }
+    }
+
+    public void setMemberPw(String encode) {
+        this.memberPw = encode;
     }
 
 }

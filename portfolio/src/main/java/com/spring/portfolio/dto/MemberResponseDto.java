@@ -20,7 +20,9 @@ public class MemberResponseDto {
     private Timestamp createDate;
     private Timestamp updateDate;
     private String memberLock;
-    private String memberRole;
+    private Role memberRole;
+    private int failedAttempt;
+    private Timestamp lockTime;
 
     @Builder
     public MemberResponseDto(Member member) {
@@ -33,6 +35,8 @@ public class MemberResponseDto {
         this.memberPhone = member.getMemberPhone();
         this.memberLock = member.getMemberLock();
         this.memberRole = member.getMemberRole();
+        this.failedAttempt = member.getFailedAttempt();
+        this.lockTime = member.getLockTime();
     }
 
 }

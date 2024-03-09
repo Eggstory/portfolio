@@ -27,7 +27,7 @@ public class MemberController {
     }
 
     @PostMapping("/loginAction")
-    public String loginAction(String memberMail, String memberPw, HttpServletRequest httpServletRequest) throws Exception {
+    public String loginAction(String memberMail, String memberPw, HttpServletRequest request) throws Exception {
 
         MemberResponseDto dto = memberService.login(memberMail, memberPw);
         if(dto.getMemberMail() == null || dto.getMemberMail().equals("")) {
@@ -35,8 +35,8 @@ public class MemberController {
             return "redirect:/login";
         }
 
-        httpServletRequest.getSession().invalidate();
-        HttpSession session = httpServletRequest.getSession();
+        request.getSession().invalidate();
+        HttpSession session = request.getSession();
         session.setAttribute("memberMail", dto.getMemberMail());
         System.out.println(session.getAttribute("memberMail"));
 
@@ -49,9 +49,9 @@ public class MemberController {
     }
 
     @PostMapping("/joinAction")
-    public String joinAction(MemberRequestDto member) {
+    public String joinAction(MemberRequestDto memberRequestDto) {
 
-        memberService.registerMember(member);
+        memberService.registerMember(memberRequestDto);
 
         return "client/index";
     }

@@ -1,18 +1,19 @@
-package com.spring.portfolio.dto;
+package com.spring.portfolio.entity;
 
-import com.spring.portfolio.entity.Member;
+import com.spring.portfolio.dto.Role;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 @Getter
 public class PrincipalDetails implements UserDetails {
 
-    private final Member member;
+    private Member member;
 
     public PrincipalDetails(Member member) {
         this.member = member;
@@ -20,7 +21,17 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(member.getMemberRole()));
+
+        Role role = member.getMemberRole();
+        String authority = role.getAuthority();
+
+        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(simpleGrantedAuthority);
+
+        return authorities;
+
+//        return Collections.singletonList(new SimpleGrantedAuthority(member.getMemberRole()));
     }
 
     @Override
@@ -30,26 +41,26 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return member.getMemberName();
+        return member.getMemberMail();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

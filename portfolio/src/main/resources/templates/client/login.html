@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>login</title>
 
-    <div th:replace="~{/client/fragments/Head.html :: common-head}" />
+    <div th:replace="~{/client/fragments/Head.html :: common-head}"/>
 
     <script src="/assets/js/login.js"></script>
-    <link rel="stylesheet" href="/assets/css/login.css" type="text/css" />
-  </head>
-  <body>
-    <div class="wrap">
-      <div class="main-container">
+    <link rel="stylesheet" href="/assets/css/login.css" type="text/css"/>
+</head>
+<body>
+<div class="wrap">
+    <div class="main-container">
         <div class="logo">
-          <img src="images/red-304573_1280.png" alt="" />
+            <img src="images/red-304573_1280.png" alt=""/>
         </div>
         <div class="login-type">
-          <a href="">이메일 로그인</a>
-          <a href="">카카오 로그인</a>
+            <a href="">이메일 로그인</a>
+            <a href="">카카오 로그인</a>
         </div>
         <form method="post" action="/loginAction">
-          <div class="input-container">
-            <input class="id" name="memberMail" id="memberMail" type="text" placeholder="아이디" />
-            <span class="id-warn"></span>
-            <input class="pw" name="memberPw" id="memberPw" type="password" placeholder="비밀번호" />
-            <span class="pw-warn"></span>
-            <div>
-              <input type="checkbox" >
-              <span>자동 로그인</span>
+            <div class="input-container">
+                <input class="id" name="memberMail" id="memberMail" type="text" placeholder="아이디"/>
+                <span class="id-warn"></span>
+                <input class="pw" name="memberPw" id="memberPw" type="password" placeholder="비밀번호"/>
+                <span class="pw-warn"></span>
+                <div>
+                    <input type="checkbox">
+                    <span>자동 로그인</span>
+                </div>
+                <button type="submit" class="btn btn-primary">로그인</button>
+                <hr/>
             </div>
-            <button type="submit" class="btn btn-primary">로그인</button>
-            <hr />
-            <button onclick="location.href='join'" class="btn">회원가입</button>
-          </div>
         </form>
-      </div>
+        <button onclick="location.href='join'" class="btn">회원가입</button>
     </div>
-  </body>
+</div>
+</body>
 </html>

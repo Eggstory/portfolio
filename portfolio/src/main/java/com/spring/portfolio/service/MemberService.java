@@ -5,6 +5,8 @@ import com.spring.portfolio.dto.MemberResponseDto;
 import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.store.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,9 +16,13 @@ import java.util.Optional;
 public class MemberService {
 
     private final MemberRepository memberRepo;
+    private final BCryptPasswordEncoder passwordEncoder;
+
 
 
     public void registerMember(MemberRequestDto memberRequestDto) {
+        String encodePw = passwordEncoder.encode(memberRequestDto.getMemberPw());
+        memberRequestDto.setMemberPw(encodePw);
         Member memberEntity = memberRequestDto.toEntity();
         memberRepo.save(memberEntity);
     }
@@ -30,14 +36,19 @@ public class MemberService {
     }
 
     public MemberResponseDto login(String memberMail, String memberPw) throws Exception {
-        Member member = memberRepo.findByMailAndPw(memberMail, memberPw)
+
+        Member member = memberRepo.findByMemberMail(memberMail)
                 .orElseThrow(() -> new Exception("Member not found mail : " + memberMail));
+        System.out.println(member.getMemberMail());
+        String encodePw = passwordEncoder.encode(memberPw);
+        boolean matches = passwordEncoder.matches(encodePw, member.getMemberPw());
 
-        MemberResponseDto dto = new MemberResponseDto(member);
+        if(matches) {
+            MemberResponseDto dto = new MemberResponseDto(member);
+            return dto;
+        }
 
-        return dto;
+        return null;
     }
-
-
 
 }

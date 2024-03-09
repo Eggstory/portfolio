@@ -14,7 +14,12 @@
                         <span>갤러리</span>
                     </div>
                     <div class="header-button">
-                        <a href="/login">Login</a>
+                        <th:block sec:authorize="isAuthenticated()">
+                            <a href="/logoutAction">logout</a>
+                        </th:block>
+                        <th:block sec:authorize="isAnonymous()">
+                            <a href="/login">Login</a>
+                        </th:block>
                         <div class="open-menu"></div>
                     </div>
                 </div>

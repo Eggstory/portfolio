@@ -1,22 +1,22 @@
 package com.spring.portfolio.config;
 
 import com.spring.portfolio.dto.Role;
-import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.service.MemberDetailsService;
-import com.spring.portfolio.store.repository.MemberRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인으로 등록됨
@@ -26,19 +26,40 @@ import java.util.List;
 @AllArgsConstructor
 public class SecurityConfig {
 
-    final private MemberRepository memberRepository;
     private MemberDetailsService memberDetailsService;
+    private CustomLoginSuccessHandler customLoginSuccessHandler;
+    private CustomLoginFailureHandler customLoginFailureHandler;
+    
+//    얘들 사용해보려고 했는데 일단은 없이도 되서 주석처리
+//    private CustomAuthenticationProvider authProvider;
+//
+//    @Bean
+//    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
+//        AuthenticationManagerBuilder authenticationManagerBuilder =
+//                http.getSharedObject(AuthenticationManagerBuilder.class);
+//        authenticationManagerBuilder.authenticationProvider(authProvider);
+//        return authenticationManagerBuilder.build();
+//    }
+
+    @Bean
+    public static BCryptPasswordEncoder passwordEncoder() {
+
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .requestMatchers(new AntPathRequestMatcher("/assets/**"),
-                        new AntPathRequestMatcher("/images/**")
+                .requestMatchers(AntPathRequestMatcher.antMatcher("/assets/**"),
+                        AntPathRequestMatcher.antMatcher("/images/**")
                 );
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+//        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+//        authenticationManagerBuilder.userDetailsService(memberDetailsService).passwordEncoder(passwordEncoder());
 
         http
                 .csrf((csrfConfig) ->
@@ -70,32 +91,20 @@ public class SecurityConfig {
                                 .usernameParameter("memberMail")
                                 .passwordParameter("memberPw")
                                 .loginProcessingUrl("/loginAction")
-                                .defaultSuccessUrl("/", true)
-                                .successHandler((request, response, authentication) -> {
-                                            if (!authentication.getAuthorities().toString().equals("[ROLE_USER]") && !authentication.getAuthorities().toString().equals("[ROLE_ADMIN]")) {
-                                                response.sendRedirect("/denied");
-                                            } else {
-                                                response.sendRedirect("/main");
-                                                List<Member> list = memberRepository.findByUserLoginId(request.getParameter("memberID"));
-                                                Member entity = list.get(0);
-                                                request.getSession().setAttribute("memberEntity", entity);
-                                                request.getSession().setAttribute("memberMail", request.getParameter("memberMail"));
-                                            }
-                                        }
-                                )
-                                .failureUrl("/loginFrom?error")
+                                .defaultSuccessUrl("/")
+                                .failureUrl("/login")
+                                .successHandler(customLoginSuccessHandler)
+                                .failureHandler(customLoginFailureHandler)
                 )
+                .userDetailsService(memberDetailsService)
                 .logout((logoutConfig) ->
                         logoutConfig
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logoutAction"))
+                                .logoutRequestMatcher(AntPathRequestMatcher.antMatcher("/logoutAction"))
                                 .deleteCookies("JSESSIONID")
                                 .invalidateHttpSession(true)
                                 .logoutSuccessUrl("/")
-                )
-                .userDetailsService(memberDetailsService);
+                );
 
         return http.build();
     }
-
-
 }
