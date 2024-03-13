@@ -53,7 +53,7 @@ public class MemberController {
 
         memberService.registerMember(memberRequestDto);
 
-        return "client/index";
+        return "redirect:/";
     }
 
 }

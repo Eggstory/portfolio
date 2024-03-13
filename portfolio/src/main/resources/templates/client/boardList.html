@@ -1,84 +1,97 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Document</title>
 
-    <div th:replace="~{/client/fragments/Head.html :: common-head}" />
+    <div th:replace="~{/client/fragments/Head.html :: common-head}"/>
 
     <script src="/assets/js/boardList.js"></script>
-    <link rel="stylesheet" href="/assets/css/boardList.css" type="text/css" />
-  </head>
-  <body>
-    <div class="wrap">
-      <div class="main-container">
+    <link rel="stylesheet" href="/assets/css/boardList.css" type="text/css"/>
+</head>
+<body>
+<div class="wrap">
+    <div class="main-container">
         <table>
-          <colgroup>
-            <col class="col1" />
-            <col class="col2" />
-            <col class="col3" />
-            <col class="col4" />
-            <col class="col5" />
-            <col class="col6" />
-            <col class="col7" />
-          </colgroup>
-          <thead>
+            <colgroup>
+                <col class="col1"/>
+                <col class="col2"/>
+                <col class="col3"/>
+                <col class="col4"/>
+                <col class="col5"/>
+                <col class="col6"/>
+                <col class="col7"/>
+            </colgroup>
+            <thead>
             <tr>
-              <th>번호</th>
-              <th>말머리</th>
-              <th>제목</th>
-              <th>글쓴이</th>
-              <th>작성일</th>
-              <th>조회</th>
-              <th>추천</th>
+                <th>번호</th>
+                <th>말머리</th>
+                <th>제목</th>
+                <th>글쓴이</th>
+                <th>작성일</th>
+                <th>조회</th>
+                <th>추천</th>
             </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>111111</td>
-              <td>공지</td>
-              <td class="table-title">
-                드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자
-              </td>
-              <td>4</td>
-              <td>5</td>
-              <td>6</td>
-              <td>7</td>
+            </thead>
+            <tbody>
+            <tr th:each="board : ${board}">
+                <td th:text="${board.idx}">111111</td>
+                <td th:text="${board.boardSubject}">공지</td>
+                <td th:text="${board.boardTitle}" class="table-title td-href"
+                    th:onclick="|location.href='@{/board/view(idx=${board.idx})}'|">
+                    드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자
+                </td>
+                <td th:text="${board.boardWriter}">4</td>
+                <td th:text="${board.createDate}">5</td>
+                <td th:text="${board.viewCount}">6</td>
+                <td th:text="${board.likeCount}">7</td>
             </tr>
-          </tbody>
+            </tbody>
         </table>
         <div class="button-container">
-          <div>
-            <button>전체글</button>
-            <button>개념글</button>
-          </div>
-          <button>글쓰기</button>
+            <div>
+                <button>전체글</button>
+                <button>개념글</button>
+            </div>
+            <button>글쓰기</button>
         </div>
         <div class="page_wrap">
-          <div class="page_nation">
-            <a class="arrow pprev" href="#"><<</a>
-            <a class="arrow prev" href="#"><</a>
-            <a href="#" class="active">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a href="#">7</a>
-            <a href="#">8</a>
-            <a href="#">9</a>
-            <a href="#">10</a>
-            <a class="arrow next" href="#">></a>
-            <a class="arrow nnext" href="#">>></a>
-          </div>
+            <div class="page_nation">
+                <div class="display-inline" th:classappend="${!paging.hasPrevious} ? 'disabled'">
+                    <a class="arrow pprev" href="/board?page=0"><<</a>
+                    <a class="arrow prev" th:if="${paging.number > 0}" th:href="@{|?page=${paging.number-1}|}"><</a>
+                </div>
+                <div th:each="page: ${#numbers.sequence((paging.number/10)*10, (((paging.number/10)+1)*10)-1)}"
+                     th:if="${(paging.totalPages)/(paging.number+1) >= 1 and paging.totalPages/10 > paging.number/10}"
+                     class="display-inline">
+                    <a
+                            th:text="${page}"
+                            th:href="@{|?page=${page}|}"
+                            th:classappend="${page == paging.number} ? 'active'"
+                    ></a>
+                </div>
+                <div th:each="page: ${#numbers.sequence((paging.number/10)*10, paging.totalPages-1)}"
+                     th:if="${(paging.totalPages)/(paging.number+1) >= 1 and paging.totalPages/10 <= paging.number/10} "
+                     class="display-inline">
+                    <a
+                            th:text="${page}"
+                            th:href="@{|?page=${page}|}"
+                            th:classappend="${page == paging.number} ? 'active'"
+                    ></a>
+                </div>
+                <div class="display-inline" th:classappend="${!paging.hasNext} ? 'disabled'">
+                    <a class="arrow next" th:if="${paging.number < paging.totalPages-1}" th:href="@{|?page=${paging.number+1}|}">></a>
+                    <a class="arrow nnext" th:href="@{|?page=${paging.totalPages-1}|}">>></a>
+                </div>
+            </div>
         </div>
         <div class="empty-space"></div>
         <div class="search">
-          <input type="text" placeholder="검색어 입력">
-          <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
+            <input type="text" placeholder="검색어 입력">
+            <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
         </div>
-      </div>
     </div>
-  </body>
+</div>
+</body>
 </html>

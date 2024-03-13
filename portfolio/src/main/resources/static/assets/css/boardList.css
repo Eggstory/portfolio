@@ -97,6 +97,14 @@ td {
   width: 1px;
 }
 
+.td-href:hover {
+  cursor: pointer;
+}
+
+.display-inline {
+  display: inline;
+}
+
 
 
 /*페이징 css*/

@@ -18,8 +18,6 @@ public class MemberRequestDto {
     private String memberAddress;
     private String memberPost;
     private String memberPhone;
-//    private Timestamp createDate;
-//    private Timestamp updateDate;
     private String memberLock;
     private Role memberRole;
     private int failedAttempt;

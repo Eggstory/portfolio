@@ -64,8 +64,8 @@ public class Member extends BaseEntity {
         }
     }
 
-    public void setMemberPw(String encode) {
-        this.memberPw = encode;
-    }
+//    public void setMemberPw(String encode) {
+//        this.memberPw = encode;
+//    }
 
 }
