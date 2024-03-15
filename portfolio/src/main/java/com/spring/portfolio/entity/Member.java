@@ -1,6 +1,8 @@
 package com.spring.portfolio.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.spring.portfolio.dto.Role;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,8 +12,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.ColumnDefault;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -33,7 +37,10 @@ public class Member extends BaseEntity {
     private Role memberRole;
 
     private int failedAttempt;
-    private Timestamp lockTime;
+    private LocalDateTime lockTime;
+
+//    @Embedded
+//    private Address address;
 
     @Builder
     public Member(String memberId, String memberPw, String memberName, String memberMail, String memberAddress, String memberPost, String memberPhone, String memberLock, Role memberRole, int failedAttempt) {
@@ -50,7 +57,7 @@ public class Member extends BaseEntity {
     }
 
 
-    public void updateLock(String locked, Timestamp date) {
+    public void updateLock(String locked, LocalDateTime date) {
         this.memberLock = locked;
         this.lockTime = date;
     }

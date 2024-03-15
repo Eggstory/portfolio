@@ -73,7 +73,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher("/board/write"))
+                                .requestMatchers(AntPathRequestMatcher.antMatcher("/board/write"),
+                                        (AntPathRequestMatcher.antMatcher("/board/writeAction")))
                                 .hasAnyRole(Role.USER.name(), Role.ADMIN.name(), Role.MASTER.name())
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/admins/**"))
                                 .hasAnyRole(Role.ADMIN.name(), Role.MASTER.name())
@@ -81,7 +82,7 @@ public class SecurityConfig {
                                         AntPathRequestMatcher.antMatcher("/"),
                                         AntPathRequestMatcher.antMatcher("/joinAction"),
                                         AntPathRequestMatcher.antMatcher("/loginAction"),
-                                        AntPathRequestMatcher.antMatcher("/board"),
+                                        AntPathRequestMatcher.antMatcher("/board/**"),
                                         AntPathRequestMatcher.antMatcher("/join/**"))
                                 .permitAll()
                                 .anyRequest().authenticated()

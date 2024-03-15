@@ -43,7 +43,8 @@
                     드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자
                 </td>
                 <td th:text="${board.boardWriter}">4</td>
-                <td th:text="${board.createDate}">5</td>
+<!--                <td th:text="${board.createDate}">5</td>-->
+                <td th:text="${#temporals.format(board.createDate,'MM/dd HH:mm')}">5</td>
                 <td th:text="${board.viewCount}">6</td>
                 <td th:text="${board.likeCount}">7</td>
             </tr>

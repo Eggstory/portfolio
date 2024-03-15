@@ -44,13 +44,23 @@ public class BoardController {
 //    }
 
     @GetMapping("/board/view")
-    public String boardView() {
+    public String boardView(@RequestParam long idx,Model model) {
+
+        BoardResponseDto boardView = boardService.loadBoardView(idx);
+
+        model.addAttribute("board",boardView);
+
         return "client/boardView";
     }
 
     @GetMapping("/board/write")
-    public String boardForm() {
+    public String boardWrite() {
         return "client/boardWrite";
+    }
+
+    @GetMapping("/board/writeAction")
+    public String boardWriteAction() {
+        return "redirect:/board";
     }
 
 }

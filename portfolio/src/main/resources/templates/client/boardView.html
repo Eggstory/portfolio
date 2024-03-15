@@ -1,10 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <div th:replace="~{/client/fragments/Head.html :: common-head}"/>
+
+
+    <script src="/assets/js/boardView.js"></script>
+    <link rel="stylesheet" href="/assets/css/boardView.css" type="text/css"/>
+
 </head>
 <body>
+<div class="wrap">
+    <div class="main-container">
+        <div class="header">
+            <div class="title1">
+                <span th:text="${board.boardTitle}">제목</span>
+            </div>
+            <div class="title2">
+                <div>
+                    <span th:text="|${board.boardWriter} ${#temporals.format(board.createDate,'yyyy-MM-dd HH:mm')}|">
+                        작성자 | 시간
+                    </span>
+                </div>
+                <div>
+                    <span th:text="|${board.viewCount} ${board.likeCount} ${board.likeCount}|">
+                        조회 | 추천수 | 댓글
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="body">
 
+        </div>
+        <div class="comment">
+            <div class="comment-info">
+                <div>
+                    <span>좋아요</span>
+                    <span>댓글</span>
+                </div>
+            </div>
+            <div class="comment-box">
+                <div class="comment-sort">
+                    댓글
+                    <span>등록순</span>
+                    <span>최신순</span>
+                </div>
+                <div class="comment-content">
+                    <span>작성자</span>
+                    <div>내용</div>
+                </div>
+                <div class="comment-content">
+                    <span>작성자</span>
+                    <div>내용</div>
+                </div>
+                <div class="comment-content">
+                    <span>작성자</span>
+                    <div>내용</div>
+                </div>
+                <div class="comment-content">
+                    <span>작성자</span>
+                    <div>내용</div>
+                </div>
+                <div class="comment-page">
+                    <span>1</span>
+                    <span>2</span>
+                    <span>3</span>
+                    <span>4</span>
+                </div>
+                <div class="comment-write">
+                    <span>작성자</span>
+                    <textarea name="" id="" rows="2"></textarea>
+                    <div class="side">
+                        <div>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <div>
+                            <span>등록</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
 </body>
 </html>

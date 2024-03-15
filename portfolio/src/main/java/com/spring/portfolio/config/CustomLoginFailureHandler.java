@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
@@ -28,7 +29,7 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
-        String memberMail = request.getParameter("memberMail");
+     /*   String memberMail = request.getParameter("memberMail");
         String password = request.getParameter("memberPw");
         String error = exception.getMessage();
 
@@ -63,7 +64,7 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
         if (member.getMemberLock().equals("active")) {
             member.addFailedAttempt(true);
             if (member.getFailedAttempt() >= MAX_ATTEMPT) { // 최대 시도 이상으로 틀렸을경우
-                member.updateLock("LOCKED",new Timestamp(System.currentTimeMillis() + LOCK_TIME));
+                member.updateLock("LOCKED",new LocalDateTime(System.currentTimeMillis() + LOCK_TIME));
             }
         }
 
@@ -81,6 +82,8 @@ public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
             return true;
         }
         return false;
+
+      */
     }
 }
 

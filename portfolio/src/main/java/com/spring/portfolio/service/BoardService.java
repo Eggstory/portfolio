@@ -4,14 +4,20 @@ import com.spring.portfolio.dto.BoardResponseDto;
 import com.spring.portfolio.entity.Board;
 import com.spring.portfolio.store.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,4 +46,17 @@ public class BoardService {
 //
 //        return boardDto;
 //    }
+
+
+    public BoardResponseDto loadBoardView(long idx) {
+
+        Board board = boardRepository.findById(idx)
+                .orElseThrow(() -> new UsernameNotFoundException("Not Found Board"));
+
+        BoardResponseDto boardDto = new BoardResponseDto(board);
+
+        return boardDto;
+    }
+
+
 }

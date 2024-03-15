@@ -2,8 +2,10 @@ package com.spring.portfolio.dto;
 
 import com.spring.portfolio.entity.Member;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,12 +18,12 @@ public class MemberResponseDto {
     private String memberAddress;
     private String memberPost;
     private String memberPhone;
-    private Timestamp createDate;
-    private Timestamp updateDate;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
     private String memberLock;
     private Role memberRole;
     private int failedAttempt;
-    private Timestamp lockTime;
+    private LocalDateTime lockTime;
 
     @Builder
     public MemberResponseDto(Member member) {

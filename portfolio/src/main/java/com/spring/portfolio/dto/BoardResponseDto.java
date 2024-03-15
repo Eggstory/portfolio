@@ -6,8 +6,10 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,8 +25,8 @@ public class BoardResponseDto {
     private int likeCount;
     private String boardImage;
     private String boardContent;
-    private Timestamp createDate;
-    private Timestamp updateDate;
+    private LocalDateTime createDate;
+    private LocalDateTime updateDate;
 
     @Builder
     public BoardResponseDto(Board board) {
