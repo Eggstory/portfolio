@@ -21,10 +21,6 @@ import java.time.format.DateTimeFormatter;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idx;
-
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createDate;

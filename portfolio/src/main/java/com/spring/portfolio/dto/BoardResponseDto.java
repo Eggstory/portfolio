@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BoardResponseDto {
 
-    private Long idx;
+    private Long boardIdx;
     private String boardCategory1;
     private String boardCategory2;
     private String boardTitle;
@@ -30,12 +30,12 @@ public class BoardResponseDto {
 
     @Builder
     public BoardResponseDto(Board board) {
-        this.idx = board.getIdx();
+        this.boardIdx = board.getBoardIdx();
         this.boardCategory1 = board.getBoardCategory1();
         this.boardCategory2 = board.getBoardCategory2();
         this.boardTitle = board.getBoardTitle();
         this.boardSubject = board.getBoardSubject().getValue();
-        this.boardWriter = board.getBoardWriter();
+        this.boardWriter = board.getMember().getMemberName();
         this.viewCount = board.getViewCount();
         this.likeCount = board.getLikeCount();
         this.boardImage = board.getBoardImage();

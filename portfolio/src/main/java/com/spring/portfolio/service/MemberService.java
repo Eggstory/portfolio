@@ -4,7 +4,10 @@ import com.spring.portfolio.dto.MemberRequestDto;
 import com.spring.portfolio.dto.MemberResponseDto;
 import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.store.repository.MemberRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,6 +52,16 @@ public class MemberService {
         }
 
         return null;
+    }
+
+    public String loadWriter(HttpSession request) {
+
+        String memberMail = request.getAttribute("memberMail").toString();
+        Member memberEntity = memberRepo.findByMemberMail(memberMail).orElseThrow(() -> new UsernameNotFoundException("인증되지 않았습니다."));
+        MemberResponseDto memberResponseDto = new MemberResponseDto(memberEntity);
+
+        return memberResponseDto.getMemberMail();
+
     }
 
 }

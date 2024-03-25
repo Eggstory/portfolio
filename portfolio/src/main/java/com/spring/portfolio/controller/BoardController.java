@@ -1,8 +1,13 @@
 package com.spring.portfolio.controller;
 
 import com.spring.portfolio.dto.BoardResponseDto;
+import com.spring.portfolio.dto.MemberResponseDto;
+import com.spring.portfolio.dto.ReplyResponseDto;
 import com.spring.portfolio.entity.Board;
 import com.spring.portfolio.service.BoardService;
+import com.spring.portfolio.service.MemberService;
+import com.spring.portfolio.service.ReplyService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -18,6 +23,8 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final ReplyService replyService;
+    private final MemberService memberService;
 
     @GetMapping("/board")
     public String boardList(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
@@ -44,11 +51,15 @@ public class BoardController {
 //    }
 
     @GetMapping("/board/view")
-    public String boardView(@RequestParam long idx,Model model) {
+    public String boardView(@RequestParam long idx, Model model, HttpServletRequest request) {
 
         BoardResponseDto boardView = boardService.loadBoardView(idx);
+        String writer = memberService.loadWriter(request.getSession());
+        List<ReplyResponseDto> replyResponseDto = replyService.loadReply(idx);
 
         model.addAttribute("board",boardView);
+        model.addAttribute("writer",writer);
+        model.addAttribute("reply", replyResponseDto);
 
         return "client/boardView";
     }

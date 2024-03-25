@@ -29,7 +29,7 @@ public class BoardService {
 //        List<Sort.Order> sorts = new ArrayList<>();
 //        sorts.add(Sort.Order.desc("idx"));
 //         Sort.by(sorts) : 아래줄 PageRequest.of의 세번째 인자
-        Pageable pageable = PageRequest.of(page, 10, Sort.by("idx").descending());
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("boardIdx").descending());
         Page<Board> boardPage = boardRepository.findAll(pageable);
         return boardPage;
     }

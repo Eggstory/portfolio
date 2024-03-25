@@ -21,14 +21,13 @@
             </div>
             <div class="title2">
                 <div>
-                    <span th:text="|${board.boardWriter} ${#temporals.format(board.createDate,'yyyy-MM-dd HH:mm')}|">
+                    <span th:text="|${board.boardWriter}  '  ${#temporals.format(board.createDate,'yyyy-MM-dd HH:mm')}|">
                         작성자 | 시간
                     </span>
                 </div>
                 <div>
-                    <span th:text="|${board.viewCount} ${board.likeCount} ${board.likeCount}|">
-                        조회 | 추천수 | 댓글
-                    </span>
+                    <span>조회 </span><span th:text="${board.viewCount}"></span>
+                    <span>추천 </span><span th:text="${board.likeCount}"></span>
                 </div>
             </div>
         </div>
@@ -48,21 +47,13 @@
                     <span>등록순</span>
                     <span>최신순</span>
                 </div>
-                <div class="comment-content">
-                    <span>작성자</span>
-                    <div>내용</div>
-                </div>
-                <div class="comment-content">
-                    <span>작성자</span>
-                    <div>내용</div>
-                </div>
-                <div class="comment-content">
-                    <span>작성자</span>
-                    <div>내용</div>
-                </div>
-                <div class="comment-content">
-                    <span>작성자</span>
-                    <div>내용</div>
+                <div th:each="reply:${reply}" th:if="${reply.parent == 0}" class="comment-content">
+                    <span th:text="${reply.writer}">작성자</span>
+                    <div th:text="${reply.replyComment}">내용</div>
+                    <div class="padding-left40" th:else="${reply.parent == 0}" th:each="child:${reply.replyList}">
+                        <span th:text="${child.writer}">작성자</span>
+                        <div th:text="${child.replyComment}">내용</div>
+                    </div>
                 </div>
                 <div class="comment-page">
                     <span>1</span>
@@ -71,15 +62,16 @@
                     <span>4</span>
                 </div>
                 <div class="comment-write">
+                    <input type="hidden" th:value="${board.boardIdx}">
                     <span>작성자</span>
-                    <textarea name="" id="" rows="2"></textarea>
+                    <textarea name="replyComment" id="replyComment" rows="2"></textarea>
                     <div class="side">
                         <div>
                             <span></span>
                             <span></span>
                         </div>
                         <div>
-                            <span>등록</span>
+                            <span id="replySubmit">등록</span>
                         </div>
                     </div>
                 </div>

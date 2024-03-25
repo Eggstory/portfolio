@@ -36,10 +36,10 @@
             </thead>
             <tbody>
             <tr th:each="board : ${board}">
-                <td th:text="${board.idx}">111111</td>
+                <td th:text="${board.boardIdx}">111111</td>
                 <td th:text="${board.boardSubject}">공지</td>
                 <td th:text="${board.boardTitle}" class="table-title td-href"
-                    th:onclick="|location.href='@{/board/view(idx=${board.idx})}'|">
+                    th:onclick="|location.href='@{/board/view(idx=${board.boardIdx})}'|">
                     드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자
                 </td>
                 <td th:text="${board.boardWriter}">4</td>

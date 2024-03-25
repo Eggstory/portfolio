@@ -2,9 +2,7 @@ package com.spring.portfolio.dto;
 
 import com.spring.portfolio.entity.Member;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
@@ -39,5 +37,6 @@ public class MemberResponseDto {
         this.failedAttempt = member.getFailedAttempt();
         this.lockTime = member.getLockTime();
     }
+
 
 }

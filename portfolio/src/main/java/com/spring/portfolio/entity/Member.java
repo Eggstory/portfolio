@@ -2,10 +2,7 @@ package com.spring.portfolio.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.spring.portfolio.dto.Role;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,6 +19,10 @@ import java.time.LocalDateTime;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long memberIdx;
 
     private String memberId;
     private String memberPw;

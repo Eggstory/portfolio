@@ -74,7 +74,8 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/board/write"),
-                                        (AntPathRequestMatcher.antMatcher("/board/writeAction")))
+                                        AntPathRequestMatcher.antMatcher("/board/writeAction"),
+                                        AntPathRequestMatcher.antMatcher("/board/replyAction"))
                                 .hasAnyRole(Role.USER.name(), Role.ADMIN.name(), Role.MASTER.name())
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/admins/**"))
                                 .hasAnyRole(Role.ADMIN.name(), Role.MASTER.name())
