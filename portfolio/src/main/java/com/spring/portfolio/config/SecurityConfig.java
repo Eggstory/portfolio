@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -48,6 +49,11 @@ public class SecurityConfig {
     }
 
     @Bean
+    GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults(""); // Remove the ROLE_ prefix
+    }
+
+    @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
                 .requestMatchers(AntPathRequestMatcher.antMatcher("/assets/**"),
@@ -73,13 +79,15 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
-                                .requestMatchers(AntPathRequestMatcher.antMatcher("/board/write"),
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/board/write"),
                                         AntPathRequestMatcher.antMatcher("/board/writeAction"),
                                         AntPathRequestMatcher.antMatcher("/board/replyAction"))
-                                .hasAnyRole(Role.USER.name(), Role.ADMIN.name(), Role.MASTER.name())
+                                .hasAnyAuthority(Role.USER.name(), Role.ADMIN.name(), Role.MASTER.name())
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/admins/**"))
-                                .hasAnyRole(Role.ADMIN.name(), Role.MASTER.name())
-                                .requestMatchers(AntPathRequestMatcher.antMatcher("/login/**"),
+                                .hasAnyAuthority(Role.ADMIN.name(), Role.MASTER.name())
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/login/**"),
                                         AntPathRequestMatcher.antMatcher("/"),
                                         AntPathRequestMatcher.antMatcher("/joinAction"),
                                         AntPathRequestMatcher.antMatcher("/loginAction"),

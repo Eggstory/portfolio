@@ -1,6 +1,6 @@
-$(document).ready(function() {
-  $('#summernote').summernote();
-});
+//$(document).ready(function() {
+//  $('#summernote').summernote();
+//});
 
 
 function sendFile(file, el) {
@@ -19,10 +19,12 @@ function sendFile(file, el) {
     }
   });
 }
+
 $(function() {
-  $('#board_content').summernote({
+  $('#boardContent').summernote({
        placeholder: '최대 500자 작성 가능합니다.',
           height: 300,
+          width : 700,
           lang: 'ko-KR',
           callbacks: {
             onImageUpload: function(files, editor, welEditable) {
