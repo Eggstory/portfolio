@@ -50,9 +50,53 @@
                 <div th:each="reply:${reply}" th:if="${reply.parent == 0}" class="comment-content">
                     <span th:text="${reply.writer}">작성자</span>
                     <div th:text="${reply.replyComment}">내용</div>
+                    <div>
+                        <span th:text="${#temporals.format(reply.createDate,'yyyy/MM/dd HH:mm')}"></span>
+                        <span class="openReplyForm">답글쓰기</span>
+                    </div>
+                    <div class="hidden-replyForm" style="display: none;">
+                        <form action="/board/replyAction" method="post" name="replyForm" class="comment-write">
+                            <input type="hidden" id="boardIdx" name="boardIdx" th:value="${board.boardIdx}">
+                            <input type="hidden" id="memberIdx" name="memberIdx" th:value="${writerIdx}">
+                            <input type="hidden" id="parentIdx" name="parentIdx" th:value="${reply.idx}">
+                            <span>작성자</span>
+                            <textarea name="replyComment" id="replyComment" rows="2"></textarea>
+                            <div class="side">
+                                <div>
+                                    <span></span>
+                                    <span></span>
+                                </div>
+                                <div>
+                                    <button id="replySubmit">등록</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                     <div class="padding-left40" th:else="${reply.parent == 0}" th:each="child:${reply.replyList}">
                         <span th:text="${child.writer}">작성자</span>
                         <div th:text="${child.replyComment}">내용</div>
+                        <div>
+                            <span th:text="${#temporals.format(child.createDate,'yyyy/MM/dd HH:mm')}"></span>
+                            <span class="openReReplyForm">답글쓰기</span>
+                        </div>
+                        <div class="hidden-reReplyForm" style="display: none;">
+                            <form action="/board/replyAction" method="post" name="replyForm" class="comment-write">
+                                <input type="hidden" id="boardIdx" name="boardIdx" th:value="${board.boardIdx}">
+                                <input type="hidden" id="memberIdx" name="memberIdx" th:value="${writerIdx}">
+                                <input type="hidden" id="parentIdx" name="parentIdx" th:value="${reply.idx}">
+                                <span>작성자</span>
+                                <textarea name="replyComment" id="replyComment" rows="2"></textarea>
+                                <div class="side">
+                                    <div>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                    <div>
+                                        <button id="replySubmit">등록</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="comment-page">
@@ -61,19 +105,23 @@
                     <span>3</span>
                     <span>4</span>
                 </div>
-                <div class="comment-write">
-                    <input type="hidden" th:value="${board.boardIdx}">
-                    <span>작성자</span>
-                    <textarea name="replyComment" id="replyComment" rows="2"></textarea>
-                    <div class="side">
-                        <div>
-                            <span></span>
-                            <span></span>
+                <div>
+                    <form action="/board/replyAction" method="post" name="replyForm" class="comment-write">
+                        <input type="hidden" id="boardIdx" name="boardIdx" th:value="${board.boardIdx}">
+                        <input type="hidden" id="memberIdx" name="memberIdx" th:value="${writerIdx}">
+                        <input type="hidden" id="parentIdx" name="parentIdx" th:value=0>
+                        <span>작성자</span>
+                        <textarea name="replyComment" id="replyComment" rows="2"></textarea>
+                        <div class="side">
+                            <div>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <div>
+                                <button id="replySubmit">등록</button>
+                            </div>
                         </div>
-                        <div>
-                            <span id="replySubmit">등록</span>
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -64,4 +64,12 @@ public class MemberService {
 
     }
 
+    public Long loadMemberIdx(HttpSession request) {
+
+        String memberMail = request.getAttribute("memberMail").toString();
+        Member memberEntity = memberRepo.findByMemberMail(memberMail).orElseThrow(() -> new UsernameNotFoundException("인증되지 않았습니다."));
+        MemberResponseDto memberResponseDto = new MemberResponseDto(memberEntity);
+
+        return memberResponseDto.getMemberIdx();
+    }
 }

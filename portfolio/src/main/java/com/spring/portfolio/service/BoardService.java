@@ -1,5 +1,6 @@
 package com.spring.portfolio.service;
 
+import com.spring.portfolio.dto.BoardRequestDto;
 import com.spring.portfolio.dto.BoardResponseDto;
 import com.spring.portfolio.entity.Board;
 import com.spring.portfolio.store.repository.BoardRepository;
@@ -59,4 +60,10 @@ public class BoardService {
     }
 
 
+    public void saveBoard(BoardRequestDto dto) {
+
+        Board entity = dto.toEntity();
+        boardRepository.save(entity);
+
+    }
 }

@@ -62,3 +62,7 @@ textarea {
 .padding-left40 {
     padding-left: 40px;
 }
+
+.hidden-replyForm {
+  display: none;
+}

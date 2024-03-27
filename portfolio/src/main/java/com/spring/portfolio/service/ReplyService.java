@@ -1,5 +1,6 @@
 package com.spring.portfolio.service;
 
+import com.spring.portfolio.dto.ReplyRequestDto;
 import com.spring.portfolio.dto.ReplyResponseDto;
 import com.spring.portfolio.entity.Reply;
 import com.spring.portfolio.store.repository.BoardRepository;
@@ -27,6 +28,13 @@ public class ReplyService {
             dtoList.add(dto);
         }
         return dtoList;
+    }
+
+    public void saveReply(ReplyRequestDto dto) {
+
+        Reply entity = dto.toEntity();
+        replyRepository.save(entity);
+
     }
 
 //    public Reply addReply(Long boardIdx, Long MemberIx) throws Exception {

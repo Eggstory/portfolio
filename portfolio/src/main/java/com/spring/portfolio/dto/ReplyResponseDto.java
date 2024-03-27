@@ -32,14 +32,14 @@ public class ReplyResponseDto {
         this.writer = reply.getMember().getMemberName();
         this.createDate = reply.getCreateDate();
         this.updateDate = reply.getUpdateDate();
-        if(reply.getParent() != null) {
-            this.parent = reply.getParent().getReplyIdx();
-        } else {
+        if(reply.getParent() == null) {
             this.parent = 0L;
+        } else {
+            this.parent = reply.getParent().getReplyIdx();
         }
 
-        if(reply.getReplyList() != null) {
-            this.replyList = reply.getReplyList().stream().map(ReplyResponseDto::new).collect(Collectors.toList());
+        if(reply.getReplies() != null) {
+            this.replyList = reply.getReplies().stream().map(ReplyResponseDto::new).collect(Collectors.toList());
         }
     }
 }

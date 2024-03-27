@@ -24,7 +24,7 @@ $(function() {
   $('#boardContent').summernote({
        placeholder: '최대 500자 작성 가능합니다.',
           height: 300,
-          width : 700,
+          width : 800,
           lang: 'ko-KR',
           callbacks: {
             onImageUpload: function(files, editor, welEditable) {

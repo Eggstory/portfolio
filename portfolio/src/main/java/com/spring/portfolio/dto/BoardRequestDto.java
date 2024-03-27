@@ -1,5 +1,7 @@
 package com.spring.portfolio.dto;
 
+import com.spring.portfolio.entity.Board;
+import com.spring.portfolio.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,14 +15,14 @@ public class BoardRequestDto {
     private String boardCategory2;
     private String boardTitle;
     private Subject boardSubject;
-    private String boardWriter;
+    private Member boardWriter;
     private int viewCount;
     private int likeCount;
     private String boardImage;
     private String boardContent;
 
     @Builder
-    public BoardRequestDto(String boardCategory1, String boardCategory2, String boardTitle, Subject boardSubject, String boardWriter, int viewCount, int likeCount, String boardImage, String boardContent) {
+    public BoardRequestDto(String boardCategory1, String boardCategory2, String boardTitle, Subject boardSubject, Member boardWriter, int viewCount, int likeCount, String boardImage, String boardContent) {
         this.boardCategory1 = boardCategory1;
         this.boardCategory2 = boardCategory2;
         this.boardTitle = boardTitle;
@@ -30,6 +32,20 @@ public class BoardRequestDto {
         this.likeCount = likeCount;
         this.boardImage = boardImage;
         this.boardContent = boardContent;
+    }
+
+    public Board toEntity() {
+        return Board.builder()
+                .boardCategory1(boardCategory1)
+                .boardCategory2(boardCategory2)
+                .boardTitle(boardTitle)
+                .boardSubject(boardSubject)
+                .member(boardWriter)
+                .viewCount(viewCount)
+                .likeCount(likeCount)
+                .boardImage(boardImage)
+                .boardContent(boardContent)
+                .build();
     }
 
 

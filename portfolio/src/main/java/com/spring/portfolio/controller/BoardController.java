@@ -1,5 +1,6 @@
 package com.spring.portfolio.controller;
 
+import com.spring.portfolio.dto.BoardRequestDto;
 import com.spring.portfolio.dto.BoardResponseDto;
 import com.spring.portfolio.dto.ReplyResponseDto;
 import com.spring.portfolio.entity.Board;
@@ -9,6 +10,7 @@ import com.spring.portfolio.service.ReplyService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.stream.IntStream;
 
 @Controller
 @RequiredArgsConstructor
@@ -57,29 +60,42 @@ public class BoardController {
 //    }
 
     @GetMapping("/board/view")
-    public String boardView(@RequestParam long idx, Model model, HttpServletRequest request) {
+    public String boardView(@RequestParam(value = "boardIdx") long boardIdx,
+            Model model, HttpServletRequest request) {
 
-        BoardResponseDto boardView = boardService.loadBoardView(idx);
+        BoardResponseDto boardView = boardService.loadBoardView(boardIdx);
         String writer = memberService.loadWriter(request.getSession());
-        List<ReplyResponseDto> replyResponseDto = replyService.loadReply(idx);
+        Long writerIdx = memberService.loadMemberIdx(request.getSession());
+        List<ReplyResponseDto> replyResponseDto = replyService.loadReply(boardIdx);
+//        int count = (int) replyResponseDto.stream().count();
+//        List<Integer> integers = IntStream.range(0, count).boxed().toList();
 
         model.addAttribute("board",boardView);
         model.addAttribute("writer",writer);
+        model.addAttribute("writerIdx",writerIdx);
         model.addAttribute("reply", replyResponseDto);
+//        model.addAttribute("count", integers);
 
         return "client/boardView";
     }
 
     @GetMapping("/board/write")
-    public String boardWrite() {
+    public String boardWrite(Model model, HttpServletRequest request) {
+        Long writer = memberService.loadMemberIdx(request.getSession());
+        model.addAttribute("writer",writer);
 
         return "client/boardWrite";
     }
 
-    @GetMapping("/board/writeAction")
-    public String boardWriteAction() {
+    @PostMapping("/board/writeAction")
+    public String boardWriteAction(BoardRequestDto dto) {
+
+        boardService.saveBoard(dto);
+
         return "redirect:/board";
     }
+
+
 
 /*    @PostMapping(value="/uploadSummernoteImageFile", produces = "application/json")
     @ResponseBody

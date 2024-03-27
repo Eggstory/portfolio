@@ -3,7 +3,7 @@
 
 DROP TABLE IF EXISTS member;
 CREATE TABLE member (
-	idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,  -- 회원 번호
+	member_idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,  -- 회원 번호
 	member_id VARCHAR(30) NOT NULL,						-- 회원 아이디
 	member_pw VARCHAR(200) NOT NULL,						-- 회원 비밀번호
 	member_name VARCHAR(20) NOT NULL,					-- 회원 닉네임(게시판에서 사용할)
@@ -30,7 +30,7 @@ INSERT INTO member VALUES(NULL, 'admin1234', 'RHKSflwk!234', '운영자', 'khm12
 
 DROP TABLE IF EXISTS item;
 CREATE TABLE item (
-	idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,		-- 상품 번호
+	item_idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,		-- 상품 번호
 	item_category1 VARCHAR(20) NOT NULL,      -- 상품 카테고리1  ** 추가
 	item_category2 VARCHAR(20) NOT NULL,      -- 상품 카테고리2  ** 추가
 	item_name VARCHAR(20) NOT NULL,							-- 상품 이름
@@ -51,12 +51,13 @@ INSERT INTO item VALUES (NULL, '식품', '면류', '신라면', 700, 0 , 1000, N
 
 DROP TABLE IF EXISTS board;
 CREATE TABLE board (
-	idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,		-- 게시글 번호
+	board_idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,		-- 게시글 번호
 	board_category1 VARCHAR(20) NOT NULL, -- 커뮤니티, 갤러리    	-- 게시글 카테고리1  ** 추가
 	board_category2 VARCHAR(20) NOT NULL, -- 하위 카테고리들     -- 상품 카테고리2  ** 추가
 	board_title VARCHAR(100) NOT NULL,							-- 게시글 이름
-	board_subject VARCHAR(20) DEFAULT 'NORMAL',					-- 말머리 NORMAL, NOTICE, PICTURE
-	board_writer VARCHAR(50) NOT NULL,							-- 게시글 작성자
+	board_subject VARCHAR(20) DEFAULT '일반',					-- 말머리 NORMAL, NOTICE, PICTURE
+	member_idx BIGINT NOT NULL,							-- 게시글 작성자
+	replies_idx BIGINT,
 	view_count INT DEFAULT 0,
 	like_count INT DEFAULT 0,
 	board_image TEXT,										-- 게시글 사진 (AWS S3에서 가져오는거로 수정예정)
@@ -65,16 +66,17 @@ CREATE TABLE board (
 	update_date TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)								-- 상품 수정일
 );
 
-INSERT INTO board VALUES (NULL, '커뮤니티', '유머', '노잼개그', 'NOTICE', '김말이', DEFAULT, DEFAULT,NULL, '어쩌고 저쩌고', DEFAULT, DEFAULT);
-INSERT INTO board VALUES (NULL, '커뮤니티', '자유', '취업 언제하냐...', 'NORMAL', '취준생', DEFAULT, DEFAULT, NULL, '', DEFAULT, DEFAULT);
-INSERT INTO board VALUES (NULL, '커뮤니티', 'QnA', '게임추천좀요', 'NORMAL', '게이머', DEFAULT, DEFAULT, NULL, 'PALWORLD 재밌나여?', DEFAULT, DEFAULT);
-INSERT INTO board VALUES (NULL, '갤러리', '짤방', '페페짤', 'PICTURE', '퍼오는 사람', DEFAULT, DEFAULT,  NULL, '어쩌고 저쩌고', DEFAULT, DEFAULT);
-INSERT INTO board VALUES (NULL, '갤러리', '그림', '낙서', 'PICTURE', '그림쟁이', DEFAULT, DEFAULT, NULL, '', DEFAULT, DEFAULT);
+INSERT INTO board VALUES (NULL, '커뮤니티', '유머', '노잼개그', '공지', 7, NULL, DEFAULT, DEFAULT,NULL, '어쩌고 저쩌고', DEFAULT, DEFAULT);
+INSERT INTO board VALUES (NULL, '커뮤니티', '자유', '취업 언제하냐...', '일반', 7, NULL, DEFAULT, DEFAULT, NULL, '', DEFAULT, DEFAULT);
+INSERT INTO board VALUES (NULL, '커뮤니티', 'QnA', '게임추천좀요', '일반', 7, NULL, DEFAULT, DEFAULT, NULL, 'PALWORLD 재밌나여?', DEFAULT, DEFAULT);
+INSERT INTO board VALUES (NULL, '갤러리', '짤방', '페페짤', '그림', 7, NULL, DEFAULT, DEFAULT,  NULL, '어쩌고 저쩌고', DEFAULT, DEFAULT);
+INSERT INTO board VALUES (NULL, '갤러리', '그림', '낙서', '그림', 7, NULL, DEFAULT, DEFAULT, NULL, '', DEFAULT, DEFAULT);
+
 
 
 DROP TABLE IF EXISTS orders;
 CREATE TABLE orders (
-	idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,			-- 주문 번호
+	orders_idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,			-- 주문 번호
 	member_idx BIGINT,												-- 회원 번호(FK)
 	nonmember_idx BIGINT,											-- 비회원 번호(FK)
 	orders_TIMESTAMP TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),											-- 주문 날짜
@@ -97,7 +99,7 @@ SELECT * FROM orders;
 
 DROP TABLE IF EXISTS orders_detail;
 CREATE TABLE orders_detail (
-	idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,		-- 주문상세 번호
+	orders_detail_idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,		-- 주문상세 번호
 	orders_idx BIGINT NOT NULL,									-- 주문 번호(FK)
 	item_idx BIGINT NOT NULL,										-- 상품 번호(FK)
 	odetail_qty INT NOT NULL,									-- 상품별 구매수량
@@ -110,7 +112,7 @@ SELECT * FROM orders_detail;
 
 DROP TABLE IF EXISTS  review;
 CREATE TABLE review (
-	idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,			-- 리뷰 번호
+	review_idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,			-- 리뷰 번호
 	orders_idx BIGINT NOT NULL,									-- 주문 번호(FK)
 	item_idx BIGINT NOT NULL,										-- 상품 번호(FK)
 	review_score INT DEFAULT 0,								-- 리뷰 별점
@@ -129,18 +131,18 @@ SELECT * FROM review;
 
 DROP TABLE IF EXISTS reply ;
 CREATE TABLE reply (
-	idx BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,			-- 댓글 번호
+	reply_idx BIGINT PRIMARY KEY AUTO_INCREMENT,			-- 댓글 번호
 	board_idx BIGINT NOT NULL,									-- 게시글 번호(FK)
-	reply_writer VARCHAR(30),									-- 댓글 작성자
+	member_Idx BIGINT NOT NULL,								-- 댓글 작성자
+	parent_Idx BIGINT DEFAULT 0,
+	replies_idx BIGINT,
 	reply_comment TEXT NOT NULL,								-- 댓글 내용
-	reply_image TEXT DEFAULT '이미지 없음',					-- 댓글 사진
 	create_date TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),								-- 댓글 등록날짜
-	update_date TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),								-- 댓글 수정날짜
-	reply_status CHAR(3) DEFAULT '공개',                                -- 댓글 상태 공개, 비공개
-	reply_class INT NOT NULL,						-- 댓글(0), 대댓글(1)
-	reply_order INT NOT NULL,						-- 대댓글 순서
-	reply_groupNum INT NOT NULL					-- 댓글그룹 번호
+	update_date TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP)								-- 댓글 수정날짜
 );
 
-INSERT INTO reply VALUES (NULL, '1', 'ww', 'ghfghfhfh', null, DEFAULT, DEFAULT, DEFAULT, 0, 0, 0);
+INSERT INTO reply VALUES (NULL, 5, 1, DEFAULT, NULL, "본문", DEFAULT, DEFAULT);
+INSERT INTO reply VALUES (NULL, 5, 2, 1, NULL, "본문", DEFAULT, DEFAULT);
+INSERT INTO reply VALUES (NULL, 5, 1, 1, NULL, "본문", DEFAULT, DEFAULT);
+INSERT INTO reply VALUES (NULL, 5, 1, DEFAULT, NULL, "본문", DEFAULT, DEFAULT);
 SELECT * FROM reply;

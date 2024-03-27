@@ -31,7 +31,7 @@ public enum Subject {
     // Map<타입, 타입> 이런식이면 toMap(인자, 인자)가 들어가지만 -> Stream<Entity> 일때 toMap(Entity::key, Entity::value)
     // Map<타입, 클래스> 이런식이면 toMap(인자, Function.identity()) 이런식으로 쓰는듯
     // Function.identity() : 값이 실제 요소여야 하는 경우 사용한다함.
-    private static final Map<String, Subject> descriptions = Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(Subject::getKey, Function.identity())));
+    private static final Map<String, Subject> descriptions = Collections.unmodifiableMap(Stream.of(values()).collect(Collectors.toMap(Subject::getValue, Function.identity())));
 
     public static Subject convert(String dbData) {
         return Optional.ofNullable(descriptions.get(dbData)).orElse(NORMAL);

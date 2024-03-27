@@ -48,7 +48,7 @@ public class Reply extends BaseEntity {
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
 //    @JoinColumn(name = "replies_idx")
     @Builder.Default
-    private List<Reply> ReplyList = new ArrayList<>();
+    private List<Reply> Replies = new ArrayList<>();
 
     @Builder
     public Reply(String replyComment, Board board, Member member, Reply parent) {

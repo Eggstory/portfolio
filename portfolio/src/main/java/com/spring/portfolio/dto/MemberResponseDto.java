@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberResponseDto {
 
+    private Long memberIdx;
     private String memberId;
     private String memberPw;
     private String memberName;
@@ -25,6 +26,7 @@ public class MemberResponseDto {
 
     @Builder
     public MemberResponseDto(Member member) {
+        this.memberIdx = member.getMemberIdx();
         this.memberId = member.getMemberId();
         this.memberPw = member.getMemberPw();
         this.memberName = member.getMemberName();

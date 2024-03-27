@@ -44,11 +44,11 @@ public class Board extends BaseEntity{
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     @OrderBy("idx asc")  // 댓글 정렬
     @Builder.Default
-    private List<Reply> reply = new ArrayList<>();
+    private List<Reply> replies = new ArrayList<>();
 
 
     @Builder
-    protected Board(String boardCategory1, String boardCategory2, String boardTitle, Subject boardSubject, int viewCount, int likeCount, String boardImage, String boardContent, Member member, List<Reply> reply) {
+    protected Board(String boardCategory1, String boardCategory2, String boardTitle, Subject boardSubject, int viewCount, int likeCount, String boardImage, String boardContent, Member member, List<Reply> replies) {
         this.boardCategory1 = boardCategory1;
         this.boardCategory2 = boardCategory2;
         this.boardTitle = boardTitle;
@@ -58,7 +58,7 @@ public class Board extends BaseEntity{
         this.boardImage = boardImage;
         this.boardContent = boardContent;
         this.member = member;
-        this.reply = reply;
+        this.replies = replies;
     }
 
 
