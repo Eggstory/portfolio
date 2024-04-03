@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,12 +48,19 @@ public class BoardController {
     }
 
     @GetMapping("/board")
-    public String boardList(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+    public String boardList(Model model, @RequestParam(value = "search", required = false) String keyword,
+                            @RequestParam(value = "page", defaultValue = "1") int page) {
 
-        Page<Board> paging = boardService.loadBoardList(page);
+        System.out.println(keyword);
+        Page<Board> paging = boardService.loadBoardList(keyword,page);
         List<BoardResponseDto> list = new ArrayList<>();
         for(Board board : paging) {
             list.add(new BoardResponseDto(board));
+        }
+        if(keyword == null) {
+            model.addAttribute("keyword", "");
+        } else {
+            model.addAttribute("keyword", keyword);
         }
 
         model.addAttribute("paging", paging);
@@ -59,6 +68,20 @@ public class BoardController {
         return "client/boardList";
     }
 
+//    @GetMapping("/board/list")
+//    public String boardSearchList(Model model, @RequestParam("search") String keyword,
+//                            @RequestParam(value = "page", defaultValue = "1") int page) {
+//
+//        Page<Board> paging = boardService.boardSearchList(keyword,page);
+//        List<BoardResponseDto> list = new ArrayList<>();
+//        for(Board board : paging) {
+//            list.add(new BoardResponseDto(board));
+//        }
+//
+//        model.addAttribute("paging", paging);
+//        model.addAttribute("board",list);
+//        return "client/boardList";
+//    }
     
 //      paging 안쓰는 방식인데 paging 쓰는걸 더 선호해서 주석
 //    @GetMapping("/board")
@@ -155,4 +178,11 @@ public class BoardController {
         return "redirect:/board";
     }
 
+    @PostMapping("/board/delete")
+    public String boardDelete(Long boardIdx) {
+
+        boardService.deleteBoard(boardIdx);
+
+        return "redirect:/board";
+    }
 }

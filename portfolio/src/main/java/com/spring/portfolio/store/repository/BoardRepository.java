@@ -1,6 +1,9 @@
 package com.spring.portfolio.store.repository;
 
 import com.spring.portfolio.entity.Board;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +23,13 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Modifying
     @Query(value = "update Board b set b.viewCount = b.viewCount + 1 where b.boardIdx = :idx")
     int updateViewCount(Long idx);
+
+    // count 쿼리를 쓰고싶으면 @Query를 써서 직접 쿼리를 짜줘야한다.
+    @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query(value = "select b from Board b where b.boardTitle like %:keyword%")
+    Page<Board> findByBoardTitleContaining(String keyword, Pageable pageable);
+
+    @Modifying
+    @Query(value = "delete from Board b where b.boardIdx = :idx")
+    void deleteByBoardIdx(@Param("idx") Long idx);
 }

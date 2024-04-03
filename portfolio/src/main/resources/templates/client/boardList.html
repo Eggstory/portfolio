@@ -60,15 +60,15 @@
         <div class="page_wrap">
             <div class="page_nation">
                 <div class="display-inline" th:classappend="${!paging.hasPrevious} ? 'disabled'">
-                    <a class="arrow pprev" href="/board?page=0"><<</a>
-                    <a class="arrow prev" th:if="${paging.number > 0}" th:href="@{|?page=${paging.number-1}|}"><</a>
+                    <a class="arrow pprev" th:href="@{|?search=${keyword}&page=1|}"><<</a>
+                    <a class="arrow prev" th:if="${paging.number > 0}" th:href="@{|?search=${keyword}&page=${paging.number}|}"><</a>
                 </div>
                 <div th:each="page: ${#numbers.sequence((paging.number/10)*10, (((paging.number/10)+1)*10)-1)}"
                      th:if="${(paging.totalPages)/(paging.number+1) >= 1 and paging.totalPages/10 > paging.number/10}"
                      class="display-inline">
                     <a
                             th:text="${page+1}"
-                            th:href="@{|?page=${page}|}"
+                            th:href="@{|?search=${keyword}&page=${page+1}|}"
                             th:classappend="${page == paging.number} ? 'active'"
                     ></a>
                 </div>
@@ -77,19 +77,19 @@
                      class="display-inline">
                     <a
                             th:text="${page+1}"
-                            th:href="@{|?page=${page}|}"
+                            th:href="@{|?search=${keyword}&page=${page+1}|}"
                             th:classappend="${page == paging.number} ? 'active'"
                     ></a>
                 </div>
                 <div class="display-inline" th:classappend="${!paging.hasNext} ? 'disabled'">
-                    <a class="arrow next" th:if="${paging.number < paging.totalPages-1}" th:href="@{|?page=${paging.number+1}|}">></a>
-                    <a class="arrow nnext" th:href="@{|?page=${paging.totalPages-1}|}">>></a>
+                    <a class="arrow next" th:if="${paging.number < paging.totalPages-1}" th:href="@{|?search=${keyword}&page=${paging.number+2}|}">></a>
+                    <a class="arrow nnext" th:href="@{|?search=${keyword}&page=${paging.totalPages}|}">>></a>
                 </div>
             </div>
         </div>
         <div class="empty-space"></div>
         <div class="search">
-            <input type="text" placeholder="검색어 입력">
+            <input id="searchInput" type="text" placeholder="검색어 입력">
             <img src="https://s3.ap-northeast-2.amazonaws.com/cdn.wecode.co.kr/icon/search.png">
         </div>
     </div>

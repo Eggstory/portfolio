@@ -4,6 +4,7 @@ import com.spring.portfolio.dto.BoardRequestDto;
 import com.spring.portfolio.dto.BoardResponseDto;
 import com.spring.portfolio.entity.Board;
 import com.spring.portfolio.store.repository.BoardRepository;
+import com.spring.portfolio.store.repository.ReplyRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,15 +31,30 @@ import java.util.Optional;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final ReplyRepository replyRepository;
 
-    public Page<Board> loadBoardList(int page) {
+    public Page<Board> loadBoardList(String keyword, int page) {
 //        List<Sort.Order> sorts = new ArrayList<>();
 //        sorts.add(Sort.Order.desc("idx"));
 //         Sort.by(sorts) : 아래줄 PageRequest.of의 세번째 인자
-        Pageable pageable = PageRequest.of(page, 10, Sort.by("boardIdx").descending());
-        Page<Board> boardPage = boardRepository.findAll(pageable);
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("boardIdx").descending());
+
+        Page<Board> boardPage;
+
+        if(keyword == null || keyword.equals("")) {
+            boardPage = boardRepository.findAll(pageable);
+        } else {
+            boardPage = boardRepository.findByBoardTitleContaining(keyword, pageable);
+        }
         return boardPage;
     }
+
+//    public Page<Board> boardSearchList(String keyword, int page) {
+//
+//        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("boardIdx").descending());
+//        Page<Board> boardPage = boardRepository.findByBoardTitleContaining(keyword,pageable);
+//        return boardPage;
+//    }
 
     public List<BoardResponseDto> loadBoardList() {
         List<Board> first4Board = boardRepository.findTop4ByOrderByBoardIdxDesc();
@@ -150,6 +166,13 @@ public class BoardService {
                 -> new UsernameNotFoundException("Not Found Board"));;
 
         board.modifyBoard(dto);
+    }
+
+    @Transactional
+    public void deleteBoard(Long boardIdx) {
+
+        boardRepository.deleteByBoardIdx(boardIdx);
+        replyRepository.deleteByBoardIdx(boardIdx);
 
     }
 }

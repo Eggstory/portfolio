@@ -44,7 +44,7 @@
                 <div>
                     <th:block th:if="${board.boardWriter eq writer}">
                         <span class="update">수정하기</span>
-                        <span>삭제하기</span>
+                        <span class="delete" style="cursor:pointer">삭제하기</span>
                     </th:block>
                     <input type="hidden" class="boardIdx" th:value="${board.boardIdx}">
                     <input type="hidden" class="writerIdx" th:value="${writerIdx}">

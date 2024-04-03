@@ -89,6 +89,7 @@ $(function() {
         $(this).find('span[class="updateReply"]').attr('class','updateReply_'+index)
         $(this).find('div[class="updateReplyForm"]').attr('class','updateReplyForm_'+index)
 
+
             $('.openReplyForm_'+index).on('click', function() {
                 if($('.hidden-replyForm_'+index).css("display") == "block") {
                     $('.hidden-replyForm_'+index).toggle();
@@ -172,6 +173,8 @@ $(function() {
         $(this).find('span[class="updateReReply"]').attr('class','updateReReply_'+index)
         $(this).find('div[class="updateReReplyForm"]').attr('class','updateReReplyForm_'+index)
 
+
+
         $('.openReReplyForm_'+index).on('click', function() {
             if($('.hidden-reReplyForm_'+index).css("display") == "block") {
                 $('.hidden-reReplyForm_'+index).toggle();
@@ -205,51 +208,48 @@ $(function() {
 
         $('.updateReReply_'+index).on('click', function() {
 
-                    let replyComment = $(".updateReReplyForm_"+index).val();
-                    let textarea = $('<textarea class="editTextarea" style="width: 800px;"></textarea>').text(replyComment);
-                    let button = $('<button class="editReply" style="float: right;">수정</button>');
-                    let div = $('<div class="changeForm"></div>').append(textarea, button);
-                    $('.updateReReplyForm_'+index).replaceWith(div)
+            let replyComment = $(".updateReReplyForm_"+index).val();
+            let textarea = $('<textarea class="editTextarea" style="width: 800px;"></textarea>').text(replyComment);
+            let button = $('<button class="editReply" style="float: right;">수정</button>');
+            let div = $('<div class="changeForm"></div>').append(textarea, button);
+            $('.updateReReplyForm_'+index).replaceWith(div)
 
 
-                    $('.editReply').on('click', function() {
+            $('.editReply').on('click', function() {
 
-                        let replyIdx = $("#reReplyIdx_"+index).val();
-                        let replyComment = $(".editTextarea").val();
-                        let boardIdx = $("#boardIdx_"+index).val();
-                        let memberIdx = $("#memberIdx_"+index).val();
-                        let parentIdx = $("#parentIdx_"+index).val();
+                let replyIdx = $("#reReplyIdx_"+index).val();
+                let replyComment = $(".editTextarea").val();
+                let boardIdx = $(".boardIdx").val();
+                let memberIdx = $("#memberIdx_"+index).val();
+                let parentIdx = $("#parentIdx_"+index).val();
 
-                        $.ajax({
-                            type : "post",
-                            url : "/board/replyUpdate",
-                            data : {
-                                replyIdx: replyIdx,
-                                replyComment: replyComment,
-                                boardIdx: boardIdx,
-                                memberIdx: memberIdx,
-                                parentIdx: parentIdx
-                            },
-                            dataType : "text",
-                            success : function (data) {
-                                console.log("테스트");
-        //                        window.location.reload();
-                                let textareaClass = $('.editTextarea');
-                                let div = $("<div></div>").addClass("updateReReplyForm_"+index);
-                                div.text(textareaClass.val());
+                $.ajax({
+                    type : "post",
+                    url : "/board/replyUpdate",
+                    data : {
+                        replyIdx: replyIdx,
+                        replyComment: replyComment,
+                        boardIdx: boardIdx,
+                        memberIdx: memberIdx,
+                        parentIdx: parentIdx
+                    },
+                    dataType : "text",
+                    success : function (data) {
+                        console.log("테스트");
+                        let textareaClass = $('.editTextarea');
+                        let div = $("<div></div>").addClass("updateReReplyForm_"+index);
+                        div.text(textareaClass.val());
 
-                                $('.changeForm').replaceWith(div)
-                                $('.editTextarea').remove();
-                                $('.editReply').remove();
-                            },
-                            error : function (data) {
+                        $('.changeForm').replaceWith(div)
+                        $('.editTextarea').remove();
+                        $('.editReply').remove();
+                    },
+                    error : function (data) {
 
-                            }
-                        })
-                    })
+                    }
                 })
-
-
+            })
+        })
     })
 
     $('.update').on("click", function() {
@@ -267,6 +267,21 @@ $(function() {
 
     })
 
+    $('.delete').on("click", function() {
+        if (confirm("정말 삭제하시겠습니까??") == true){ 
+            let boardIdx = $('.boardIdx').val();
+
+            $.ajax({
+                type : "post",
+                url : "/board/delete",
+                data : { boardIdx: boardIdx },
+                dataType : "text",
+                success : function (data) {
+                    window.location.href= "/board";
+                }
+            })
+        }
+    })
 })
 
 
