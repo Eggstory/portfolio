@@ -57,6 +57,11 @@ spring:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
 
+# delete매핑시 405에러가 뜨던데 이거 쓰면 해결된다면서.. 안되네
+#  mvc:
+#    hiddenmethod:
+#      filter:
+#        enabled: true
 
 file:
   dir: C:/test/

@@ -35,6 +35,16 @@ public class BoardController {
     private final ReplyService replyService;
     private final MemberService memberService;
 
+    @GetMapping("/")
+    public String index(Model model) {
+
+        List<BoardResponseDto> boardList4 = boardService.loadBoardList();
+
+        model.addAttribute("board", boardList4);
+
+        return "client/index";
+    }
+
     @GetMapping("/board")
     public String boardList(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
 
@@ -60,21 +70,21 @@ public class BoardController {
 //    }
 
     @GetMapping("/board/view")
-    public String boardView(@RequestParam(value = "boardIdx") long boardIdx,
-            Model model, HttpServletRequest request) {
+    public String boardView(@RequestParam(value = "boardIdx") Long boardIdx,
+            Model model, HttpServletRequest request, HttpServletResponse response) {
 
-        BoardResponseDto boardView = boardService.loadBoardView(boardIdx);
+        BoardResponseDto boardView = boardService.loadBoardView(boardIdx,request,response);
         String writer = memberService.loadWriter(request.getSession());
         Long writerIdx = memberService.loadMemberIdx(request.getSession());
         List<ReplyResponseDto> replyResponseDto = replyService.loadReply(boardIdx);
-//        int count = (int) replyResponseDto.stream().count();
+        int count = (int) replyResponseDto.stream().count();
 //        List<Integer> integers = IntStream.range(0, count).boxed().toList();
 
         model.addAttribute("board",boardView);
         model.addAttribute("writer",writer);
         model.addAttribute("writerIdx",writerIdx);
         model.addAttribute("reply", replyResponseDto);
-//        model.addAttribute("count", integers);
+        model.addAttribute("count", count);
 
         return "client/boardView";
     }
@@ -94,38 +104,6 @@ public class BoardController {
 
         return "redirect:/board";
     }
-
-
-
-/*    @PostMapping(value="/uploadSummernoteImageFile", produces = "application/json")
-    @ResponseBody
-    public JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
-
-        JsonObject jsonObject = new JsonObject();
-
-        String fileRoot = "C:\\summernote_image\\";	//저장될 외부 파일 경로
-        String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
-        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-
-        String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-
-        File targetFile = new File(fileRoot + savedFileName);
-
-        try {
-            InputStream fileStream = multipartFile.getInputStream();
-            FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
-            jsonObject.addProperty("url", "/summernoteImage/"+savedFileName);
-            jsonObject.addProperty("responseCode", "success");
-
-        } catch (IOException e) {
-            FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
-            jsonObject.addProperty("responseCode", "error");
-            e.printStackTrace();
-        }
-
-        return jsonObject;
-    }*/
-
 
     @ResponseBody
     @PostMapping("/board/summer_image")
@@ -154,6 +132,27 @@ public class BoardController {
         // ajax에서 get메소드로 보내지는 url
         out.println("/images/upload/"+uuidFileName);
         out.close();
+    }
+
+    @GetMapping("/board/edit")
+    public String boardEdit(@RequestParam(value = "boardIdx") Long boardIdx, Model model) {
+
+        BoardResponseDto boardResponseDto = boardService.loadBoardInfo(boardIdx);
+        model.addAttribute("board",boardResponseDto);
+
+        return "client/boardEdit";
+    }
+
+    @PostMapping("/board/editAction")
+    public String boardEditAction(BoardRequestDto dto, HttpServletRequest request) {
+
+        boardService.editBoard(dto);
+
+//        // 이전 페이지로 이동되는 코드
+//        String referer = request.getHeader("Referer");
+//        return "redirect:"+ referer;
+
+        return "redirect:/board";
     }
 
 }

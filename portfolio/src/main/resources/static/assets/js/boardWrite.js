@@ -34,4 +34,20 @@ $(function() {
             }
           }
    });
+
+    let imageUrls = []; // 이미지 URL을 저장할 배열
+
+      // 에디터 내용이 변경될 때마다 이미지 추출
+      $('#boardContent').on('summernote.change', function() {
+        let images = $("p img");
+
+        // 추출한 이미지 태그를 순회하면서 각 태그를 처리하거나 출력
+        images.each(function(index, element){
+          let imageUrl = $(element).attr("src");
+          imageUrls.push(imageUrl); // 배열에 이미지 URL 추가
+        });
+
+        // 이미지 URL 배열을 하나의 문자열로 결합하여 hidden input에 할당
+        $("#hiddenInput").val(imageUrls.join(','));
+      });
 });

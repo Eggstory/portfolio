@@ -1,5 +1,6 @@
 package com.spring.portfolio.service;
 
+import com.spring.portfolio.dto.BoardRequestDto;
 import com.spring.portfolio.dto.ReplyRequestDto;
 import com.spring.portfolio.dto.ReplyResponseDto;
 import com.spring.portfolio.entity.Reply;
@@ -8,12 +9,15 @@ import com.spring.portfolio.store.repository.MemberRepository;
 import com.spring.portfolio.store.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class ReplyService {
 
     private final ReplyRepository replyRepository;
@@ -30,12 +34,32 @@ public class ReplyService {
         return dtoList;
     }
 
+    @Transactional
     public void saveReply(ReplyRequestDto dto) {
 
         Reply entity = dto.toEntity();
         replyRepository.save(entity);
 
     }
+
+    @Transactional
+    public void updateReply(ReplyRequestDto dto) throws Exception {
+        Reply reply = replyRepository.findById(dto.getReplyIdx())
+                .orElseThrow(() -> new Exception("Board Not Found"));
+
+        reply.modifyReply(dto);
+
+
+    }
+
+    @Transactional
+    public void deleteReply(long idx) {
+
+        replyRepository.deleteByReplyIdx(idx);
+
+    }
+
+
 
 //    public Reply addReply(Long boardIdx, Long MemberIx) throws Exception {
 //        Board board = boardRepository.findById(boardIdx)

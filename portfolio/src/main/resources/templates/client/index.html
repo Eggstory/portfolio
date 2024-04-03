@@ -62,32 +62,20 @@
         <section class="section background-white">
           <div class="section-wrap">
             <div class="section-title">
-              <b> 타이틀 </b>
-              <span> 서브 타이틀 </span>
+              <b> 게시글 </b>
+              <span> 최신순 </span>
             </div>
             <div class="section-grid">
-              <div class="section-content background-white">
+              <div th:each="board : ${board}" class="section-content background-white">
                 <div class="section-thum">
                   <img
-                    src="https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_960_720.jpg 1x, https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_1280.jpg"
+                    th:src="${board.boardImage}"
                     alt=""
                   />
                 </div>
                 <div class="section-descript">
-                  <b class="font-size20">타이틀</b>
-                  <span class="font-size20">그냥 침대</span>
-                </div>
-              </div>
-              <div class="section-content">
-                <div class="section-thum">
-                  <img
-                    src="https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_960_720.jpg 1x, https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_1280.jpg"
-                    alt=""
-                  />
-                </div>
-                <div class="section-descript">
-                  <b class="font-size20">타이틀</b>
-                  <span class="font-size20">그냥 침대</span>
+                  <b th:text="${board.boardTitle}" class="font-size20">타이틀</b>
+                  <span th:utext="${board.boardContent}" class="mini-board font-size20 text-overflow">그냥 침대</span>
                 </div>
               </div>
             </div>
@@ -95,10 +83,8 @@
         </section>
 
         <section>
-
         </section>
       </main>
-
       <div class="footer font-size20">
         푸터
       </div>

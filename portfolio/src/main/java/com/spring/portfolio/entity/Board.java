@@ -1,6 +1,7 @@
 package com.spring.portfolio.entity;
 
 import com.spring.portfolio.config.SubjectConverter;
+import com.spring.portfolio.dto.BoardRequestDto;
 import com.spring.portfolio.dto.Subject;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -48,7 +49,8 @@ public class Board extends BaseEntity{
 
 
     @Builder
-    protected Board(String boardCategory1, String boardCategory2, String boardTitle, Subject boardSubject, int viewCount, int likeCount, String boardImage, String boardContent, Member member, List<Reply> replies) {
+    protected Board(Long boardIdx,String boardCategory1, String boardCategory2, String boardTitle, Subject boardSubject, int viewCount, int likeCount, String boardImage, String boardContent, Member member, List<Reply> replies) {
+        this.boardIdx = boardIdx;
         this.boardCategory1 = boardCategory1;
         this.boardCategory2 = boardCategory2;
         this.boardTitle = boardTitle;
@@ -61,6 +63,21 @@ public class Board extends BaseEntity{
         this.replies = replies;
     }
 
+    public void modifyBoard(BoardRequestDto dto) {
+
+        this.boardIdx = dto.getBoardIdx();
+        this.boardCategory1 = dto.getBoardCategory1();
+        this.boardCategory2 = dto.getBoardCategory2();
+        this.boardTitle = dto.getBoardTitle();
+        this.boardSubject = dto.getBoardSubject();
+        this.viewCount = dto.getViewCount();
+        this.likeCount = dto.getLikeCount();
+        this.boardImage = dto.getBoardImage();
+        this.boardContent = dto.getBoardContent();
+        this.member = dto.getMemberIdx();
+        this.replies = dto.toEntity().getReplies();
+
+    }
 
 
 //    @Builder

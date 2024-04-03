@@ -67,7 +67,7 @@
                      th:if="${(paging.totalPages)/(paging.number+1) >= 1 and paging.totalPages/10 > paging.number/10}"
                      class="display-inline">
                     <a
-                            th:text="${page}"
+                            th:text="${page+1}"
                             th:href="@{|?page=${page}|}"
                             th:classappend="${page == paging.number} ? 'active'"
                     ></a>
@@ -76,7 +76,7 @@
                      th:if="${(paging.totalPages)/(paging.number+1) >= 1 and paging.totalPages/10 <= paging.number/10} "
                      class="display-inline">
                     <a
-                            th:text="${page}"
+                            th:text="${page+1}"
                             th:href="@{|?page=${page}|}"
                             th:classappend="${page == paging.number} ? 'active'"
                     ></a>

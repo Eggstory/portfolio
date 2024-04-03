@@ -82,6 +82,7 @@ public class SecurityConfig {
                                 .requestMatchers(
                                         AntPathRequestMatcher.antMatcher("/board/write"),
                                         AntPathRequestMatcher.antMatcher("/board/writeAction"),
+                                        AntPathRequestMatcher.antMatcher("/board/replyDelete"),
                                         AntPathRequestMatcher.antMatcher("/board/replyAction"))
                                 .hasAnyAuthority(Role.USER.name(), Role.ADMIN.name(), Role.MASTER.name())
                                 .requestMatchers(AntPathRequestMatcher.antMatcher("/admins/**"))

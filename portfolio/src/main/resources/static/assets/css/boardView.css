@@ -9,6 +9,10 @@ textarea {
 }
 
 
+img {
+  display: block;
+}
+
 .wrap {
   display: flex;
   justify-content: center;
@@ -20,6 +24,7 @@ textarea {
   justify-content: center;
   flex-direction: column;
   width: 850px;
+  gap: 30px
 }
 
 .header {
@@ -34,7 +39,8 @@ textarea {
 }
 
 .comment-info {
-
+    display: flex;
+    justify-content: space-between;
 }
 
 .comment-content {
@@ -65,4 +71,25 @@ textarea {
 
 .hidden-replyForm {
   display: none;
+}
+
+.body {
+    margin: 20px;
+    min-height: 200px;
+}
+
+.footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 300px
+}
+
+.back {
+    height: 50px;
+    width: 100px;
+}
+
+.update:hover {
+    cursor: pointer;
 }

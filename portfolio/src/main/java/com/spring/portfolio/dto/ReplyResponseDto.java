@@ -29,7 +29,7 @@ public class ReplyResponseDto {
     public ReplyResponseDto(Reply reply) {
         this.idx = reply.getReplyIdx();
         this.replyComment = reply.getReplyComment();
-        this.writer = reply.getMember().getMemberName();
+        this.writer = reply.getMember().getMemberId();
         this.createDate = reply.getCreateDate();
         this.updateDate = reply.getUpdateDate();
         if(reply.getParent() == null) {

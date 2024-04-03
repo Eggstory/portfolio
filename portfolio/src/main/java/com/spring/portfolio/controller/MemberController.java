@@ -16,10 +16,7 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @GetMapping("/")
-    public String index() {
-        return "client/index";
-    }
+
 
     @GetMapping("/login")
     public String login() {

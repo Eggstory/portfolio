@@ -1,6 +1,7 @@
 package com.spring.portfolio.entity;
 
 import com.spring.portfolio.dto.BoardRequestDto;
+import com.spring.portfolio.dto.ReplyRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -51,10 +52,21 @@ public class Reply extends BaseEntity {
     private List<Reply> Replies = new ArrayList<>();
 
     @Builder
-    public Reply(String replyComment, Board board, Member member, Reply parent) {
+    public Reply(Long replyIdx, String replyComment, Board board, Member member, Reply parent) {
+        this.replyIdx = replyIdx;
         this.replyComment = replyComment;
         this.board = board;
         this.member = member;
         this.parent = parent;
+    }
+
+    public void modifyReply(ReplyRequestDto dto) {
+
+        this.replyIdx = dto.getReplyIdx();
+        this.replyComment = dto.getReplyComment();
+        this.board = dto.getBoardIdx();
+        this.member = dto.getMemberIdx();
+        this.parent = dto.getParentIdx();
+
     }
 }

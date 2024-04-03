@@ -1,14 +1,11 @@
 package com.spring.portfolio.dto;
 
 import com.spring.portfolio.entity.Board;
-import com.spring.portfolio.entity.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,6 +18,7 @@ public class BoardResponseDto {
     private String boardTitle;
     private String boardSubject;
     private String boardWriter;
+    private Long memberIdx;
     private int viewCount;
     private int likeCount;
     private String boardImage;
@@ -36,6 +34,7 @@ public class BoardResponseDto {
         this.boardTitle = board.getBoardTitle();
         this.boardSubject = board.getBoardSubject().getValue();
         this.boardWriter = board.getMember().getMemberName();
+        this.memberIdx = board.getMember().getMemberIdx();
         this.viewCount = board.getViewCount();
         this.likeCount = board.getLikeCount();
         this.boardImage = board.getBoardImage();
@@ -44,4 +43,7 @@ public class BoardResponseDto {
         this.updateDate = board.getUpdateDate();
     }
 
+    public void setBoardImage(String s) {
+        this.boardImage = s;
+    }
 }

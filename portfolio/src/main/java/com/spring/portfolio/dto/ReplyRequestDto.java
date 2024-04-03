@@ -14,13 +14,15 @@ import java.util.Optional;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReplyRequestDto {
 
+    private Long replyIdx;
     private String replyComment;
     private Board boardIdx;
     private Member memberIdx;
     private Reply parentIdx;
 
     @Builder
-    public ReplyRequestDto(String replyComment, Board boardIdx, Member memberIdx, Reply parentIdx) {
+    public ReplyRequestDto(Long replyIdx, String replyComment, Board boardIdx, Member memberIdx, Reply parentIdx) {
+        this.replyIdx = replyIdx;
         this.replyComment = replyComment;
         this.boardIdx = boardIdx;
         this.memberIdx = memberIdx;
@@ -29,6 +31,7 @@ public class ReplyRequestDto {
 
     public Reply toEntity() {
         return Reply.builder()
+                .replyIdx(replyIdx)
                 .replyComment(replyComment)
                 .board(boardIdx)
                 .member(memberIdx)

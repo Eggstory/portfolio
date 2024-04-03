@@ -175,3 +175,13 @@ b {
 .footer {
   text-align: center;
 }
+
+.text-overflow {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.mini-board > p > img {
+  display: none;
+}

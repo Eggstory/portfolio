@@ -7,24 +7,26 @@
 
     <div th:replace="~{/client/fragments/Head.html :: board-head}"/>
 
-    <script src="/assets/js/boardWrite.js"></script>
-    <link rel="stylesheet" href="/assets/css/boardWrite.css" type="text/css"/>
+    <script src="/assets/js/boardEdit.js"></script>
+    <link rel="stylesheet" href="/assets/css/boardEdit.css" type="text/css"/>
 </head>
 <body>
-<form action="/board/writeAction" class="form-group" method="post">
-    <input type="hidden" name="viewCount" value="0">
-    <input type="hidden" name="likeCount" value="0">
-    <input type="hidden" name="boardWriter" th:value="${writer}">
-    <input type="hidden" id="hiddenInput" name="boardImage" value="">
+<form action="/board/editAction" class="form-group" method="post">
+    <input type="hidden" name="boardIdx" th:value="${board.boardIdx}">
+    <input type="hidden" name="viewCount" th:value="${board.viewCount}">
+    <input type="hidden" name="likeCount" th:value="${board.likeCount}">
+    <input type="hidden" name="memberIdx" th:value="${board.memberIdx}">
+    <input type="hidden" id="hiddenInput" name="boardImage" th:value="${board.boardImage}">
     <div>
         <div>
-            <select name="boardCategory1">
+            <span>게시판</span>
+            <select name="boardCategory1" th:value="${board.boardCategory1}">
                 <optgroup label="category1">
                     <option value="커뮤니티">커뮤니티</option>
                     <option value="갤러리">갤러리</option>
                 </optgroup>
             </select>
-            <select name="boardCategory2">
+            <select name="boardCategory2" th:value="${board.boardCategory2}">
                 <optgroup label="category2">
                     <option value="유머">유머</option>
                     <option value="자유">자유</option>
@@ -33,7 +35,7 @@
                     <option value="그림">그림</option>
                 </optgroup>
             </select>
-            <select name="boardSubject">
+            <select name="boardSubject" th:value="${board.boardSubject}">
                 <optgroup label="말머리">
                     <option value="NOTICE">NOTICE</option>
                     <option value="NORMAL">NORMAL</option>
@@ -42,11 +44,12 @@
             </select>
         </div>
         <div>
-            <textarea name="boardTitle" placeholder="제목"></textarea>
+            <span>제목</span>
+            <textarea name="boardTitle" placeholder="제목" th:text="${board.boardTitle}"></textarea>
         </div>
     </div>
     <label for="boardContent">글쓰기</label>
-    <textarea name="boardContent" id="boardContent"></textarea>
+    <textarea name="boardContent" id="boardContent" th:utext="${board.boardContent}"></textarea>
     <button type="submit">등록</button>
 </form>
 

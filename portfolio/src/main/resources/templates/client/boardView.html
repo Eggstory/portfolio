@@ -32,13 +32,22 @@
             </div>
         </div>
         <div class="body">
-
+            <span th:utext="${board.boardContent}"></span>
         </div>
         <div class="comment">
             <div class="comment-info">
                 <div>
                     <span>좋아요</span>
                     <span>댓글</span>
+                    <span th:text="${count}">0</span>
+                </div>
+                <div>
+                    <th:block th:if="${board.boardWriter eq writer}">
+                        <span class="update">수정하기</span>
+                        <span>삭제하기</span>
+                    </th:block>
+                    <input type="hidden" class="boardIdx" th:value="${board.boardIdx}">
+                    <input type="hidden" class="writerIdx" th:value="${writerIdx}">
                 </div>
             </div>
             <div class="comment-box">
@@ -48,11 +57,16 @@
                     <span>최신순</span>
                 </div>
                 <div th:each="reply:${reply}" th:if="${reply.parent == 0}" class="comment-content">
+                    <input type="hidden" id="replyIdx" name="replyIdx" th:value="${reply.idx}">
                     <span th:text="${reply.writer}">작성자</span>
-                    <div th:text="${reply.replyComment}">내용</div>
+                    <div class="updateReplyForm" th:text="${reply.replyComment}">내용</div>
                     <div>
                         <span th:text="${#temporals.format(reply.createDate,'yyyy/MM/dd HH:mm')}"></span>
-                        <span class="openReplyForm">답글쓰기</span>
+                        <span class="openReplyForm" style="cursor:pointer">답글쓰기</span>
+                        <th:block th:if="${reply.writer eq writer}">
+                            <span class="updateReply" style="cursor:pointer">수정</span>
+                            <span class="deleteReply" style="cursor:pointer">삭제</span>
+                        </th:block>
                     </div>
                     <div class="hidden-replyForm" style="display: none;">
                         <form action="/board/replyAction" method="post" name="replyForm" class="comment-write">
@@ -73,11 +87,16 @@
                         </form>
                     </div>
                     <div class="padding-left40" th:else="${reply.parent == 0}" th:each="child:${reply.replyList}">
+                        <input type="hidden" id="reReplyIdx" name="replyIdx" th:value="${child.idx}">
                         <span th:text="${child.writer}">작성자</span>
-                        <div th:text="${child.replyComment}">내용</div>
+                        <div class="updateReReplyForm" th:text="${child.replyComment}">내용</div>
                         <div>
                             <span th:text="${#temporals.format(child.createDate,'yyyy/MM/dd HH:mm')}"></span>
-                            <span class="openReReplyForm">답글쓰기</span>
+                            <span class="openReReplyForm" style="cursor:pointer">답글쓰기</span>
+                            <th:block th:if="${child.writer eq writer}">
+                                <span class="updateReReply" style="cursor:pointer">수정</span>
+                                <span class="deleteReReply" style="cursor:pointer">삭제</span>
+                            </th:block>
                         </div>
                         <div class="hidden-reReplyForm" style="display: none;">
                             <form action="/board/replyAction" method="post" name="replyForm" class="comment-write">
@@ -125,8 +144,11 @@
                 </div>
             </div>
         </div>
+        <button class="back">뒤로가기</button>
+        <div class="footer font-size20">
+            푸터
+        </div>
     </div>
-
 </div>
 </body>
 </html>

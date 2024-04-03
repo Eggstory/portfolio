@@ -11,11 +11,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class MemberService {
 
     private final MemberRepository memberRepo;
@@ -23,6 +25,7 @@ public class MemberService {
 
 
 
+    @Transactional
     public void registerMember(MemberRequestDto memberRequestDto) {
         String encodePw = passwordEncoder.encode(memberRequestDto.getMemberPw());
         memberRequestDto.setMemberPw(encodePw);
@@ -60,8 +63,7 @@ public class MemberService {
         Member memberEntity = memberRepo.findByMemberMail(memberMail).orElseThrow(() -> new UsernameNotFoundException("인증되지 않았습니다."));
         MemberResponseDto memberResponseDto = new MemberResponseDto(memberEntity);
 
-        return memberResponseDto.getMemberMail();
-
+        return memberResponseDto.getMemberId();
     }
 
     public Long loadMemberIdx(HttpSession request) {
