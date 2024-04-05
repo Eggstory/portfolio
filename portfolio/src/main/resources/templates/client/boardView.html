@@ -47,7 +47,7 @@
                         <span class="delete" style="cursor:pointer">삭제하기</span>
                     </th:block>
                     <input type="hidden" class="boardIdx" th:value="${board.boardIdx}">
-                    <input type="hidden" class="writerIdx" th:value="${writerIdx}">
+<!--                    <input type="hidden" class="writerIdx" th:value="${writerIdx}">-->
                 </div>
             </div>
             <div class="comment-box">
@@ -100,9 +100,9 @@
                         </div>
                         <div class="hidden-reReplyForm" style="display: none;">
                             <form action="/board/replyAction" method="post" name="replyForm" class="comment-write">
-                                <input type="hidden" id="boardIdx" name="boardIdx" th:value="${board.boardIdx}">
-                                <input type="hidden" id="memberIdx" name="memberIdx" th:value="${writerIdx}">
-                                <input type="hidden" id="parentIdx" name="parentIdx" th:value="${reply.idx}">
+                                <input type="hidden" id="reBoardIdx" name="boardIdx" th:value="${board.boardIdx}">
+                                <input type="hidden" id="reMemberIdx" name="memberIdx" th:value="${writerIdx}">
+                                <input type="hidden" id="reParentIdx" name="parentIdx" th:value="${reply.idx}">
                                 <span>작성자</span>
                                 <textarea name="replyComment" id="replyComment" rows="2"></textarea>
                                 <div class="side">

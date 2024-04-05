@@ -102,7 +102,6 @@ $(function() {
         $('.deleteReply_'+index).on("click", function() {
             if (confirm("정말 삭제하시겠습니까??") == true){    //확인
                 let replyIdx = $("#replyIdx_"+index).val();
-                console.log(replyIdx);
 
                 $.ajax({
                     type : "post",
@@ -147,7 +146,6 @@ $(function() {
                     },
                     dataType : "text",
                     success : function (data) {
-                        console.log("테스트");
 //                        window.location.reload();
                         let textareaClass = $('.editTextarea');
                         let div = $("<div></div>").addClass("updateReplyForm_"+index);
@@ -169,9 +167,13 @@ $(function() {
         $(this).find('span[class="openReReplyForm"]').attr('class','openReReplyForm_'+index)
         $(this).find('div[class="hidden-reReplyForm"]').attr('class','hidden-reReplyForm_'+index)
         $(this).find('span[class="deleteReReply"]').attr('class','deleteReReply_'+index)
-        $(this).find('input[id="reReplyIdx"]').attr('id','reReplyIdx_'+index)
         $(this).find('span[class="updateReReply"]').attr('class','updateReReply_'+index)
         $(this).find('div[class="updateReReplyForm"]').attr('class','updateReReplyForm_'+index)
+        $(this).find('input[id="reReplyIdx"]').attr('id','reReplyIdx_'+index)
+        $(this).find('input[id="reMemberIdx"]').attr('id','reMemberIdx_'+index)
+        $(this).find('input[id="reParentIdx"]').attr('id','reParentIdx_'+index)
+        $(this).find('input[id="reBoardIdx"]').attr('id','reBoardIdx_'+index)
+
 
 
 
@@ -188,7 +190,6 @@ $(function() {
 
                 if (confirm("정말 삭제하시겠습니까??") == true){    //확인
                     let replyIdx = $("#reReplyIdx_"+index).val();
-                    console.log(replyIdx);
 
                     //JSON.stringify()
                     $.ajax({
@@ -208,7 +209,7 @@ $(function() {
 
         $('.updateReReply_'+index).on('click', function() {
 
-            let replyComment = $(".updateReReplyForm_"+index).val();
+            let replyComment = $(".updateReReplyForm_"+index).text();
             let textarea = $('<textarea class="editTextarea" style="width: 800px;"></textarea>').text(replyComment);
             let button = $('<button class="editReply" style="float: right;">수정</button>');
             let div = $('<div class="changeForm"></div>').append(textarea, button);
@@ -219,9 +220,9 @@ $(function() {
 
                 let replyIdx = $("#reReplyIdx_"+index).val();
                 let replyComment = $(".editTextarea").val();
-                let boardIdx = $(".boardIdx").val();
-                let memberIdx = $("#memberIdx_"+index).val();
-                let parentIdx = $("#parentIdx_"+index).val();
+                let boardIdx = $("#reBoardIdx_"+index).val();
+                let memberIdx = $("#reMemberIdx_"+index).val();
+                let parentIdx = $("#reParentIdx_"+index).val();
 
                 $.ajax({
                     type : "post",
@@ -235,7 +236,6 @@ $(function() {
                     },
                     dataType : "text",
                     success : function (data) {
-                        console.log("테스트");
                         let textareaClass = $('.editTextarea');
                         let div = $("<div></div>").addClass("updateReReplyForm_"+index);
                         div.text(textareaClass.val());
@@ -268,7 +268,7 @@ $(function() {
     })
 
     $('.delete').on("click", function() {
-        if (confirm("정말 삭제하시겠습니까??") == true){ 
+        if (confirm("정말 삭제하시겠습니까??") == true){
             let boardIdx = $('.boardIdx').val();
 
             $.ajax({
