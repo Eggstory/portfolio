@@ -1,47 +1,54 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="common-nav">
 
-    <th:block th:fragment="common-nav">
-        <div class="header-fix">
-            <header class="header background-white">
-                <div class="flex-side">
-                    <h6 class="logo">
-                        <a href="/">My Portfolio</a>
-                    </h6>
-                    <div class="header-gap">
-                        <span>장터</span>
-                        <a href="/board">게시판</a>
-                        <span>갤러리</span>
-                    </div>
-                    <div class="header-button">
-                        <th:block sec:authorize="isAuthenticated()">
-                            <a href="/logoutAction">logout</a>
-                        </th:block>
-                        <th:block sec:authorize="isAnonymous()">
-                            <a href="/login">Login</a>
-                        </th:block>
-                        <div class="open-menu"></div>
-                    </div>
+    <head>
+        <script src="/assets/js/nav.js"></script>
+        <link rel="stylesheet" href="/assets/css/nav.css" type="text/css"/>
+    </head>
+
+    <div class="header-fix">
+        <header class="header background-white">
+            <div class="flex-side">
+                <h6 class="logo">
+                    <a href="/">My Portfolio</a>
+                </h6>
+                <div class="header-gap">
+                    <span onclick="alert('미구현');return false;">장터</span>
+                    <a href="/board">게시판</a>
+                    <span onclick="alert('미구현');return false;">갤러리</span>
                 </div>
+                <div class="header-button">
+                    <th:block sec:authorize="isAuthenticated()">
+                        <a href="/logoutAction">logout</a>
+                    </th:block>
+                    <th:block sec:authorize="isAnonymous()">
+                        <a href="/login">Login</a>
+                    </th:block>
+                    <div class="open-menu"></div>
+                </div>
+            </div>
+            <div class="nav-sizeScale">
                 <div class="nav-bar display-none">
-                    <ul>
-                        <li>식품</li>
-                        <li>가전</li>
-                        <li>의류</li>
-                    </ul>
-                    <ul>
-                        <li>유머게시판</li>
-                        <li>자유게시판</li>
-                        <li>QnA게시판</li>
-                    </ul>
-                    <ul>
-                        <li>짤방갤러리</li>
-                        <li>그림갤러리</li>
-                        <li>영상갤러리</li>
-                    </ul>
-                </div>
-            </header>
-        </div>
-    </th:block>
+                <ul>
+                    <li>식품</li>
+                    <li>가전</li>
+                    <li>의류</li>
+                </ul>
+                <ul>
+                    <li>유머게시판</li>
+                    <li>자유게시판</li>
+                    <li>QnA게시판</li>
+                </ul>
+                <ul>
+                    <li>짤방갤러리</li>
+                    <li>그림갤러리</li>
+                    <li>영상갤러리</li>
+                </ul>
+            </div>
+            </div>
+        </header>
+    </div>
+</th:block>
 
 </html>

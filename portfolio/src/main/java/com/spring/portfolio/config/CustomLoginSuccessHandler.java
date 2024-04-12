@@ -25,8 +25,5 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler {
         session.setAttribute("greeting",authentication.getName() + "님 반갑습니다.");
         response.sendRedirect("/");
 
-        System.out.println(session.getAttribute("memberMail"));
-        System.out.println(session.getAttribute("memberIdx"));
-
     }
 }

@@ -1,5 +1,6 @@
 package com.spring.portfolio.dto;
 
+import com.spring.portfolio.entity.Address;
 import com.spring.portfolio.entity.Member;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,28 +18,30 @@ public class MemberRequestDto {
     private String memberPw;
     private String memberName;
     private String memberMail;
-    private String memberAddress;
-    private String memberPost;
+    private String profile;
+    private Address memberAddress;
+    private String detailAddress;
     private String memberPhone;
     private String memberLock;
     private Role memberRole;
-    private int failedAttempt;
-    private LocalDateTime lockTime;
+//    private int failedAttempt;
+//    private LocalDateTime lockTime;
 
 
     @Builder
-    public MemberRequestDto(String memberId, String memberPw, String memberName, String memberMail, String memberAddress, String memberPost, String memberPhone) {
+    public MemberRequestDto(String memberId, String memberPw, String memberName, String memberMail, String profile, Address memberAddress, String detailAddress, String memberPhone) {
         this.memberId = memberId;
         this.memberPw = memberPw;
         this.memberName = memberName;
         this.memberMail = memberMail;
+        this.profile = profile;
         this.memberAddress = memberAddress;
-        this.memberPost = memberPost;
+        this.detailAddress = detailAddress;
         this.memberPhone = memberPhone;
         this.memberLock = "ACTIVE";
         this.memberRole = Role.USER;
-        this.failedAttempt = 0;
-        this.lockTime = null;
+//        this.failedAttempt = 0;
+//        this.lockTime = null;
     }
 
 
@@ -49,12 +52,13 @@ public class MemberRequestDto {
                 .memberPw(memberPw)
                 .memberName(memberName)
                 .memberMail(memberMail)
-                .memberAddress(memberAddress)
-                .memberPost(memberPost)
+                .profile(profile)
+                .address(memberAddress)
+                .detailAddress(detailAddress)
                 .memberPhone(memberPhone)
                 .memberLock(memberLock)
                 .memberRole(memberRole)
-                .failedAttempt(failedAttempt)
+//                .failedAttempt(failedAttempt)
                 .build();
     }
 

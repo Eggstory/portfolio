@@ -17,19 +17,26 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class BoardService {
 
+    private final WebApplicationContext context;
     private final BoardRepository boardRepository;
     private final ReplyRepository replyRepository;
 
@@ -62,8 +69,10 @@ public class BoardService {
         List<BoardResponseDto> boardDto = new ArrayList<>();
         for(Board entity : first4Board){
             BoardResponseDto boardResponseDto = new BoardResponseDto(entity);
-            if(boardResponseDto.getBoardImage() != null) {
-                String boardImage = boardResponseDto.getBoardImage();
+            String boardImage = boardResponseDto.getBoardImage();
+            if(boardImage == null || boardImage.equals("")) {
+                boardResponseDto.setBoardImage("/images/no-image.png");
+            } else if (boardImage != null) {
                 // 이미지가 여러개 들어가 있을 경우, 제일 첫번째 이미지를 썸네일용으로 쓰기 위한 코드
                 String s = boardImage.split(",")[0];
                 boardResponseDto.setBoardImage(s);
@@ -86,8 +95,6 @@ public class BoardService {
 //
 //        return boardDto;
 //    }
-
-
 
 
     public BoardResponseDto loadBoardView(Long idx, HttpServletRequest request, HttpServletResponse response) {
@@ -127,7 +134,6 @@ public class BoardService {
             newCookie.setPath("/");
             newCookie.setMaxAge(60 * 30);
             response.addCookie(newCookie);
-            System.out.println(newCookie);
         }
 
     }
@@ -136,16 +142,13 @@ public class BoardService {
     private int updateViewCount(Long idx) {
 
         return boardRepository.updateViewCount(idx);
-
     }
-
 
     @Transactional
     public void saveBoard(BoardRequestDto dto) {
 
         Board entity = dto.toEntity();
         boardRepository.save(entity);
-
     }
 
     public BoardResponseDto loadBoardInfo(Long boardIdx) {
@@ -156,7 +159,6 @@ public class BoardService {
         BoardResponseDto boardDto = new BoardResponseDto(board);
 
         return boardDto;
-
     }
 
     @Transactional
@@ -175,4 +177,48 @@ public class BoardService {
         replyRepository.deleteByBoardIdx(boardIdx);
 
     }
+
+    public void summer_file(MultipartFile file, HttpServletResponse response) throws IOException {
+
+        response.setContentType("text/html;charset=utf-8");
+        PrintWriter out = response.getWriter();
+        // 서버에 저장할 경로
+        // context.getServletContext().getRealPath("파라미터") : 루트부터 파라미터까지의 경로
+        // TomcatConfig파일(WebServerFactoryCustomizer<TomcatServletWebServerFactory>의 구현체)에서
+        // factory.setDocumentRoot를 통해 절대 경로 지정해줬음.
+        String save_folder = context.getServletContext().getRealPath("/images/upload");
+
+        // 업로드 된 파일의 이름
+        String file_name = file.getOriginalFilename();
+
+        // 업로드 된 파일의 확장자
+        String fileExtension = file_name.substring(file_name.lastIndexOf("."));
+
+        // 업로드 될 파일의 이름 재설정 (중복 방지를 위해 UUID 사용)
+        String uuidFileName = UUID.randomUUID().toString() + fileExtension;
+
+        // 위에서 설정한 서버 경로에 이미지 저장
+        file.transferTo(new File(save_folder , uuidFileName));
+
+        // ajax에서 get메소드로 보내지는 url
+        out.println("/images/upload/"+uuidFileName);
+        out.close();
+    }
+
+    /*
+    public String add(HttpServletRequest request, MultipartFile file, BannerInput parameter) {
+
+    if (file != null) {
+        // 파일 확장자 검사하는 코드
+        String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+        if (extension != null) {
+            FileUtil files = new FileUtil();
+            String imgPath = files.save(file).getUrlFilePath();
+            parameter.setImgPath(imgPath);
+            }
+        }   
+    }
+     */
+
+
 }

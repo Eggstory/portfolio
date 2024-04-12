@@ -20,4 +20,8 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query(value = "select * from member where member_mail =:mail", nativeQuery = true)
     Optional<Member> findByMemberMail(@Param("mail")String memberMail);
+
+    Member findByOauthId(String oauthId);
+
+    Optional<Member> findByUsername(String username);
 }

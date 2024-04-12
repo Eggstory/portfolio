@@ -50,4 +50,5 @@ $(function() {
         // 이미지 URL 배열을 하나의 문자열로 결합하여 hidden input에 할당
         $("#hiddenInput").val(imageUrls.join(','));
       });
+
 });

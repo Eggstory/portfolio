@@ -49,6 +49,7 @@ public class Reply extends BaseEntity {
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
 //    @JoinColumn(name = "replies_idx")
     @Builder.Default
+    // 아래 필드 이름을 child로 할걸
     private List<Reply> Replies = new ArrayList<>();
 
     @Builder

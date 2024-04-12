@@ -21,25 +21,25 @@
         <div>
             <span>게시판</span>
             <select name="boardCategory1" th:value="${board.boardCategory1}">
-                <optgroup label="category1">
-                    <option value="커뮤니티">커뮤니티</option>
-                    <option value="갤러리">갤러리</option>
+                <optgroup label="커뮤니티">
+                    <option value="게시판" th:selected="${board.boardCategory1 == '게시판'}">게시판</option>
+                    <option value="갤러리" th:selected="${board.boardCategory1 == '갤러리'}">갤러리</option>
                 </optgroup>
             </select>
             <select name="boardCategory2" th:value="${board.boardCategory2}">
-                <optgroup label="category2">
-                    <option value="유머">유머</option>
-                    <option value="자유">자유</option>
-                    <option value="QnA">QnA</option>
-                    <option value="짤방">짤방</option>
-                    <option value="그림">그림</option>
+                <optgroup label="카테고리">
+                    <option value="유머" th:selected="${board.boardCategory2 == '유머'}">유머</option>
+                    <option value="자유" th:selected="${board.boardCategory2 == '자유'}">자유</option>
+                    <option value="QnA" th:selected="${board.boardCategory2 == 'QnA'}">QnA</option>
+                    <option value="짤방" th:selected="${board.boardCategory2 == '짤방'}">짤방</option>
+                    <option value="그림" th:selected="${board.boardCategory2 == '그림'}">그림</option>
                 </optgroup>
             </select>
             <select name="boardSubject" th:value="${board.boardSubject}">
                 <optgroup label="말머리">
-                    <option value="NOTICE">NOTICE</option>
-                    <option value="NORMAL">NORMAL</option>
-                    <option value="PICTURE">PICTURE</option>
+                    <option value="NOTICE" th:selected="${board.boardSubject == '공지'}">공지</option>
+                    <option value="NORMAL" th:selected="${board.boardSubject == '일반'}">일반</option>
+                    <option value="PICTURE" th:selected="${board.boardSubject == '그림'}">그림</option>
                 </optgroup>
             </select>
         </div>
@@ -51,6 +51,8 @@
     <label for="boardContent">글쓰기</label>
     <textarea name="boardContent" id="boardContent" th:utext="${board.boardContent}"></textarea>
     <button type="submit">등록</button>
+    <button type="button" class="cancel-button"
+            onclick="alert('작성한 글이 저장되지 않습니다. 취소하시겠습니까?'); location.href=document.referrer">취소</button>
 </form>
 
 

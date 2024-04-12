@@ -45,7 +45,6 @@ public class MemberService {
 
         Member member = memberRepo.findByMemberMail(memberMail)
                 .orElseThrow(() -> new Exception("Member not found mail : " + memberMail));
-        System.out.println(member.getMemberMail());
         String encodePw = passwordEncoder.encode(memberPw);
         boolean matches = passwordEncoder.matches(encodePw, member.getMemberPw());
 
@@ -74,4 +73,7 @@ public class MemberService {
 
         return memberResponseDto.getMemberIdx();
     }
+
+//    public MemberResponseDto signin(MemberRequestDto memberRequestDto) {
+//    }
 }

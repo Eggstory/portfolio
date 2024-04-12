@@ -66,7 +66,8 @@
               <span> 최신순 </span>
             </div>
             <div class="section-grid">
-              <div th:each="board : ${board}" class="section-content background-white">
+              <div th:each="board : ${board}" class="section-content background-white"
+                   th:onclick="|location.href='@{/board/view(boardIdx=${board.boardIdx})}'|">
                 <div class="section-thum">
                   <img
                     th:src="${board.boardImage}"

@@ -15,14 +15,15 @@ public class MemberResponseDto {
     private String memberName;
     private String memberMail;
     private String memberAddress;
-    private String memberPost;
+    private String detailAddress;
+    private String zonecode;
     private String memberPhone;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private String memberLock;
     private Role memberRole;
-    private int failedAttempt;
-    private LocalDateTime lockTime;
+//    private int failedAttempt;
+//    private LocalDateTime lockTime;
 
     @Builder
     public MemberResponseDto(Member member) {
@@ -31,13 +32,15 @@ public class MemberResponseDto {
         this.memberPw = member.getMemberPw();
         this.memberName = member.getMemberName();
         this.memberMail = member.getMemberMail();
-        this.memberAddress = member.getMemberAddress();
-        this.memberPost = member.getMemberPost();
+        this.memberAddress = member.getAddress().getCity() + " " +
+                member.getAddress().getStreet() + " " + member.getAddress().getZipcode();
+        this.zonecode = member.getAddress().getZonecode();
+        this.detailAddress = member.getDetailAddress();
         this.memberPhone = member.getMemberPhone();
         this.memberLock = member.getMemberLock();
         this.memberRole = member.getMemberRole();
-        this.failedAttempt = member.getFailedAttempt();
-        this.lockTime = member.getLockTime();
+//        this.failedAttempt = member.getFailedAttempt();
+//        this.lockTime = member.getLockTime();
     }
 
 

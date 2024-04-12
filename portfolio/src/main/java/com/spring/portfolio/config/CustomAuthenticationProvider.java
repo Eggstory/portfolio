@@ -1,8 +1,8 @@
 package com.spring.portfolio.config;
 
 import com.spring.portfolio.dto.MemberResponseDto;
-import com.spring.portfolio.entity.PrincipalDetails;
-import com.spring.portfolio.service.MemberDetailsService;
+import com.spring.portfolio.config.oauth.PrincipalDetails;
+import com.spring.portfolio.config.oauth.PrincipalDetailsService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    private final MemberDetailsService memberDetailsService;
+    private final PrincipalDetailsService principalDetailsService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final HttpSession httpSession;
 
@@ -29,7 +29,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         // UserDetailsService에서 UserDetails를 꺼낸다.
         PrincipalDetails userDetails =
-                (PrincipalDetails) memberDetailsService.loadUserByUsername(username);
+                (PrincipalDetails) principalDetailsService.loadUserByUsername(username);
 
         // UserDetails의 password와 Authentication 객체의 password를 비교한다.
         if (!this.passwordEncoder.matches(password, userDetails.getPassword())) {

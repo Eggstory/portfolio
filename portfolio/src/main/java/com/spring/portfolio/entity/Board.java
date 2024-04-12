@@ -17,6 +17,7 @@ import java.util.List;
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+//@DynamicUpdate // Entity update시, 원하는 데이터만 update하기 위함
 public class Board extends BaseEntity{
 
     @Id

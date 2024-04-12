@@ -10,29 +10,23 @@ import com.spring.portfolio.service.ReplyService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.util.*;
-import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class BoardController {
 
-    private final WebApplicationContext context;
+
     private final BoardService boardService;
     private final ReplyService replyService;
     private final MemberService memberService;
@@ -51,7 +45,6 @@ public class BoardController {
     public String boardList(Model model, @RequestParam(value = "search", required = false) String keyword,
                             @RequestParam(value = "page", defaultValue = "1") int page) {
 
-        System.out.println(keyword);
         Page<Board> paging = boardService.loadBoardList(keyword,page);
         List<BoardResponseDto> list = new ArrayList<>();
         for(Board board : paging) {
@@ -132,29 +125,8 @@ public class BoardController {
     @PostMapping("/board/summer_image")
     public void summer_image(MultipartFile file, HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
-        response.setContentType("text/html;charset=utf-8");
-        PrintWriter out = response.getWriter();
-        // 서버에 저장할 경로
-        // context.getServletContext().getRealPath("파라미터") : 루트부터 파라미터까지의 경로
-        // TomcatConfig파일(WebServerFactoryCustomizer<TomcatServletWebServerFactory>의 구현체)에서
-        // factory.setDocumentRoot를 통해 절대 경로 지정해줬음.
-        String save_folder = context.getServletContext().getRealPath("/images/upload");
 
-        // 업로드 된 파일의 이름
-        String file_name = file.getOriginalFilename();
-
-        // 업로드 된 파일의 확장자
-        String fileExtension = file_name.substring(file_name.lastIndexOf("."));
-
-        // 업로드 될 파일의 이름 재설정 (중복 방지를 위해 UUID 사용)
-        String uuidFileName = UUID.randomUUID().toString() + fileExtension;
-
-        // 위에서 설정한 서버 경로에 이미지 저장
-        file.transferTo(new File(save_folder , uuidFileName));
-
-        // ajax에서 get메소드로 보내지는 url
-        out.println("/images/upload/"+uuidFileName);
-        out.close();
+        boardService.summer_file(file, response);
     }
 
     @GetMapping("/board/edit")

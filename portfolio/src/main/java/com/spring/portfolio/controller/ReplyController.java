@@ -27,8 +27,6 @@ public class ReplyController {
     @PostMapping("/board/replyUpdate")
     public String replyUpdate(ReplyRequestDto dto, HttpServletRequest request) throws Exception {
 
-        System.out.println(dto.getBoardIdx());
-
         replyService.updateReply(dto);
 
 //        // 이전 페이지로 이동되는 코드
