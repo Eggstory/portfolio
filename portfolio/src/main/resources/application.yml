@@ -54,6 +54,7 @@ spring:
       hibernate:
     #        format_sql: true     # \uC548 \uB418\uAE38\uB798 \uC8FC\uC11D\uD568
     hibernate:
+      ddl-auto: none
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy

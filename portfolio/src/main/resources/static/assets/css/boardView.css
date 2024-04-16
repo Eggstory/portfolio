@@ -93,3 +93,7 @@ img {
 .update:hover {
     cursor: pointer;
 }
+
+.font-red {
+  color: red;
+}

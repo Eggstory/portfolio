@@ -37,44 +37,44 @@ $(function() {
 //            history.back(); // 마지막으로 currentUrl과 referrerUrl이 다른 경우 페이지 이동
         });
 
-    $('#replySubmit').on("click", function() {
-
-//        let replyComment = $("#replyComment").val();
-//        let boardIdx = $("#boardIdx").val();
-//        let memberIdx = $("#memberIdx").val();
-//        let parentIdx = $("#parentIdx").val();
-        let queryString = $("#comment-write").serialize();
-
-
-// 요즘 success, error, complete 보다 done, fail 를  쓰는 추세라 함
-        $.ajax({
-            type : "post",
-            url : "/board/replyAction",
-            data : queryString,
-            dataType : "json",
-            success : function (data) {
-            // 작동안됨...
-//                window.location.reload();
-
-            },
-            error : function (data) {
-
-            }
-        })
-        .done(function() {
-            //왜인지 작동안함 -_-
-            //window.location.reload();
-            //$('#replyContents').val('') //댓글 등록시 댓글 등록창 초기화
-            //$('#comment-content').replaceWith(data);
-
-        })
-        .fail(function() {
-
-        })
-        .always(function() {
-
-        });
-    })
+// 그냥 컨트롤러에서 되게 함
+//    $('#replySubmit').on("click", function() {
+//
+////        let replyComment = $("#replyComment").val();
+////        let boardIdx = $("#boardIdx").val();
+////        let memberIdx = $("#memberIdx").val();
+////        let parentIdx = $("#parentIdx").val();
+//        let queryString = $("#comment-write").serialize();
+//
+//
+//// 요즘 success, error, complete 보다 done, fail 를  쓰는 추세라 함
+//        $.ajax({
+//            type : "post",
+//            url : "/board/replyAction",
+//            data : queryString,
+//            dataType : "json",
+//            success : function (data) {
+//            // 작동안됨...
+////                window.location.reload();
+//            },
+//            error : function (data) {
+//
+//            }
+//        })
+//        .done(function() {
+//            //왜인지 작동안함 -_-
+//            //window.location.reload();
+//            //$('#replyContents').val('') //댓글 등록시 댓글 등록창 초기화
+//            //$('#comment-content').replaceWith(data);
+//
+//        })
+//        .fail(function() {
+//
+//        })
+//        .always(function() {
+//
+//        });
+//    })
 
     $('.comment-content').each(function(index) {
         $(this).find('span[class="openReplyForm"]').attr('class','openReplyForm_'+index)
@@ -87,17 +87,18 @@ $(function() {
         $(this).find('div[class="hidden-replyForm"]').attr('class','hidden-replyForm_'+index)
         $(this).find('span[class="deleteReply"]').attr('class','deleteReply_'+index)
         $(this).find('span[class="updateReply"]').attr('class','updateReply_'+index)
+        $(this).find('span[class="restoreReply"]').attr('class','restoreReply_'+index)
         $(this).find('div[class="updateReplyForm"]').attr('class','updateReplyForm_'+index)
 
 
-            $('.openReplyForm_'+index).on('click', function() {
-                if($('.hidden-replyForm_'+index).css("display") == "block") {
-                    $('.hidden-replyForm_'+index).toggle();
-                    $('.hidden-replyForm_'+index).css("display", "none")
-                } else {
-                    $('.hidden-replyForm_'+index).toggle();
-                }
-            })
+        $('.openReplyForm_'+index).on('click', function() {
+            if($('.hidden-replyForm_'+index).css("display") == "block") {
+                $('.hidden-replyForm_'+index).toggle();
+                $('.hidden-replyForm_'+index).css("display", "none")
+            } else {
+                $('.hidden-replyForm_'+index).toggle();
+            }
+        })
 
         $('.deleteReply_'+index).on("click", function() {
             if (confirm("정말 삭제하시겠습니까??") == true){    //확인
@@ -115,8 +116,24 @@ $(function() {
             }else{   //취소
                 return false;
             }
+        })
 
+        $('.restoreReply_'+index).on("click", function() {
+            if (confirm("복구하시겠습니까?") == true){    //확인
+                let replyIdx = $("#replyIdx_"+index).val();
 
+                $.ajax({
+                    type : "post",
+                    url : "/board/replyRestore",
+                    data : {"replyIdx":replyIdx},
+                    dataType : "text",
+                    success : function (data) {
+                        window.location.reload();
+                    }
+                })
+            }else{   //취소
+                return false;
+            }
         })
 
         $('.updateReply_'+index).on('click', function() {
@@ -168,6 +185,7 @@ $(function() {
         $(this).find('div[class="hidden-reReplyForm"]').attr('class','hidden-reReplyForm_'+index)
         $(this).find('span[class="deleteReReply"]').attr('class','deleteReReply_'+index)
         $(this).find('span[class="updateReReply"]').attr('class','updateReReply_'+index)
+        $(this).find('span[class="restoreReReply"]').attr('class','restoreReReply_'+index)
         $(this).find('div[class="updateReReplyForm"]').attr('class','updateReReplyForm_'+index)
         $(this).find('input[id="reReplyIdx"]').attr('id','reReplyIdx_'+index)
         $(this).find('input[id="reMemberIdx"]').attr('id','reMemberIdx_'+index)
@@ -188,23 +206,41 @@ $(function() {
 
         $('.deleteReReply_'+index).on("click", function() {
 
-                if (confirm("정말 삭제하시겠습니까??") == true){    //확인
-                    let replyIdx = $("#reReplyIdx_"+index).val();
+            if (confirm("정말 삭제하시겠습니까??") == true){    //확인
+                let replyIdx = $("#reReplyIdx_"+index).val();
 
-                    //JSON.stringify()
-                    $.ajax({
-                        type : "post",
-                        url : "/board/replyDelete",
-                        data : {"replyIdx":replyIdx},
-                        dataType : "text",
-                        success : function (data) {
-                            window.location.reload();
-                        }
-                    })
-                }else{   //취소
-                    return false;
-                }
+                //JSON.stringify()
+                $.ajax({
+                    type : "post",
+                    url : "/board/replyDelete",
+                    data : {"replyIdx":replyIdx},
+                    dataType : "text",
+                    success : function (data) {
+                        window.location.reload();
+                    }
+                })
+            }else{   //취소
+                return false;
+            }
+        })
 
+
+        $('.restoreReReply_'+index).on("click", function() {
+            if (confirm("복구하시겠습니까?") == true){    //확인
+                let replyIdx = $("#reReplyIdx_"+index).val();
+
+                $.ajax({
+                    type : "post",
+                    url : "/board/replyRestore",
+                    data : {"replyIdx":replyIdx},
+                    dataType : "text",
+                    success : function (data) {
+                        window.location.reload();
+                    }
+                })
+            }else{   //취소
+                return false;
+            }
         })
 
         $('.updateReReply_'+index).on('click', function() {

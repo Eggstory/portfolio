@@ -18,13 +18,20 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 //    @Query(value = "SELECT r FROM Reply r WHERE r.board.boardIdx = :idx")
     List<Reply> findByBoardIdx(long idx);
 
-
-    @Query(value = "delete from Reply where reply_idx = :idx OR parent_idx = :idx", nativeQuery = true)
-    void deleteByReplyIdx(long idx);
-
     @Modifying
     @Query(value = "delete from Reply r where r.board.boardIdx = :idx")
     void deleteByBoardIdx(@Param("idx") Long idx);
+
+
+//    @Query(value = "delete from Reply where reply_idx = :idx OR parent_idx = :idx", nativeQuery = true)
+//    void deleteByReplyIdx(long idx);
+    @Modifying
+    @Query(value = "update Reply r set r.isDeleted = true where r.replyIdx = :idx")
+    void deleteByReplyIdx(@Param("idx") Long idx);
+
+    @Modifying
+    @Query(value = "update Reply r set r.isDeleted = false where r.replyIdx = :idx")
+    void restoreByReplyIdx(@Param("idx") Long idx);
 
 
 //    @Query(value = "select * from reply where board_idx = :idx", nativeQuery = true)

@@ -21,6 +21,7 @@ public class ReplyResponseDto {
     private String memberId;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
+    private boolean isDeleted;
 
     private Long parent;
     private List<ReplyResponseDto> replyList = new ArrayList<>();
@@ -34,6 +35,7 @@ public class ReplyResponseDto {
         this.memberId = mail.split("@")[0];
         this.createDate = reply.getCreateDate();
         this.updateDate = reply.getUpdateDate();
+        this.isDeleted = reply.isDeleted();
         if(reply.getParent() == null) {
             this.parent = 0L;
         } else {

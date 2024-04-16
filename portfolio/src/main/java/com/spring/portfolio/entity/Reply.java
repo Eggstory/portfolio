@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,15 +49,21 @@ public class Reply extends BaseEntity {
 //    @JoinColumn(name = "replies_idx")
     @Builder.Default
     // 아래 필드 이름을 child로 할걸
-    private List<Reply> Replies = new ArrayList<>();
+    private List<Reply> replies = new ArrayList<>();
+
+    @ColumnDefault("false")
+    @Column(nullable = false)
+    private boolean isDeleted;
 
     @Builder
-    public Reply(Long replyIdx, String replyComment, Board board, Member member, Reply parent) {
+    public Reply(Long replyIdx, String replyComment, Board board, Member member, Reply parent, List<Reply> replies, boolean isDeleted) {
         this.replyIdx = replyIdx;
         this.replyComment = replyComment;
         this.board = board;
         this.member = member;
         this.parent = parent;
+        this.isDeleted = isDeleted;
+//        this.replies = replies;
     }
 
     public void modifyReply(ReplyRequestDto dto) {
@@ -66,6 +73,9 @@ public class Reply extends BaseEntity {
         this.board = dto.getBoardIdx();
         this.member = dto.getMemberIdx();
         this.parent = dto.getParentIdx();
+        this.isDeleted = dto.getIsDeleted();
+//        this.replies = dto.getReplies();
+
 
     }
 }

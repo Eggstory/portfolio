@@ -43,4 +43,14 @@ public class ReplyController {
         return "redirect:/board";
     }
 
+    @PostMapping("/board/replyRestore")
+    public String replyRestore(Long replyIdx) {
+
+        replyService.restoreReply(replyIdx);
+
+        return "redirect:/board";
+    }
+
+
+
 }

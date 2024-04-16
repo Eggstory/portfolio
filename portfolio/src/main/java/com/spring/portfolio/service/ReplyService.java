@@ -57,6 +57,10 @@ public class ReplyService {
 
     }
 
+    public void restoreReply(Long idx) {
+
+        replyRepository.restoreByReplyIdx(idx);
+    }
 
 
 //    public Reply addReply(Long boardIdx, Long MemberIx) throws Exception {
