@@ -1,6 +1,5 @@
 package com.spring.portfolio.service;
 
-import com.spring.portfolio.dto.BoardRequestDto;
 import com.spring.portfolio.dto.ReplyRequestDto;
 import com.spring.portfolio.dto.ReplyResponseDto;
 import com.spring.portfolio.entity.Reply;
@@ -13,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

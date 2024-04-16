@@ -1,7 +1,6 @@
 package com.spring.portfolio.dto;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public enum Role {

@@ -1,12 +1,11 @@
 package com.spring.portfolio.controller;
 
-import com.spring.portfolio.dto.BoardRequestDto;
 import com.spring.portfolio.dto.ReplyRequestDto;
 import com.spring.portfolio.service.ReplyService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 @RequiredArgsConstructor

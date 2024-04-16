@@ -1,5 +1,6 @@
 package com.spring.portfolio.controller;
 
+import com.spring.portfolio.config.PrincipalDetails;
 import com.spring.portfolio.dto.BoardRequestDto;
 import com.spring.portfolio.dto.BoardResponseDto;
 import com.spring.portfolio.dto.ReplyResponseDto;
@@ -11,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -87,17 +89,32 @@ public class BoardController {
 
     @GetMapping("/board/view")
     public String boardView(@RequestParam(value = "boardIdx") Long boardIdx,
-            Model model, HttpServletRequest request, HttpServletResponse response) {
+            Model model, HttpServletRequest request, HttpServletResponse response,
+                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         BoardResponseDto boardView = boardService.loadBoardView(boardIdx,request,response);
-        String writer = memberService.loadWriter(request.getSession());
-        Long writerIdx = memberService.loadMemberIdx(request.getSession());
+        String mail = "";
+        Long writerIdx;
+        if(principalDetails == null || principalDetails.equals("")) {
+//            String writer = memberService.loadWriter(request.getSession());
+            mail = request.getSession().getAttribute("memberMail").toString();
+            writerIdx = memberService.loadMemberIdx(request.getSession());
+        } else  {
+//            String writer = memberService.loadWriter(principalDetails.getMember().getMemberMail());
+            mail = principalDetails.getMember().getMemberMail();
+            writerIdx = memberService.loadMemberIdx(principalDetails.getMember().getMemberMail());
+        }
+//        String writer = memberService.loadWriter(request.getSession());
+//        Long writerIdx = memberService.loadMemberIdx(request.getSession());
+//        String writer = memberService.loadWriter(principalDetails.getMember().getMemberMail());
+//        String mail = principalDetails.getMember().getMemberMail();
+//        Long writerIdx = memberService.loadMemberIdx(principalDetails.getMember().getMemberMail());
         List<ReplyResponseDto> replyResponseDto = replyService.loadReply(boardIdx);
         int count = (int) replyResponseDto.stream().count();
 //        List<Integer> integers = IntStream.range(0, count).boxed().toList();
 
         model.addAttribute("board",boardView);
-        model.addAttribute("writer",writer);
+        model.addAttribute("mail",mail);
         model.addAttribute("writerIdx",writerIdx);
         model.addAttribute("reply", replyResponseDto);
         model.addAttribute("count", count);
@@ -106,8 +123,16 @@ public class BoardController {
     }
 
     @GetMapping("/board/write")
-    public String boardWrite(Model model, HttpServletRequest request) {
-        Long writer = memberService.loadMemberIdx(request.getSession());
+    public String boardWrite(Model model, HttpServletRequest request,
+                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        Long writer;
+        if(principalDetails == null || principalDetails.equals("")) {
+            writer = memberService.loadMemberIdx(request.getSession());
+        } else  {
+            writer = memberService.loadMemberIdx(principalDetails.getMember().getMemberMail());
+        }
+
         model.addAttribute("writer",writer);
 
         return "client/boardWrite";

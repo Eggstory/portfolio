@@ -9,10 +9,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
@@ -26,7 +24,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     // count 쿼리를 쓰고싶으면 @Query를 써서 직접 쿼리를 짜줘야한다.
     @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
-    @Query(value = "select b from Board b join b.member m where b.boardTitle like %:keyword% or m.memberId like %:keyword%")
+    @Query(value = "select b from Board b join b.member m where b.boardTitle like %:keyword% or m.memberName like %:keyword%")
     Page<Board> findByBoardTitleContaining(String keyword, Pageable pageable);
 
     @Modifying

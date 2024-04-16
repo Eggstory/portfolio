@@ -1,7 +1,10 @@
 package com.spring.portfolio.dto;
 
 import com.spring.portfolio.entity.Member;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +13,7 @@ import java.time.LocalDateTime;
 public class MemberResponseDto {
 
     private Long memberIdx;
-    private String memberId;
+//    private String memberId;
     private String memberPw;
     private String memberName;
     private String memberMail;
@@ -28,16 +31,16 @@ public class MemberResponseDto {
     @Builder
     public MemberResponseDto(Member member) {
         this.memberIdx = member.getMemberIdx();
-        this.memberId = member.getMemberId();
+//        this.memberId = member.getMemberId();
         this.memberPw = member.getMemberPw();
         this.memberName = member.getMemberName();
         this.memberMail = member.getMemberMail();
-        this.memberAddress = member.getAddress().getCity() + " " +
-                member.getAddress().getStreet() + " " + member.getAddress().getZipcode();
-        this.zonecode = member.getAddress().getZonecode();
-        this.detailAddress = member.getDetailAddress();
-        this.memberPhone = member.getMemberPhone();
-        this.memberLock = member.getMemberLock();
+//        this.memberAddress = member.getAddress().getCity() + " " +
+//                member.getAddress().getStreet() + " " + member.getAddress().getZipcode();
+//        this.zonecode = member.getAddress().getZonecode();
+//        this.detailAddress = member.getDetailAddress();
+//        this.memberPhone = member.getMemberPhone();
+//        this.memberLock = member.getMemberLock();
         this.memberRole = member.getMemberRole();
 //        this.failedAttempt = member.getFailedAttempt();
 //        this.lockTime = member.getLockTime();

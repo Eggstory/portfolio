@@ -1,34 +1,29 @@
 package com.spring.portfolio.config;
 
-import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.store.repository.MemberRepository;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Component
 public class CustomLoginFailureHandler implements AuthenticationFailureHandler {
 
-    private static final int MAX_ATTEMPT = 5;
-    private static final int LOCK_TIME = (1000 * 60) * 180; // 3시간동안 잠금
+//    private static final int MAX_ATTEMPT = 5;
+//    private static final int LOCK_TIME = (1000 * 60) * 180; // 3시간동안 잠금
 
     private final MemberRepository memberRepository;
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
+        response.sendRedirect("/login");
      /*   String memberMail = request.getParameter("memberMail");
         String password = request.getParameter("memberPw");
         String error = exception.getMessage();

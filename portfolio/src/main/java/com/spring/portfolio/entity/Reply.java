@@ -1,6 +1,5 @@
 package com.spring.portfolio.entity;
 
-import com.spring.portfolio.dto.BoardRequestDto;
 import com.spring.portfolio.dto.ReplyRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.springframework.security.core.userdetails.User;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,13 +1,12 @@
 package com.spring.portfolio.config;
 
-import com.spring.portfolio.config.oauth.*;
+import com.spring.portfolio.config.oauth.OAuth2SuccessHandler;
+import com.spring.portfolio.config.oauth.OAuth2UserService;
 import com.spring.portfolio.dto.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,7 +15,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -31,11 +29,13 @@ public class SecurityConfig {
     private final OAuth2UserService OAuth2UserService;
     private final CustomLoginSuccessHandler customLoginSuccessHandler;
     private final CustomLoginFailureHandler customLoginFailureHandler;
+//    private final AuthenticationConfiguration authenticationConfiguration;
+
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
-    private final TokenAuthenticationFilter tokenAuthenticationFilter;
+//    private final TokenAuthenticationFilter tokenAuthenticationFilter;
     
 //    얘들 사용해보려고 했는데 일단은 없이도 되서 주석처리
-//    private CustomAuthenticationProvider authProvider;
+//    private final CustomAuthenticationProvider customAuthenticationProvider;
 //
 //    @Bean
 //    public AuthenticationManager authManager(HttpSecurity http) throws Exception {
@@ -46,17 +46,17 @@ public class SecurityConfig {
 //    }
 
 
-    // jwt 유튜브 영상
-    //
-    private final AuthenticationConfiguration authenticationConfiguration;
-
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-
-        return  configuration.getAuthenticationManager();
-    }
-    //
-    // 여기까지
+//    // jwt 유튜브 영상
+//    //
+//    private final AuthenticationConfiguration authenticationConfiguration;
+//
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+//
+//        return  configuration.getAuthenticationManager();
+//    }
+//    //
+//    // 여기까지
 
     @Bean
     public static BCryptPasswordEncoder passwordEncoder() {
@@ -72,11 +72,11 @@ public class SecurityConfig {
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring()
-                .requestMatchers("/assets/**", "/images/**", "/error", "/favicon.ico"
-//                        AntPathRequestMatcher.antMatcher("/assets/**"),
-//                        AntPathRequestMatcher.antMatcher("/images/**"),
-//                        AntPathRequestMatcher.antMatcher("/error"),
-//                        AntPathRequestMatcher.antMatcher("/favicon.ico")
+                .requestMatchers(
+                        AntPathRequestMatcher.antMatcher("/assets/**"),
+                        AntPathRequestMatcher.antMatcher("/images/**"),
+                        AntPathRequestMatcher.antMatcher("/error"),
+                        AntPathRequestMatcher.antMatcher("/favicon.ico")
                 );
     }
 
@@ -114,25 +114,23 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .requestMatchers(
-                                        "/board/write", "/board/writeAction", "/board/replyDelete", "/board/replyAction"
-//                                        AntPathRequestMatcher.antMatcher("/board/write"),
-//                                        AntPathRequestMatcher.antMatcher("/board/writeAction"),
-//                                        AntPathRequestMatcher.antMatcher("/board/replyDelete"),
-//                                        AntPathRequestMatcher.antMatcher("/board/replyAction")
+                                        AntPathRequestMatcher.antMatcher("/board/write"),
+                                        AntPathRequestMatcher.antMatcher("/board/writeAction"),
+                                        AntPathRequestMatcher.antMatcher("/board/replyDelete"),
+                                        AntPathRequestMatcher.antMatcher("/board/replyAction")
                                 )
                                 .hasAnyAuthority(Role.USER.name(), Role.ADMIN.name(), Role.MASTER.name())
-                                .requestMatchers("/admins/**"
-//                                        AntPathRequestMatcher.antMatcher("/admins/**")
+                                .requestMatchers(
+                                        AntPathRequestMatcher.antMatcher("/admins/**")
                                 )
                                 .hasAnyAuthority(Role.ADMIN.name(), Role.MASTER.name())
                                 .requestMatchers(
-                                         "/", "/login/**", "/joinAction", "/loginAction", "/board/**", "/join/**"
-//                                        AntPathRequestMatcher.antMatcher("/login/**"),
-//                                        AntPathRequestMatcher.antMatcher("/"),
-//                                        AntPathRequestMatcher.antMatcher("/joinAction"),
-//                                        AntPathRequestMatcher.antMatcher("/loginAction"),
-//                                        AntPathRequestMatcher.antMatcher("/board/**"),
-//                                        AntPathRequestMatcher.antMatcher("/join/**")
+                                        AntPathRequestMatcher.antMatcher("/login/**"),
+                                        AntPathRequestMatcher.antMatcher("/"),
+                                        AntPathRequestMatcher.antMatcher("/joinAction"),
+                                        AntPathRequestMatcher.antMatcher("/loginAction"),
+                                        AntPathRequestMatcher.antMatcher("/board/**"),
+                                        AntPathRequestMatcher.antMatcher("/join/**")
                                 )
                                 .permitAll()
                                 .anyRequest().authenticated()
@@ -149,6 +147,7 @@ public class SecurityConfig {
                                 .failureHandler(customLoginFailureHandler)
                 )
 //                .userDetailsService(principalDetailsService)   // 이거 주석해도될거같은데? 위에 loginProcessingUrl 호출덕분에
+
                 .logout((logoutConfig) ->
                         logoutConfig
                                 .logoutRequestMatcher(AntPathRequestMatcher.antMatcher("/logoutAction"))
@@ -166,12 +165,14 @@ public class SecurityConfig {
                 )
 
                 // jwt 관련 설정
-                .addFilterBefore(tokenAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new TokenExceptionFilter(), tokenAuthenticationFilter.getClass()) // 토큰 예외 핸들링
+//                .addFilterBefore(tokenAuthenticationFilter,
+//                        UsernamePasswordAuthenticationFilter.class)
+//                .addFilterBefore(new TokenExceptionFilter(), tokenAuthenticationFilter.getClass()) // 토큰 예외 핸들링
+        
+// 위랑 별개 코드임
+//                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class);
 
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class);
-
+        
                 // 인증 예외 핸들링
 //                .exceptionHandling((exceptions) -> exceptions
 //                        .authenticationEntryPoint(new CustomeAuthenticationEntryPoint())
@@ -180,4 +181,29 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+
+//    protected void configure(AuthenticationManagerBuilder auth) throws  Exception {
+//        auth.authenticationProvider(authenticationProvider());
+//    }
+//
+//    @Bean
+//    public AuthenticationProvider authenticationProvider() {
+//        return new CustomAuthenticationProvider();
+//    }
+
+
+//    @Bean
+//    public AuthenticationManager authenticationManager() throws Exception {
+//        ProviderManager providerManager = (ProviderManager) authenticationConfiguration.getAuthenticationManager();
+//        providerManager.getProviders().add(this.customAuthenticationProvider);
+//        return authenticationConfiguration.getAuthenticationManager();
+//    }
+
+
+//    @Bean
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+//        return authenticationConfiguration.getAuthenticationManager();
+//    }
+
 }

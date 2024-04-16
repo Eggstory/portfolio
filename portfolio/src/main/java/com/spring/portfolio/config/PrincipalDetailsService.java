@@ -1,4 +1,4 @@
-package com.spring.portfolio.config.oauth;
+package com.spring.portfolio.config;
 
 import com.spring.portfolio.dto.Role;
 import com.spring.portfolio.entity.Member;
@@ -35,9 +35,11 @@ public class PrincipalDetailsService implements UserDetailsService {
     // 그리고 시큐리티 session 안에 Authentication 이 들어간다.
     //함수 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다.
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
-        Member findMember = memberRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("사용자가 존재하지 않습니다."));
+//        Member findMember = memberRepository.findByMemberName(username).orElseThrow(()-> new UsernameNotFoundException("사용자가 존재하지 않습니다."));
+        Member findMember = memberRepository.findByMemberMail(email).orElseThrow(()-> new UsernameNotFoundException("사용자가 존재하지 않습니다."));
 
         // password 일치여부와 무관하게 username에 해당하는 user 존재 시 session을 생성
         // httpSession.setAttribute("user", new MemberResponseDto(findMember));

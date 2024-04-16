@@ -21,7 +21,7 @@
             </div>
             <div class="title2">
                 <div>
-                    <span th:text="|${board.boardWriter}  '  ${#temporals.format(board.createDate,'yyyy-MM-dd HH:mm')}|">
+                    <span th:text="|${board.boardWriter} (${board.memberId})  '  ${#temporals.format(board.createDate,'yyyy-MM-dd HH:mm')}|">
                         작성자 | 시간
                     </span>
                 </div>
@@ -42,7 +42,7 @@
                     <span th:text="${count}">0</span>
                 </div>
                 <div>
-                    <th:block th:if="${board.boardWriter eq writer}">
+                    <th:block th:if="${board.boardMail eq mail}">
                         <span class="update">수정하기</span>
                         <span class="delete" style="cursor:pointer">삭제하기</span>
                     </th:block>
@@ -58,12 +58,12 @@
                 </div>
                 <div th:each="reply:${reply}" th:if="${reply.parent == 0}" class="comment-content">
                     <input type="hidden" id="replyIdx" name="replyIdx" th:value="${reply.idx}">
-                    <span th:text="${reply.writer}">작성자</span>
+                    <span th:text="|${reply.writer} (${reply.memberId})|">작성자</span>
                     <div class="updateReplyForm" th:text="${reply.replyComment}">내용</div>
                     <div>
                         <span th:text="${#temporals.format(reply.createDate,'yyyy/MM/dd HH:mm')}"></span>
                         <span class="openReplyForm" style="cursor:pointer">답글쓰기</span>
-                        <th:block th:if="${reply.writer eq writer}">
+                        <th:block th:if="${reply.mail eq mail}">
                             <span class="updateReply" style="cursor:pointer">수정</span>
                             <span class="deleteReply" style="cursor:pointer">삭제</span>
                         </th:block>
@@ -88,12 +88,12 @@
                     </div>
                     <div class="padding-left40" th:else="${reply.parent == 0}" th:each="child:${reply.replyList}">
                         <input type="hidden" id="reReplyIdx" name="replyIdx" th:value="${child.idx}">
-                        <span th:text="${child.writer}">작성자</span>
+                        <span th:text="|${child.writer} (${child.memberId})|">작성자</span>
                         <div class="updateReReplyForm" th:text="${child.replyComment}">내용</div>
                         <div>
                             <span th:text="${#temporals.format(child.createDate,'yyyy/MM/dd HH:mm')}"></span>
                             <span class="openReReplyForm" style="cursor:pointer">답글쓰기</span>
-                            <th:block th:if="${child.writer eq writer}">
+                            <th:block th:if="${child.mail eq mail}">
                                 <span class="updateReReply" style="cursor:pointer">수정</span>
                                 <span class="deleteReReply" style="cursor:pointer">삭제</span>
                             </th:block>

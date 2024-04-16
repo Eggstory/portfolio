@@ -1,12 +1,9 @@
 package com.spring.portfolio.controller;
 
-import com.spring.portfolio.config.oauth.PrincipalDetails;
+import com.spring.portfolio.config.PrincipalDetails;
 import com.spring.portfolio.dto.MemberRequestDto;
-import com.spring.portfolio.dto.MemberResponseDto;
 import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,27 +18,27 @@ public class MemberController {
 
     private final MemberService memberService;
 
-
-
     @GetMapping("/login")
     public String login() {
         return "client/login";
     }
 
-    @PostMapping("/loginAction")
-    public String loginAction(String memberMail, String memberPw, HttpServletRequest request) throws Exception {
-
-        MemberResponseDto dto = memberService.login(memberMail, memberPw);
-        if(dto.getMemberMail() == null || dto.getMemberMail().equals("")) {
-            return "redirect:/login";
-        }
-
-        request.getSession().invalidate();
-        HttpSession session = request.getSession();
-        session.setAttribute("memberMail", dto.getMemberMail());
-
-        return "redirect:/";
-    }
+    // spring security 때문에 여기 컨트롤러 안탐
+//    @PostMapping("/loginAction")
+//    public String loginAction(String memberMail, String memberPw, HttpServletRequest request) throws Exception {
+//
+//        MemberResponseDto dto = memberService.login(memberMail, memberPw);
+//        if(dto.getMemberMail() == null || dto.getMemberMail().equals("")) {
+//            return "redirect:/login";
+//        }
+//
+//        request.getSession().invalidate();
+//        HttpSession session = request.getSession();
+//        session.setAttribute("memberMail", dto.getMemberMail());
+//
+//        System.out.println("테스트4");
+//        return "redirect:/";
+//    }
 
     @GetMapping("/join")
     public String join() {

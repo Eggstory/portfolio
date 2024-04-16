@@ -1,19 +1,17 @@
 package com.spring.portfolio.config.oauth;
 
+import com.spring.portfolio.config.PrincipalDetails;
 import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.store.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.Map;
 
 @Service
@@ -23,6 +21,7 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
+    // principalDetailsService처럼 마찬가지 종료 후  @AuthenticationPrincipal 어노테이션이 만들어짐
     @Transactional
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -89,14 +88,14 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 //        return member;
     }
 
-    private DefaultOAuth2User createDefaultOAuth2User(Member member, Map<String, Object> attributes,
-                                                      String userNameAttributeName) {
-        // DefaultOAuth2User는 OAuth2User의 구현체다
-        return new DefaultOAuth2User(
-                Collections.singletonList(new SimpleGrantedAuthority(member.getMemberRole().getAuthority())),
-                attributes,
-                userNameAttributeName
-        );
-    }
+//    private DefaultOAuth2User createDefaultOAuth2User(Member member, Map<String, Object> attributes,
+//                                                      String userNameAttributeName) {
+//        // DefaultOAuth2User는 OAuth2User의 구현체다
+//        return new DefaultOAuth2User(
+//                Collections.singletonList(new SimpleGrantedAuthority(member.getMemberRole().getAuthority())),
+//                attributes,
+//                userNameAttributeName
+//        );
+//    }
 
 }

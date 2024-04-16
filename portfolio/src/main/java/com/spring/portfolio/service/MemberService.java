@@ -4,16 +4,12 @@ import com.spring.portfolio.dto.MemberRequestDto;
 import com.spring.portfolio.dto.MemberResponseDto;
 import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.store.repository.MemberRepository;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -62,8 +58,18 @@ public class MemberService {
         Member memberEntity = memberRepo.findByMemberMail(memberMail).orElseThrow(() -> new UsernameNotFoundException("인증되지 않았습니다."));
         MemberResponseDto memberResponseDto = new MemberResponseDto(memberEntity);
 
-        return memberResponseDto.getMemberId();
+        return memberResponseDto.getMemberName();
     }
+
+    public String loadWriter(String memberMail) {
+
+        Member memberEntity = memberRepo.findByMemberMail(memberMail).orElseThrow(() -> new UsernameNotFoundException("인증되지 않았습니다."));
+        MemberResponseDto memberResponseDto = new MemberResponseDto(memberEntity);
+
+        return memberResponseDto.getMemberName();
+    }
+
+
 
     public Long loadMemberIdx(HttpSession request) {
 
@@ -73,6 +79,15 @@ public class MemberService {
 
         return memberResponseDto.getMemberIdx();
     }
+
+    public Long loadMemberIdx(String memberMail) {
+
+        Member memberEntity = memberRepo.findByMemberMail(memberMail).orElseThrow(() -> new UsernameNotFoundException("인증되지 않았습니다."));
+        MemberResponseDto memberResponseDto = new MemberResponseDto(memberEntity);
+
+        return memberResponseDto.getMemberIdx();
+    }
+
 
 //    public MemberResponseDto signin(MemberRequestDto memberRequestDto) {
 //    }

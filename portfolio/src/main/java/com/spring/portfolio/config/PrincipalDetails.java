@@ -1,4 +1,4 @@
-package com.spring.portfolio.config.oauth;
+package com.spring.portfolio.config;
 
 import com.spring.portfolio.dto.Role;
 import com.spring.portfolio.entity.Member;
@@ -23,7 +23,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     private Member member;
     private Map<String, Object> attributes;
-    String attributeKey;
+    String userNameAttributeName;
 
     // UserDetails : Form 로그인 시 사용
     public PrincipalDetails(Member member) {
@@ -35,9 +35,10 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         //Oauth2UserService 참고
         this.member = member;
         this.attributes = attributes;
-        this.attributeKey = userNameAttributeName;
+        this.userNameAttributeName = userNameAttributeName;
     }
 
+    // OAuth2전용
     // 요거는 어떻게 만들어진거지??
     // 이거 만들어주는 이유가 다중구현을 위해
     // OAuth2User(소셜로그인)와 UserDetails(일반로그인)의 타입을 해결하기 위해 PrincipalDetails를 다중 구현한다.
@@ -86,8 +87,8 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     // AbstractAuthenticationToken에서 getName()호출 시 -> principal이 UserDetails이면 userDetails.getUsername()을 리턴
     @Override
     public String getUsername() {
-//        return member.getMemberMail();
-        return member.getMemberKey();
+        return member.getMemberMail();
+//        return member.getRefreshToken();
     }
 
     @Override
@@ -115,6 +116,7 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
         return true;
     }
 
+    // OAuth2전용
     // authentication.getName() -> Principal 객체의 getName()을 호출
     // TokenProvider에서 jwts.subject에 들어갈 값
     @Override
@@ -126,8 +128,8 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 //        return (String) attributes.get("name"); // name키에 저장된 값은 google에서 해당 유저의 성명에 해당함(given_name은 이름, family_name은 성)
 
 
-        // userNameAttributeName
+        // userNameAttributeName : yml에 있던거 id / response 이런거
         // attributes(유저정보)
-        return attributes.get(attributeKey).toString();
+        return attributes.get(userNameAttributeName).toString();
     }
 }

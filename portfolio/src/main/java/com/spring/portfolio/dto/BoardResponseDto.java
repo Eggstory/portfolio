@@ -18,6 +18,8 @@ public class BoardResponseDto {
     private String boardTitle;
     private String boardSubject;
     private String boardWriter;
+    private String boardMail;
+    private String memberId;
     private Long memberIdx;
     private int viewCount;
     private int likeCount;
@@ -34,6 +36,8 @@ public class BoardResponseDto {
         this.boardTitle = board.getBoardTitle();
         this.boardSubject = board.getBoardSubject().getValue();
         this.boardWriter = board.getMember().getMemberName();
+        this.boardMail = board.getMember().getMemberMail();
+        this.memberId = boardMail.split("@")[0];
         this.memberIdx = board.getMember().getMemberIdx();
         this.viewCount = board.getViewCount();
         this.likeCount = board.getLikeCount();

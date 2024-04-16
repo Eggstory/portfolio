@@ -1,8 +1,6 @@
 package com.spring.portfolio.config;
 
 import com.spring.portfolio.dto.MemberResponseDto;
-import com.spring.portfolio.config.oauth.PrincipalDetails;
-import com.spring.portfolio.config.oauth.PrincipalDetailsService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -21,15 +19,17 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final BCryptPasswordEncoder passwordEncoder;
     private final HttpSession httpSession;
 
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         // Authentication 객체에서 username과 password를 꺼낸다.
-        String username = authentication.getName();
+//        String username = authentication.getName();
+        String email = authentication.getName();
         String password = authentication.getCredentials().toString();
 
         // UserDetailsService에서 UserDetails를 꺼낸다.
-        PrincipalDetails userDetails =
-                (PrincipalDetails) principalDetailsService.loadUserByUsername(username);
+//        PrincipalDetails userDetails = (PrincipalDetails) principalDetailsService.loadUserByUsername(username);
+        PrincipalDetails userDetails = (PrincipalDetails) principalDetailsService.loadUserByUsername(email);
 
         // UserDetails의 password와 Authentication 객체의 password를 비교한다.
         if (!this.passwordEncoder.matches(password, userDetails.getPassword())) {
@@ -40,7 +40,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         httpSession.setAttribute("user", new MemberResponseDto(userDetails.getMember()));
 
         // username, password 일치 시 토큰을 생성한다.
-        return new UsernamePasswordAuthenticationToken(username, password, userDetails.getAuthorities());
+//        return new UsernamePasswordAuthenticationToken(username, password, userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(email, password, userDetails.getAuthorities());
     }
 
     @Override

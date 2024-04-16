@@ -1,8 +1,6 @@
 package com.spring.portfolio.dto;
 
-import com.spring.portfolio.entity.Board;
 import com.spring.portfolio.entity.Reply;
-import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +17,8 @@ public class ReplyResponseDto {
     private Long idx;
     private String replyComment;
     private String writer;
+    private String mail;
+    private String memberId;
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
 
@@ -29,7 +29,9 @@ public class ReplyResponseDto {
     public ReplyResponseDto(Reply reply) {
         this.idx = reply.getReplyIdx();
         this.replyComment = reply.getReplyComment();
-        this.writer = reply.getMember().getMemberId();
+        this.writer = reply.getMember().getMemberName();
+        this.mail = reply.getMember().getMemberMail();
+        this.memberId = mail.split("@")[0];
         this.createDate = reply.getCreateDate();
         this.updateDate = reply.getUpdateDate();
         if(reply.getParent() == null) {
