@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class MemberResponseDto {
 
     private Long memberIdx;
-//    private String memberId;
+    private String memberId;
     private String memberPw;
     private String memberName;
     private String memberMail;
@@ -31,10 +31,11 @@ public class MemberResponseDto {
     @Builder
     public MemberResponseDto(Member member) {
         this.memberIdx = member.getMemberIdx();
-//        this.memberId = member.getMemberId();
+        this.memberId = member.getMemberMail().split("@")[0];
         this.memberPw = member.getMemberPw();
         this.memberName = member.getMemberName();
         this.memberMail = member.getMemberMail();
+        this.createDate = member.getCreateDate();
 //        this.memberAddress = member.getAddress().getCity() + " " +
 //                member.getAddress().getStreet() + " " + member.getAddress().getZipcode();
 //        this.zonecode = member.getAddress().getZonecode();

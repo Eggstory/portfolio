@@ -69,8 +69,6 @@ public class MemberService {
         return memberResponseDto.getMemberName();
     }
 
-
-
     public Long loadMemberIdx(HttpSession request) {
 
         String memberMail = request.getAttribute("memberMail").toString();
@@ -86,6 +84,13 @@ public class MemberService {
         MemberResponseDto memberResponseDto = new MemberResponseDto(memberEntity);
 
         return memberResponseDto.getMemberIdx();
+    }
+
+    @Transactional
+    public void deleteMember(Long idx) {
+
+        memberRepo.deleteById(idx);
+
     }
 
 

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="admin-nav-head">
+    <script src="/assets/admin/js/nav.js"></script>
+    <link rel="stylesheet" href="/assets/admin/css/nav.css" type="text/css"/>
+</th:block>
+
+<th:block th:fragment="admin-nav">
+  <div class="contain_all">
+    <div class="head">
+      <table class="head_table">
+        <tr>
+          <td class="head_title">title</td>
+          <td class="head_con">관리자 페이지</td>
+          <td class="head_title">이름</td>
+          <td class="head_con" th:text="${name}"></td>
+          <td class="head_title">현재 시간</td>
+          <td class="head_con" id="clock" style="color: black">날짜</td>
+        </tr>
+      </table>
+    </div>
+
+    <nav class="navbar">
+      <form class="container-fluid justify-content-start">
+        <input
+                type="hidden"
+                sec:authorize="isAuthenticated()"
+        />
+<!--        위에 input 안에 들어가있던거 나중에 넣어줘야함 -->
+<!--        th:name="${_csrf.parameterName}"-->
+<!--        th:value="${_csrf.token}"-->
+        <button
+                class="btn me-1"
+                th:onclick="|location.href='@{/admin/list/member}'|"
+                type="button"
+        >
+          회원 관리
+        </button>
+        <button
+                class="btn me-1"
+                onclick="alert('미구현');return false;"
+                type="button"
+        >
+<!--                th:onclick="|location.href='@{/admin/list/product}'|"-->
+          상품 관리
+        </button>
+        <button
+                class="btn me-1"
+                onclick="alert('미구현');return false;"
+                type="button"
+        >
+<!--                th:onclick="|location.href='@{/admin/list/order}'|"-->
+          주문 관리
+        </button>
+        <button
+                class="btn me-1"
+                onclick="alert('미구현');return false;"
+                type="button"
+        >
+<!--                th:onclick="|location.href='@{/admin/list/review}'|"-->
+          리뷰 관리
+        </button>
+        <button
+                class="btn me-1"
+                th:onclick="|location.href='@{/admin/list/board}'|"
+                type="button"
+        >
+          게시글 관리
+        </button>
+        <button
+                class="btn me-1"
+                th:onclick="|location.href='@{/admin/list/reply}'|"
+                type="button"
+        >
+          댓글 관리
+        </button>
+        <a href="http://localhost:8090">
+          <button
+                  class="btn me-1"
+                  th:onclick="|location.href='@{/admin/category-manager}'|"
+                  type="button"
+          >
+            메인화면
+          </button></a>
+      </form>
+    </nav>
+  </div>
+</th:block>
+
+</html>

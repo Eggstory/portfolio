@@ -40,10 +40,11 @@ public class Board extends BaseEntity{
     @JoinColumn(name = "member_idx")
     private Member member;
 
-//CascadeType.ALL + orphanRemovel=true
+//cascade = CascadeType.REMOVE
+//CascadeType.ALL + orphanRemoval=true
 //이 두개를 같이 사용하게 되면 부모 엔티티가 자식의 생명주기를 모두 관리할 수 있게 된다.
 //    @JoinColumn(name = "replies_idx")
-    @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "board", orphanRemoval = true)
     @OrderBy("idx asc")  // 댓글 정렬
     @Builder.Default
     private List<Reply> replies = new ArrayList<>();

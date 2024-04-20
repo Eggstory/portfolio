@@ -3,8 +3,8 @@
 <th:block th:fragment="common-nav">
 
     <head>
-        <script src="/assets/js/nav.js"></script>
-        <link rel="stylesheet" href="/assets/css/nav.css" type="text/css"/>
+        <script src="/assets/client/js/nav.js"></script>
+        <link rel="stylesheet" href="/assets/client/css/nav.css" type="text/css"/>
     </head>
 
     <div class="header-fix">
@@ -19,6 +19,9 @@
                     <span onclick="alert('미구현');return false;">갤러리</span>
                 </div>
                 <div class="header-button">
+                    <th:block sec:authorize="hasAuthority('ADMIN')">
+                        <a href="/admin/">admin</a>
+                    </th:block>
                     <th:block sec:authorize="isAuthenticated()">
                         <a href="/logoutAction">logout</a>
                     </th:block>

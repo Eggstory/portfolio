@@ -1,6 +1,10 @@
 package com.spring.portfolio.store.repository;
 
+import com.spring.portfolio.entity.Board;
 import com.spring.portfolio.entity.Member;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,4 +27,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 //    Member findByProviderId(String providerId);
 
     Optional<Member> findByMemberName(String memberName);
+
+    @Query(value = "select m from Member m where m.memberName like %:keyword% or m.memberMail like %:keyword%")
+    Page<Member> findByMemberNameContaining(String keyword, Pageable pageable);
 }

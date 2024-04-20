@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<!--    <meta name="_csrf" th:content="${_csrf.token}"/>-->
+<!--    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>-->
+    <title>home</title>
+
+    <th:block th:replace="~{/admin/fragments/Head.html :: common-head}"/>
+    <th:block th:replace="~{/admin/fragments/nav.html :: admin-nav-head}"></th:block>
+
+    <script src="/assets/admin/js/index.js"></script>
+    <link rel="stylesheet" href="/assets/admin/css/index.css" type="text/css"/>
+</head>
+<body>
+
+    <th:div th:replace="~{/admin/fragments/nav.html :: admin-nav}"/>
+
+    <div style="display: flex; justify-content: center; padding: 10px;">
+        <div class="search">
+
+            <form th:action="@{/admin/list/member}"
+                  th:if="${type} == 'member'"
+            >
+                <input type="hidden" sec:authorize="isAuthenticated()">
+                <!--                th:name="${_csrf.parameterName}"-->
+                <!--                th:value="${_csrf.token}"-->
+
+                <input
+                        class="search_con2 searchInput"
+                        type="text"
+                        placeholder="검색어 입력"
+                        name="search"
+                />
+                <button class="search_con">검색</button>
+            </form>
+
+            <form th:action="@{/admin/list/product}"
+                  th:if="${type} == 'product'"
+            >
+                <input type="hidden" sec:authorize="isAuthenticated()">
+<!--                th:name="${_csrf.parameterName}"-->
+<!--                th:value="${_csrf.token}"-->
+
+                <!--        검색페이지에 들어간 후 검색 실행하고 난 후에 nav바에 있는 항목으로 이동이 안됨.(뒤돌아가기) -->
+                <select
+                        class="search_con"
+                        name="option1"
+                >
+                    <option value="전체">전체</option>
+                    <option th:each="a:${cate1}" th:text="${a}"></option>
+
+
+                </select>
+                <select
+                        class="search_con"
+                        name="option2"
+                >
+                    <option value="전체">전체</option>
+                    <option th:each="b:${cate2}" th:text="${b}"></option>
+                </select>
+                <input
+                        class="search_con2"
+                        type="text"
+                        placeholder="검색어 입력"
+                        name="search"
+                />
+                <button class="search_con">검색</button>
+            </form>
+
+            <form th:action="@{/admin/list/order}"
+                  th:if="${type} == 'order'"
+            >
+                <input type="hidden" sec:authorize="isAuthenticated()">
+                <!--                th:name="${_csrf.parameterName}"-->
+                <!--                th:value="${_csrf.token}"-->
+
+                <select
+                        class="search_con"
+                        name="option1"
+                >
+                    <option value="전체">전체</option>
+                    <option th:each="a:${cate1}" th:text="${a}"></option>
+                </select>
+                <select
+                        class="search_con"
+                        name="option2"
+                >
+                    <option value="전체">전체</option>
+                    <option th:each="a:${cate2}" th:text="${a}"></option>
+                </select>
+                <input
+                        class="search_con2"
+                        type="text"
+                        placeholder="검색어 입력"
+                        name="search"
+                />
+                <button class="search_con">검색</button>
+            </form>
+
+            <form th:action="@{/admin/list/review}"
+                  th:if="${type} == 'review'"
+            >
+                <input type="hidden" sec:authorize="isAuthenticated()">
+<!--                th:name="${_csrf.parameterName}"-->
+<!--                th:value="${_csrf.token}"-->
+
+                <select
+                        class="search_con"
+                        name="option"
+                >
+                    <option value="전체">전체</option>
+                    <option th:each="a:${review}" th:text="${a}"></option>
+                </select>
+                <input
+                        class="search_con2"
+                        type="text"
+                        placeholder="검색어 입력"
+                        name="search"
+                />
+                <button class="search_con">검색</button>
+            </form>
+
+            <form th:action="@{/admin/list/board}"
+                  th:if="${type} == 'board'"
+            >
+                <input type="hidden" sec:authorize="isAuthenticated()">
+<!--                th:name="${_csrf.parameterName}"-->
+<!--                th:value="${_csrf.token}"-->
+
+                <input
+                        class="search_con2 searchInput"
+                        type="text"
+                        placeholder="검색어 입력"
+                        name="search"
+                />
+                <button class="search_con">검색</button>
+            </form>
+
+            <form th:action="@{/admin/list/reply}"
+                  th:if="${type} == 'reply'"
+            >
+                <input type="hidden" sec:authorize="isAuthenticated()">
+<!--                th:name="${_csrf.parameterName}"-->
+<!--                th:value="${_csrf.token}"-->
+
+                <!--        검색페이지에 들어간 후 검색 실행하고 난 후에 nav바에 있는 항목으로 이동이 안됨.(뒤돌아가기) -->
+
+                <input
+                        class="search_con2 searchInput"
+                        type="text"
+                        placeholder="검색어 입력"
+                        name="search"
+                />
+                <button class="search_con">검색</button>
+            </form>
+
+
+
+        </div>
+    </div>
+
+    <th:block th:if="${type}=='member'">
+        <div class="main_con">
+            <table class="table" style="margin-left: auto; margin-right: auto; width: 900px;">
+                <thead class="table-light">
+                <tr class="no">
+                    <th><input type="checkbox" class="RowCheck" name="RowCheck" value="selectAll" onclick="selectAll(this)"></th>
+
+                    <th scope="col">No.</th>
+                    <th scope="col">회원번호</th>
+                    <th scope="col">이름</th>
+                    <th scope="col">아이디</th>
+                    <th scope="col">가입일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                        class="content"
+                        th:each="list,status:${list}"
+                >
+                    <td><input name="RowCheck" class="member" th:value="${list.memberIdx}" type="checkbox"/></td>
+                    <td th:text="${status.count}"></td>
+                    <td class="id" th:text="${list.memberIdx}"></td>
+                    <td>
+                        <a th:href="@{/admin/member/view(memberIdx=${list.memberIdx})}"
+                           th:text="${list.memberName }"></a>
+                    </td>
+                    <td class="id" th:text="${list.memberId}"></td>
+                    <td th:text="${#temporals.format(list.createDate,'MM/dd HH:mm')}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </th:block>
+
+    <th:block th:if="${type}=='board'">
+        <div class="main_con">
+            <table class="table" style="margin-left: auto; margin-right: auto; width: 900px;">
+                <thead class="table-light">
+                    <tr class="no">
+                        <th><input type="checkbox" class="RowCheck" name="RowCheck" value="selectAll" onclick="selectAll(this)"/></th>
+
+                        <td scope="col">No.</td>
+                        <th scope="col">번호</th>
+                        <th scope="col">말머리</th>
+                        <th scope="col">제목</th>
+                        <th scope="col">글쓴이</th>
+                        <th scope="col">작성일</th>
+                        <th scope="col">조회</th>
+                        <th scope="col">추천</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="content" th:each="list,status:${list}" >
+                        <td><input name="RowCheck" class="qna" th:value="${list.boardIdx}" type="checkbox"/></td>
+
+                        <td th:text="${status.count}"></td>
+                        <td class="id" th:text="${list.boardIdx}"></td>
+                        <td th:text="${list.boardSubject}"></td>
+                        <td>
+                            <a th:href="@{/admin/board/view(boardIdx=${list.boardIdx})}"
+                               th:text="${list.boardTitle}" style="overflow: hidden;"></a>
+                        </td>
+                        <td th:text="${list.boardWriter}"></td>
+                        <td th:text="${#temporals.format(list.createDate,'MM/dd HH:mm')}"></td>
+                        <td th:text="${list.viewCount}"></td>
+                        <td th:text="${list.likeCount}"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="qna_button" style="width: 30%; text-align: end;">
+            <button
+                    class="btn btn-sm"
+                    type="button"
+                    onclick="deleteValue()"
+            >
+                삭제
+            </button>
+        </div>
+    </th:block>
+
+    <th:block th:if="${type}=='reply'">
+        <div class="main_con">
+            <table class="table" style="margin-left: auto; margin-right: auto; width: 900px;">
+                <thead class="table-light">
+                    <tr class="no">
+                        <th><input type="checkbox" class="RowCheck" name="RowCheck" value="selectAll" onclick="selectAll(this)"/></th>
+                        <td scope="col">No.</td>
+                        <td scope="col">번호</td>
+                        <td scope="col">작성자</td>
+                        <td scope="col">등록 날짜</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="content" th:each="list,status:${list}">
+                        <td><input name="RowCheck" class="notice" th:value="${list.idx}" type="checkbox"/></td>
+                        <td th:text="${status.count}"></td>
+                        <td class="id" th:text="${list.idx}"></td>
+                        <td th:text="${list.writer}"></td>
+                        <td th:text="${#temporals.format(list.createDate,'MM/dd HH:mm')}"></td>
+
+                    </tr>
+                </tbody>
+            </table>
+            <div class="product_button" style="width: 30%; text-align: end;">
+                <button
+                        class="btn btn-sm"
+                        type="button"
+                        style="background-color: #d0d0d0"
+                        onclick="location.href='/admin/notice/insertForm'"
+                >
+                    생성
+                </button>
+                <button
+                        class="btn btn-sm"
+                        type="button"
+                        style="background-color: #d0d0d0"
+                        onclick="deleteValue()"
+                >
+                    삭제
+                </button>
+            </div>
+        </div>
+    </th:block>
+
+
+
+
+
+</body>
+</html>

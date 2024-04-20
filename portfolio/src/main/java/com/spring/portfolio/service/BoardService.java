@@ -168,8 +168,9 @@ public class BoardService {
     @Transactional
     public void deleteBoard(Long boardIdx) {
 
-        boardRepository.deleteByBoardIdx(boardIdx);
+        replyRepository.deleteReReplyByBoardIdx(boardIdx);
         replyRepository.deleteByBoardIdx(boardIdx);
+        boardRepository.deleteByBoardIdx(boardIdx);
 
     }
 
