@@ -21,7 +21,7 @@
             </div>
             <div class="title2">
                 <div>
-                    <span th:text="|${board.boardWriter} (${board.memberId})  '  ${#temporals.format(board.createDate,'yyyy-MM-dd HH:mm')}|">
+                    <span th:text="|${board.boardWriter} ${board.memberId}  '  ${#temporals.format(board.createDate,'yyyy-MM-dd HH:mm')}|">
                         작성자 | 시간
                     </span>
                 </div>
@@ -58,9 +58,12 @@
                 </div>
                 <div th:each="reply:${reply}" th:if="${reply.parent == 0}" class="comment-content">
                     <input type="hidden" id="replyIdx" name="replyIdx" th:value="${reply.idx}">
-                    <span th:text="|${reply.writer} (${reply.memberId})|">작성자</span>
-                    <div th:if="${reply.isDeleted eq false}" class="updateReplyForm" th:text="${reply.replyComment}">내용</div>
-                    <div th:unless="${reply.isDeleted eq false}" class="updateReplyForm font-red">삭제된 댓글입니다.</div>
+                    <span th:text="|${reply.writer} ${reply.memberId}|">작성자</span>
+                    <div th:if="${reply.change}" class="updateReplyForm" th:text="${reply.replyComment}">내용</div>
+                    <div th:unless="${reply.change}" class="updateReplyForm font-red" th:text="${reply.replyComment}">내용</div>
+<!--                    <div th:if="${reply.isDeleted eq false}" class="updateReplyForm" th:text="${reply.replyComment}">내용</div>-->
+<!--                    <div th:if="${reply.isDeleted eq true and reply.writer eq ''}" class="updateReplyForm font-red">관리자가 삭제한 댓글입니다.</div>-->
+<!--                    <div th:if="${reply.isDeleted eq true and reply.writer ne ''}" class="updateReplyForm font-red">삭제된 댓글입니다.</div>-->
                     <div>
                         <span th:text="${#temporals.format(reply.createDate,'yyyy/MM/dd HH:mm')}"></span>
                         <span class="openReplyForm" style="cursor:pointer">답글쓰기</span>
@@ -90,9 +93,10 @@
                     </div>
                     <div class="padding-left40" th:else="${reply.parent == 0}" th:each="child:${reply.replyList}">
                         <input type="hidden" id="reReplyIdx" name="replyIdx" th:value="${child.idx}">
-                        <span th:text="|${child.writer} (${child.memberId})|">작성자</span>
+                        <span th:text="|${child.writer} ${child.memberId}|">작성자</span>
                         <div th:if="${child.isDeleted eq false}" class="updateReReplyForm" th:text="${child.replyComment}">내용</div>
-                        <div th:unless="${child.isDeleted eq false}" class="updateReplyForm font-red">삭제된 댓글입니다.</div>
+                        <div th:if="${child.isDeleted eq true and child.writer eq ''}" class="updateReplyForm font-red">관리자가 삭제한 댓글입니다.</div>
+                        <div th:if="${child.isDeleted eq true and child.writer ne ''}" class="updateReplyForm font-red">삭제된 댓글입니다.</div>
                         <div>
                             <span th:text="${#temporals.format(child.createDate,'yyyy/MM/dd HH:mm')}"></span>
                             <span class="openReReplyForm" style="cursor:pointer">답글쓰기</span>

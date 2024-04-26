@@ -2,10 +2,13 @@ package com.spring.portfolio.dto;
 
 import com.spring.portfolio.entity.Board;
 import com.spring.portfolio.entity.Member;
+import com.spring.portfolio.entity.Reply;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -46,6 +49,22 @@ public class BoardRequestDto {
                 .boardTitle(boardTitle)
                 .boardSubject(boardSubject)
                 .member(boardWriter)
+                .viewCount(viewCount)
+                .likeCount(likeCount)
+                .boardImage(boardImage)
+                .boardContent(boardContent)
+                .build();
+    }
+
+    public Board toEntity(Long boardIdx, Member member, List<Reply> replies) {
+        return Board.builder()
+                .boardIdx(boardIdx)
+                .boardCategory1(boardCategory1)
+                .boardCategory2(boardCategory2)
+                .boardTitle(boardTitle)
+                .boardSubject(boardSubject)
+                .member(member)
+                .replies(replies)
                 .viewCount(viewCount)
                 .likeCount(likeCount)
                 .boardImage(boardImage)

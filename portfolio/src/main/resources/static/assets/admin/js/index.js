@@ -1,17 +1,134 @@
+function  limitValue() {
+
+//  var token = $("meta[name='_csrf']").attr('content');
+//  var header = $("meta[name='_csrf_header']").attr('content');
+    var name = $('#userName').val();
+
+    let idx = '';
+      $("input[name='RowCheck']:checked").each(function () {
+        idx = idx + $(this).val() + ',';
+      });
+      if (idx == '') {
+        alert('정지시킬 회원을 선택하세요.');
+        return false;
+      }
+      idx = idx.replace('selectAll,', '');
+
+      if (
+          $("input[name='RowCheck']:checked")[
+            $("input[name='RowCheck']:checked").length - 1
+          ].className == 'member'
+        ) {
+          // 끝
+          $.ajax({
+            url: '/admin/member/limit',
+            type: 'POST',
+            traditional: true,
+            beforeSend: function (xhr) {
+              //        xhr.setRequestHeader(header, token);
+            },
+            data: {
+              memberIdx: idx,
+            },
+            success: function (jdata) {
+              if ((jdata = 1)) {
+                alert('계정 제한 완료');
+                location.replace('/admin/list/member');
+              } else {
+                alert('계정 제한 실패');
+              }
+            },
+          });
+        }
+}
+
+function checkedUnLimitValue() {
+
+//  var token = $("meta[name='_csrf']").attr('content');
+//  var header = $("meta[name='_csrf_header']").attr('content');
+    var name = $('#userName').val();
+
+    let idx = '';
+      $("input[name='RowCheck']:checked").each(function () {
+        idx = idx + $(this).val() + ',';
+      });
+      if (idx == '') {
+        alert('정지시킬 회원을 선택하세요.');
+        return false;
+      }
+      idx = idx.replace('selectAll,', '');
+
+      if (
+          $("input[name='RowCheck']:checked")[
+            $("input[name='RowCheck']:checked").length - 1
+          ].className == 'member'
+        ) {
+          // 끝
+          $.ajax({
+            url: '/admin/member/checkedUnLimit',
+            type: 'POST',
+            traditional: true,
+            beforeSend: function (xhr) {
+              //        xhr.setRequestHeader(header, token);
+            },
+            data: {
+              memberIdx: idx,
+            },
+            success: function (jdata) {
+              if ((jdata = 1)) {
+                alert('계정 정지 해제');
+                location.replace('/admin/list/limitMember');
+              } else {
+                alert('계정 정지 해제 실패');
+              }
+            },
+          });
+        }
+
+}
+
+function unLimitValue(e) {
+
+    idx = $(e).val();
+    //  var token = $("meta[name='_csrf']").attr('content');
+    //  var header = $("meta[name='_csrf_header']").attr('content');
+
+  // 끝
+  $.ajax({
+    url: '/admin/member/unLimit',
+    type: 'POST',
+    traditional: true,
+    beforeSend: function (xhr) {
+      //        xhr.setRequestHeader(header, token);
+    },
+    data: {
+      memberIdx: idx,
+    },
+    success: function (jdata) {
+      if ((jdata = 1)) {
+        alert('계정 정지 해제');
+        location.replace('/admin/list/limitMember');
+      } else {
+        alert('계정 정지 해제 실패');
+      }
+    },
+  });
+}
+
 function deleteValue() {
-  var token = $("meta[name='_csrf']").attr('content');
-  var header = $("meta[name='_csrf_header']").attr('content');
+//  var token = $("meta[name='_csrf']").attr('content');
+//  var header = $("meta[name='_csrf_header']").attr('content');
   var name = $('#userName').val();
 
-  let memberIdx = '';
+  let idx = '';
   $("input[name='RowCheck']:checked").each(function () {
-    memberIdx = memberIdx + $(this).val() + ',';
+    idx = idx + $(this).val() + ',';
   });
-  if (memberIdx == '') {
+  if (idx == '') {
     alert('삭제할 대상을 선택하세요.');
     return false;
   }
-  memberIdx = memberIdx.replace('selectAll,', '');
+  idx = idx.replace('selectAll,', '');
 
   if (
     $("input[name='RowCheck']:checked")[
@@ -24,10 +141,10 @@ function deleteValue() {
       type: 'POST',
       traditional: true,
       beforeSend: function (xhr) {
-        xhr.setRequestHeader(header, token);
+        //        xhr.setRequestHeader(header, token);
       },
       data: {
-        memberIdx: memberIdx,
+        memberIdx: idx,
       },
       success: function (jdata) {
         if ((jdata = 1)) {
@@ -39,6 +156,91 @@ function deleteValue() {
       },
     });
   }
+
+    if (
+      $("input[name='RowCheck']:checked")[
+        $("input[name='RowCheck']:checked").length - 1
+      ].className == 'board'
+    ) {
+
+        if (confirm("해당 게시글의 댓글까지 전부 삭제가 됩니다.\n삭제하시겠습니까?") == true){
+
+          // 끝
+          $.ajax({
+            url: '/admin/board/delete',
+            type: 'POST',
+            traditional: true,
+            beforeSend: function (xhr) {
+                //        xhr.setRequestHeader(header, token);
+            },
+            data: {
+              boardIdx: idx,
+            },
+            success: function (jdata) {
+              if ((jdata = 1)) {
+                alert('삭제 성공');
+                location.replace('/admin/list/board');
+              } else {
+                alert('삭제 실패');
+              }
+            },
+          });
+      }
+    }
+
+     if (
+          $("input[name='RowCheck']:checked")[
+            $("input[name='RowCheck']:checked").length - 1
+          ].className == 'reply'
+        ) {
+          // 끝
+          $.ajax({
+            url: '/admin/reply/delete',
+            type: 'POST',
+            traditional: true,
+            beforeSend: function (xhr) {
+      //        xhr.setRequestHeader(header, token);
+            },
+            data: {
+              replyIdx: idx,
+            },
+            success: function (jdata) {
+              if ((jdata = 1)) {
+                alert('삭제 성공');
+                location.replace('/admin/list/reply');
+              } else {
+                alert('삭제 실패');
+              }
+            },
+          });
+        }
+
+  //  if (
+    //    $("input[name='RowCheck']:checked")[
+    //      $("input[name='RowCheck']:checked").length - 1
+    //    ].className == 'product'
+    //  ) {
+    //    // 끝
+    //    $.ajax({
+    //      url: '/admin/products/delete',
+    //      type: 'POST',
+    //      traditional: true,
+    //      beforeSend: function (xhr) {
+    //        xhr.setRequestHeader(header, token);
+    //      },
+    //      data: {
+    //        reviewNo: reviewNo,
+    //      },
+    //      success: function (jdata) {
+    //        if ((jdata = 1)) {
+    //          alert('삭제 성공');
+    //          location.replace('/admin/list/product');
+    //        } else {
+    //          alert('삭제 실패');
+    //        }
+    //      },
+    //    });
+    //  }
 
   //  if (
   //    $("input[name='RowCheck']:checked")[

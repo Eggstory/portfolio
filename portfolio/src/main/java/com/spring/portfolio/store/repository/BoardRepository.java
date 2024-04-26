@@ -30,4 +30,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Modifying
     @Query(value = "delete from Board b where b.boardIdx = :idx")
     void deleteByBoardIdx(@Param("idx") Long idx);
+
+    @Modifying
+    @Query(value = "update Board b set b.member.id = null where b.member.id = :idx")
+    void updateMemberNull(@Param("idx") Long idx);
 }

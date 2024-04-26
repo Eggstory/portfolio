@@ -3,6 +3,7 @@ package com.spring.portfolio.service;
 import com.spring.portfolio.dto.BoardRequestDto;
 import com.spring.portfolio.dto.BoardResponseDto;
 import com.spring.portfolio.entity.Board;
+import com.spring.portfolio.entity.Reply;
 import com.spring.portfolio.store.repository.BoardRepository;
 import com.spring.portfolio.store.repository.ReplyRepository;
 import jakarta.servlet.http.Cookie;
@@ -160,14 +161,19 @@ public class BoardService {
     public void editBoard(BoardRequestDto dto) {
 
         Board board = boardRepository.findById(dto.getBoardIdx()).orElseThrow(()
-                -> new UsernameNotFoundException("Not Found Board"));;
+                -> new UsernameNotFoundException("Not Found Board"));
 
-        board.modifyBoard(dto);
+        List<Reply> replies = replyRepository.findAllByBoard(board);
+
+        boardRepository.save(dto.toEntity(dto.getBoardIdx(), board.getMember(), replies ));
+
+//        board.modifyBoard(dto);
     }
 
     @Transactional
     public void deleteBoard(Long boardIdx) {
 
+        replyRepository.updateParentId(boardIdx);
         replyRepository.deleteReReplyByBoardIdx(boardIdx);
         replyRepository.deleteByBoardIdx(boardIdx);
         boardRepository.deleteByBoardIdx(boardIdx);
@@ -200,6 +206,19 @@ public class BoardService {
         out.println("/images/upload/"+uuidFileName);
         out.close();
     }
+
+    @Transactional
+    public void updateMemberNull(Long idx) {
+
+        boardRepository.updateMemberNull(idx);
+    }
+
+//    @Transactional
+//    public void clear(Board board) {
+//
+//        board.getReplies().clear();
+//
+//    }
 
     /*
     public String add(HttpServletRequest request, MultipartFile file, BannerInput parameter) {

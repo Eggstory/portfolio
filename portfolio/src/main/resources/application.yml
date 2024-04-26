@@ -46,24 +46,34 @@ spring:
     password: 1234
 
   jpa:
+
     database-platform: org.hibernate.dialect.MariaDB103Dialect
     # org.hibernate.dialect.H2Dialect
     # mariaDB -> org.hibernate.dialect.MariaDB103Dialect
-    show-sql: true
+#    show-sql: none
     properties:
       hibernate:
-    #        format_sql: true     # \uC548 \uB418\uAE38\uB798 \uC8FC\uC11D\uD568
+        show_sql: true
+        format_sql: true     # \uC548 \uB418\uAE38\uB798 \uC8FC\uC11D\uD568
     hibernate:
-      ddl-auto: none
+      ddl-auto: none  # none create ceate-drop update
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
         physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+#    defer-datasource-initialization: true   # 테스트용 (개발완료시 주석처리)
 
   # delete매핑시 405에러가 뜨던데 이거 쓰면 해결된다면서.. 안되네
   #  mvc:
   #    hiddenmethod:
   #      filter:
   #        enabled: true
+
+#   테스트용 (개발완료시 주석처리)
+#  sql:
+#    init:
+#      data-locations: classpath*:db/dummy.sql
+#      mode: always
+#      platform: mariadb
 
   security:
     oauth2:

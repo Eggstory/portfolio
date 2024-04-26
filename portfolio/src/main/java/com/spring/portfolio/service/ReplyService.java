@@ -54,12 +54,34 @@ public class ReplyService {
     public void deleteReply(long idx) {
 
         replyRepository.deleteByReplyIdx(idx);
-
     }
 
+    @Transactional
     public void restoreReply(Long idx) {
 
         replyRepository.restoreByReplyIdx(idx);
+    }
+
+    @Transactional
+    public void changeReplyInfo(Long idx) {
+
+        Reply reply = replyRepository.changeReplyInfo(idx);
+
+        if(reply.getParent() != null) {
+            replyRepository.deleteById(idx);
+        }
+    }
+
+    @Transactional
+    public void updateMemberNull(Long idx) {
+
+        replyRepository.updateMemberNull(idx);
+    }
+
+    @Transactional
+    public void updateIsDeleted(Long idx) {
+
+        replyRepository.updateIsDeleted(idx);
     }
 
 

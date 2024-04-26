@@ -93,6 +93,18 @@ public class MemberService {
 
     }
 
+    @Transactional
+    public void limitMember(Long idx) {
+
+        memberRepo.limitById(idx);
+    }
+
+    @Transactional
+    public void unLimitMember(Long idx) {
+
+        memberRepo.unLimitById(idx);
+    }
+
 
 //    public MemberResponseDto signin(MemberRequestDto memberRequestDto) {
 //    }

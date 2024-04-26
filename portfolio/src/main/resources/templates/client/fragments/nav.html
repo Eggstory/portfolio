@@ -20,7 +20,7 @@
                 </div>
                 <div class="header-button">
                     <th:block sec:authorize="hasAuthority('ADMIN')">
-                        <a href="/admin/">admin</a>
+                        <a href="/admin">admin</a>
                     </th:block>
                     <th:block sec:authorize="isAuthenticated()">
                         <a href="/logoutAction">logout</a>

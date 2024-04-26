@@ -24,7 +24,9 @@ public class MemberResponseDto {
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private String memberLock;
-    private Role memberRole;
+    private String memberRole;
+    private boolean isLimited;
+    private String memberStatus;
 //    private int failedAttempt;
 //    private LocalDateTime lockTime;
 
@@ -34,6 +36,11 @@ public class MemberResponseDto {
         this.memberId = member.getMemberMail().split("@")[0];
         this.memberPw = member.getMemberPw();
         this.memberName = member.getMemberName();
+//        if(!member.isLimited()) {
+//            this.memberName = member.getMemberName();
+//        } else {
+//            this.memberName = "[정지된 계정]";
+//        }
         this.memberMail = member.getMemberMail();
         this.createDate = member.getCreateDate();
 //        this.memberAddress = member.getAddress().getCity() + " " +
@@ -42,7 +49,13 @@ public class MemberResponseDto {
 //        this.detailAddress = member.getDetailAddress();
 //        this.memberPhone = member.getMemberPhone();
 //        this.memberLock = member.getMemberLock();
-        this.memberRole = member.getMemberRole();
+        this.memberRole = member.getMemberRole().getAuthority();
+        this.isLimited = member.isLimited();
+        if(!isLimited) {
+            this.memberStatus = "활동";
+        } else {
+            this.memberStatus = "정지";
+        }
 //        this.failedAttempt = member.getFailedAttempt();
 //        this.lockTime = member.getLockTime();
     }

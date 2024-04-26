@@ -22,9 +22,14 @@ public class Member extends BaseEntity {
 //    private String memberId;
     private String memberPw;
     private String memberName;
+    @Column(unique = true)
     private String memberMail;
     private String profileImage;
     private String introduction;
+
+    @ColumnDefault("false")
+    @Column(nullable = false)
+    private boolean isLimited;
 
 //    @Embedded
 //    private Address address;
@@ -45,13 +50,14 @@ public class Member extends BaseEntity {
 //    private String refreshToken;   //  jwt 토큰키 인거같은데(refresh Token)
 
     @Builder
-    public Member(String memberPw, String memberName, String memberMail, String profileImage, String introduction, Role memberRole, String provider, String providerId) {
+    public Member(String memberPw, String memberName, String memberMail, String profileImage, String introduction, boolean isLimited, Role memberRole, String provider, String providerId) {
 //        this.memberId = memberId;
         this.memberPw = memberPw;
         this.memberName = memberName;
         this.memberMail = memberMail;
         this.profileImage = profileImage;
         this.introduction = introduction;
+        this.isLimited = isLimited;
         this.memberRole = memberRole;
         this.provider = provider;
         this.providerId = providerId;

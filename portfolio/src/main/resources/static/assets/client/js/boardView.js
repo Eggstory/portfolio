@@ -138,7 +138,7 @@ $(function() {
 
         $('.updateReply_'+index).on('click', function() {
 
-            let replyComment = $(".updateReplyForm_"+index).val();
+            let replyComment = $(".updateReplyForm_"+index).text();
             let textarea = $('<textarea class="editTextarea" style="width: 850px;"></textarea>').text(replyComment);
             let button = $('<button class="editReply" style="float: right;">수정</button>');
             let div = $('<div class="changeForm"></div>').append(textarea, button);

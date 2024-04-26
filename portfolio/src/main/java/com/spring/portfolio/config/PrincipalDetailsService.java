@@ -47,9 +47,9 @@ public class PrincipalDetailsService implements UserDetailsService {
 //        String password = passwordEncoder.encode(findMember.getMemberPw());
 //        findMember.setMemberPw(password);
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if (findMember.getMemberRole().equals("ADMIN")){
+        if (findMember.getMemberRole().getAuthority().equals("ADMIN")){
             authorities.add(new SimpleGrantedAuthority(Role.ADMIN.getAuthority()));
-        }else if(findMember.getMemberRole().equals("MASTER")){
+        }else if(findMember.getMemberRole().getAuthority().equals("MASTER")){
             authorities.add(new SimpleGrantedAuthority(Role.MASTER.getAuthority()));
         } else {
             authorities.add(new SimpleGrantedAuthority(Role.USER.getAuthority()));

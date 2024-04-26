@@ -35,10 +35,17 @@ public class BoardResponseDto {
         this.boardCategory2 = board.getBoardCategory2();
         this.boardTitle = board.getBoardTitle();
         this.boardSubject = board.getBoardSubject().getValue();
-        this.boardWriter = board.getMember().getMemberName();
-        this.boardMail = board.getMember().getMemberMail();
-        this.memberId = boardMail.split("@")[0];
-        this.memberIdx = board.getMember().getMemberIdx();
+        if(board.getMember() == null) {
+            this.boardWriter = "[삭제된 회원입니다]";
+            this.boardMail = "";
+            this.memberId = "";
+            this.memberIdx = 0L;
+        } else {
+            this.boardWriter = board.getMember().getMemberName();
+            this.boardMail = board.getMember().getMemberMail();
+            this.memberId = "("+boardMail.split("@")[0]+")";
+            this.memberIdx = board.getMember().getMemberIdx();
+        }
         this.viewCount = board.getViewCount();
         this.likeCount = board.getLikeCount();
         this.boardImage = board.getBoardImage();

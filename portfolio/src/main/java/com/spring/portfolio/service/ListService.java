@@ -38,7 +38,19 @@ public class ListService {
             memberPage = memberRepository.findByMemberNameContaining(keyword, pageable);
         }
         return memberPage;
+    }
 
+    public Page<Member> loadLimitMemberList(String keyword, int page){
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("memberIdx").descending());
+
+        Page<Member> memberPage;
+
+        if(keyword == null || keyword.equals("")) {
+            memberPage = memberRepository.findByIsLimited(pageable);
+        } else {
+            memberPage = memberRepository.findByLimitedMemberNameContaining(keyword, pageable);
+        }
+        return memberPage;
     }
 
     /*

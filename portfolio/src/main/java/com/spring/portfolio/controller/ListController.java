@@ -59,6 +59,33 @@ public class ListController {
         return "admin/index";
     }
 
+    @GetMapping("/list/limitMember")  // 맴버 리스트 찾기
+    public String getLimitMemberList(Model model, @RequestParam(value = "search", required = false) String keyword,
+                                @RequestParam(value = "page", defaultValue = "1") int page,
+                                HttpServletRequest request,
+                                @AuthenticationPrincipal PrincipalDetails principalDetails){
+        adminService.setNavName(model, request, principalDetails);
+        Page<Member> paging = listService.loadLimitMemberList(keyword, page);
+        List<MemberResponseDto> list = new ArrayList<>();
+        for(Member entity : paging){
+            list.add(new MemberResponseDto(entity));
+        }
+
+//        searchService.memberInsertAndFilter();
+
+        if(keyword == null) {
+            model.addAttribute("keyword", "");
+        } else {
+            model.addAttribute("keyword", keyword);
+        }
+
+//        model.addAttribute("memberCate", cateMap.get("memberCate"));
+        model.addAttribute("paging",paging);
+        model.addAttribute("type","limitMember");
+        model.addAttribute("list", list);
+        return "admin/index";
+    }
+
     /*
     @GetMapping("/list/product")  // 제품 리스트 찾기
     public String getProductList(Model model, @RequestParam(value = "page", defaultValue = "0") int page){

@@ -15,15 +15,17 @@ public class MemberRequestDto {
     private String memberName;
     private String memberMail;
     private Role memberRole;
+    private boolean isLimited;
 
 
     @Builder
-    public MemberRequestDto(String memberPw, String memberName, String memberMail, String profile, Address memberAddress, String detailAddress, String memberPhone) {
+    public MemberRequestDto(String memberPw, String memberName, String memberMail, String profile, Address memberAddress, String detailAddress, String memberPhone, boolean isLimited) {
 //        this.memberId = memberId;
         this.memberPw = memberPw;
         this.memberName = memberName;
         this.memberMail = memberMail;
         this.memberRole = Role.USER;
+        this.isLimited = false;
     }
 
 
@@ -40,6 +42,7 @@ public class MemberRequestDto {
 //                .memberPhone(memberPhone)
 //                .memberLock(memberLock)
                 .memberRole(memberRole)
+                .isLimited(isLimited)
 //                .failedAttempt(failedAttempt)
                 .build();
     }
