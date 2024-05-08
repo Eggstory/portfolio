@@ -5,11 +5,17 @@ import com.spring.portfolio.dto.MemberResponseDto;
 import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.store.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+import org.springframework.validation.FieldError;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +28,7 @@ public class MemberService {
 
 
     @Transactional
-    public void registerMember(MemberRequestDto memberRequestDto) {
+    public void registerMember(MemberRequestDto memberRequestDto, Errors errors) {
         String encodePw = passwordEncoder.encode(memberRequestDto.getMemberPw());
         memberRequestDto.setMemberPw(encodePw);
         Member memberEntity = memberRequestDto.toEntity();
@@ -104,6 +110,7 @@ public class MemberService {
 
         memberRepo.unLimitById(idx);
     }
+
 
 
 //    public MemberResponseDto signin(MemberRequestDto memberRequestDto) {

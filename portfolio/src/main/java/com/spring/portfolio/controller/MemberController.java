@@ -4,11 +4,17 @@ import com.spring.portfolio.config.PrincipalDetails;
 import com.spring.portfolio.dto.MemberRequestDto;
 import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -16,8 +22,17 @@ public class MemberController {
 
     private final MemberService memberService;
 
+//    @GetMapping("/login")
+//    public String login() {
+//        return "client/login";
+//    }
+
     @GetMapping("/login")
-    public String login() {
+    public String login(@RequestParam(value = "error", required = false) String error,
+                        @RequestParam(value = "exception", required = false) String exception,
+                        Model model) {
+        model.addAttribute("error", error);
+        model.addAttribute("exception", exception);
         return "client/login";
     }
 
@@ -44,29 +59,33 @@ public class MemberController {
     }
 
     @PostMapping("/joinAction")
-    public String joinAction(MemberRequestDto memberRequestDto) {
+    public String joinAction(@Valid MemberRequestDto memberRequestDto, Errors errors) {
 
-        memberService.registerMember(memberRequestDto);
+        memberService.registerMember(memberRequestDto,errors);
 
         return "redirect:/";
     }
 
-    // 뭔코드인지 궁금해서 가져와봄
-    @GetMapping("/form/loginInfo")
-    @ResponseBody
-    public String formLoginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
 
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-        Member member = principal.getMember();
-        System.out.println(member);
-        //Member(id=2, username=11, password=$2a$10$m/1Alpm180jjsBpYReeml.AzvGlx/Djg4Z9/JDZYz8TJF1qUKd1fW, email=11@11, role=ROLE_USER, createTime=2022-01-30 19:07:43.213, provider=null, providerId=null)
+//    // 뭔코드인지 궁금해서 가져와봄
+//    @GetMapping("/form/loginInfo")
+//    @ResponseBody
+//    public String formLoginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
+//
+//        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+//        Member member = principal.getMember();
+//        System.out.println(member);
+//        //Member(id=2, username=11, password=$2a$10$m/1Alpm180jjsBpYReeml.AzvGlx/Djg4Z9/JDZYz8TJF1qUKd1fW, email=11@11, role=ROLE_USER, createTime=2022-01-30 19:07:43.213, provider=null, providerId=null)
+//
+//        Member member1 = principalDetails.getMember();
+//        System.out.println(member1);
+//        //Member(id=2, username=11, password=$2a$10$m/1Alpm180jjsBpYReeml.AzvGlx/Djg4Z9/JDZYz8TJF1qUKd1fW, email=11@11, role=ROLE_USER, createTime=2022-01-30 19:07:43.213, provider=null, providerId=null)
+//        //Member == user1
+//
+//        return member.toString();
+//    }
 
-        Member member1 = principalDetails.getMember();
-        System.out.println(member1);
-        //Member(id=2, username=11, password=$2a$10$m/1Alpm180jjsBpYReeml.AzvGlx/Djg4Z9/JDZYz8TJF1qUKd1fW, email=11@11, role=ROLE_USER, createTime=2022-01-30 19:07:43.213, provider=null, providerId=null)
-        //Member == user1
 
-        return member.toString();
-    }
+
 
 }

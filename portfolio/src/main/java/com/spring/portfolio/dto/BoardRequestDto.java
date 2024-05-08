@@ -3,6 +3,7 @@ package com.spring.portfolio.dto;
 import com.spring.portfolio.entity.Board;
 import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.entity.Reply;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,10 @@ public class BoardRequestDto {
     private Long boardIdx;
     private String boardCategory1;
     private String boardCategory2;
+
+    @NotBlank(message = "제목을 입력해주세요.")
     private String boardTitle;
+
     private Subject boardSubject;
     private Member boardWriter;
     private Member memberIdx;

@@ -13,7 +13,7 @@
 <body>
 <div class="wrap">
     <div class="main-container">
-        <div class="logo">
+        <div class="logo" onclick="location.href='/'">
             <img src="images/red-304573_1280.png" alt=""/>
         </div>
         <div class="login-type">
@@ -30,6 +30,11 @@
                 <div>
                     <input type="checkbox">
                     <span>자동 로그인</span>
+                </div>
+                <div>
+                    <span th:if="${error}">
+                        <p id="valid" class="alert alert-danger" th:text="${exception}"></p>
+                    </span>
                 </div>
                 <button type="submit" class="btn btn-primary">로그인</button>
                 <hr/>

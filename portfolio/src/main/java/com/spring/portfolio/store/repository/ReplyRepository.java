@@ -52,7 +52,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
     @Modifying
     @Query(value = "update Reply r set r.replyComment = '', r.member = null where r.replyIdx = :idx")
-    Reply changeReplyInfo(@Param("idx") Long idx);
+    void changeReplyInfo(@Param("idx") Long idx);
 
     @Modifying
     @Query(value = "update Reply r set r.member.id = null where r.member.id = :idx")

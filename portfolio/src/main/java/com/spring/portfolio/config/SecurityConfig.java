@@ -75,7 +75,8 @@ public class SecurityConfig {
                 .requestMatchers(
                         AntPathRequestMatcher.antMatcher("/assets/**"),
                         AntPathRequestMatcher.antMatcher("/images/**"),
-                        AntPathRequestMatcher.antMatcher("/error"),
+                        AntPathRequestMatcher.antMatcher("/error/**"),
+                        AntPathRequestMatcher.antMatcher("/denied"),
                         AntPathRequestMatcher.antMatcher("/favicon.ico")
                 );
     }

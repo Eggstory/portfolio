@@ -65,8 +65,10 @@ img {
   justify-content: space-between;
 }
 
-.padding-left40 {
-    padding-left: 40px;
+.reply-setting {
+    border-left: solid lightgray 1px;
+    margin-left: 30px;
+    padding-left: 10px;
 }
 
 .hidden-replyForm {

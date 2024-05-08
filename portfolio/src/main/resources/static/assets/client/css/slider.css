@@ -1,0 +1,43 @@
+.demnodey-swiper {
+	display: table; 
+	position: relative;
+	width: 1600px;
+	height: 750px;
+	overflow: hidden;
+	margin: 0 auto;
+}
+
+.demnodey-wrapper { 
+	display: table; 
+	position: absolute;
+	width: 1600px;
+	transition: all .8s ease;
+}
+
+.demnodey-wrapper .demnodey-slider {
+	display: table-cell;
+	width: 500px;
+	height: 300px;
+}
+
+.demnodey-pagination { 
+	position: absolute; 
+	text-align:center;
+	bottom: 10px; 
+	width: 100%
+}
+
+.demnodey-pagination .bullet {
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	background-color: #fff;
+	border: 2px solid #fff;
+	border-radius: 50%;
+	margin: 0 2px;
+	cursor: pointer;
+}
+
+.demnodey-pagination .bullet.active {
+	background-color: #ff822e;
+}

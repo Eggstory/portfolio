@@ -6,6 +6,8 @@
 }
 
 .header {
+  display: flex;
+  justify-content: center;
   position: relative;
   z-index: 1;
   height: auto;
@@ -17,6 +19,7 @@
 }
 
 .flex-side {
+  width: 1600px;
   /* margin: 0px 10%; */
   height: 100px;
   display: flex;

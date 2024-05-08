@@ -47,7 +47,7 @@ public class AdminController {
 
     @RequestMapping("/member/limit")
     @ResponseBody
-    public String limitMemberList(@RequestParam("memberIdx") String memberIdx){
+    public String checkedLimitMemberList(@RequestParam("memberIdx") String memberIdx){
         System.out.println(memberIdx);
         String[] arrIdx = memberIdx.split(",");
         for(String idx : arrIdx) {

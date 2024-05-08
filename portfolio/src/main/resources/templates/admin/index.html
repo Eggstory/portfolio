@@ -188,8 +188,8 @@
                             class="content"
                             th:each="list,status:${list}"
                     >
-                        <td th:if="${list.memberRole == 'USER' }"><input name="RowCheck" class="member" th:value="${list.memberIdx}" type="checkbox"/></td>
-                        <td th:unless="${list.memberRole == 'USER' }"></td>
+                        <td th:if="${list.memberRole == 'USER' or list.memberRole == 'LIMIT' }"><input name="RowCheck" class="member" th:value="${list.memberIdx}" type="checkbox"/></td>
+                        <td th:unless="${list.memberRole == 'USER' or list.memberRole == 'LIMIT' }"></td>
                         <td class="id" th:text="${list.memberIdx}"></td>
                         <td>
                             <a th:href="@{/admin/member/view(memberIdx=${list.memberIdx})}"
@@ -271,14 +271,19 @@
                     </tr>
                     </tbody>
                 </table>
-                <div class="qna_button" style="text-align: end;">
-                    <button
-                            class="btn btn-sm"
-                            type="button"
-                            onclick="deleteValue()"
-                    >
-                        삭제
-                    </button>
+                <div class="member_button content-between">
+                    <div></div>
+<!--                    <button th:if="${type} == 'board'" class="btn btn-sm" onclick="location.href='limitBoard'">정지 계정만 보기</button>-->
+<!--                    <button th:if="${type} == 'limitBoard'" class="btn btn-sm" onclick="location.href='board'">전체 계정만 보기</button>-->
+                    <div>
+                        <button
+                                class="btn btn-sm"
+                                type="button"
+                                onclick="deleteValue()"
+                        >
+                            삭제
+                        </button>
+                    </div>
                 </div>
             </div>
             <th:block th:replace="~{/admin/fragments/pagingNav.html :: paging-nav}"/>

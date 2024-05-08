@@ -91,7 +91,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="padding-left40" th:else="${reply.parent == 0}" th:each="child:${reply.replyList}">
+                    <div class="reply-setting" th:else="${reply.parent == 0}" th:each="child:${reply.replyList}">
                         <input type="hidden" id="reReplyIdx" name="replyIdx" th:value="${child.idx}">
                         <span th:text="|${child.writer} ${child.memberId}|">작성자</span>
                         <div th:if="${child.isDeleted eq false}" class="updateReReplyForm" th:text="${child.replyComment}">내용</div>

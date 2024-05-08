@@ -34,7 +34,13 @@ public class ReplyResponseDto {
 
     public ReplyResponseDto(Reply reply) {
         this.idx = reply.getReplyIdx();
-        if(reply.getMember() == null) {
+        if(reply.getMember() == null && reply.getReplyComment().isEmpty()) {
+            this.writer = "[삭제된 댓글]";
+            this.mail = "";
+            this.memberId = "";
+            this.replyComment = "관리자에 의해 삭제되었습니다.";
+            this.change = false;
+        } else if(reply.getMember() == null) {
             this.writer = "[탈퇴한 계정]";
             this.mail = "";
             this.memberId = "";

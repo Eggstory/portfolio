@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum Role {
     USER("USER"),
+    LIMIT("LIMIT"),
     ADMIN("ADMIN"),
     MASTER("MASTER");
 

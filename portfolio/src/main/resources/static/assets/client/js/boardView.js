@@ -180,7 +180,7 @@ $(function() {
         })
     })
 
-    $('.padding-left40').each(function(index) {
+    $('.reply-setting').each(function(index) {
         $(this).find('span[class="openReReplyForm"]').attr('class','openReReplyForm_'+index)
         $(this).find('div[class="hidden-reReplyForm"]').attr('class','hidden-reReplyForm_'+index)
         $(this).find('span[class="deleteReReply"]').attr('class','deleteReReply_'+index)

@@ -7,11 +7,13 @@ import com.spring.portfolio.store.repository.BoardRepository;
 import com.spring.portfolio.store.repository.MemberRepository;
 import com.spring.portfolio.store.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -65,7 +67,9 @@ public class ReplyService {
     @Transactional
     public void changeReplyInfo(Long idx) {
 
-        Reply reply = replyRepository.changeReplyInfo(idx);
+        replyRepository.changeReplyInfo(idx);
+        Reply reply = replyRepository.findById(idx)
+                .orElseThrow(() -> new UsernameNotFoundException("Not Found Reply"));
 
         if(reply.getParent() != null) {
             replyRepository.deleteById(idx);

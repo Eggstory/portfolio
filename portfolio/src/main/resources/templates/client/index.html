@@ -7,22 +7,50 @@
 
     <div th:replace="~{/client/fragments/Head.html :: common-head}" />
 
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
+<!--    <link-->
+<!--      rel="stylesheet"-->
+<!--      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"-->
+<!--    />-->
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<!--    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>-->
 
     <script src="/assets/client/js/index.js"></script>
+    <script src="/assets/client/js/slider.js"></script>
     <link rel="stylesheet" href="/assets/client/css/index.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/client/css/slider.css" type="text/css" />
   </head>
   <body>
     <div class="wrap">
       <div th:replace="~{/client/fragments/nav.html :: common-nav}" />
       <main class="main-container">
         <div class="main-thum">
-          <img src="/images/mainThum.jpg" class="main-img" alt="" />
+<!--          <img src="/images/mainThum.jpg" class="main-img" alt="" />-->
+            <div class="demnodey-swiper">
+                <div class="demnodey-wrapper">
+                    <div class="demnodey-slider" id="slider-img-1">
+                        <a href="/">
+                            <img class="main-img" src="/images/mainThum.jpg">
+                        </a>
+                    </div>
+                    <div class="demnodey-slider" id="slider-img-2">
+                        <a href="/">
+                            <img class="main-img" src="/images/mainThum1.jpg">
+                        </a>
+                    </div>
+                    <div class="demnodey-slider" id="slider-img-3">
+                        <a href="/">
+                            <img class="main-img" src="/images/mainThum2.jpg">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="demnodey-pagination">
+                    <span idx='1' class="bullet active"></span>
+                    <span idx='2' class="bullet"></span>
+                    <span idx='3' class="bullet"></span>
+                </div>
+
+            </div>
         </div>
         <section class="section">
           <div class="section-wrap">
@@ -86,9 +114,6 @@
         <section>
         </section>
       </main>
-      <div class="footer font-size20">
-        푸터
-      </div>
     </div>
   </body>
 </html>

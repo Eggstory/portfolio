@@ -33,11 +33,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Page<Member> findByMemberNameContaining(String keyword, Pageable pageable);
 
     @Modifying
-    @Query(value = "update Member m set m.isLimited = true where m.memberIdx = :idx")
+    @Query(value = "update Member m set m.isLimited = true, m.memberRole = 'limit' where m.memberIdx = :idx")
     void limitById(@Param("idx")Long idx);
 
     @Modifying
-    @Query(value = "update Member m set m.isLimited = false where m.memberIdx = :idx")
+    @Query(value = "update Member m set m.isLimited = false, m.memberRole = 'user' where m.memberIdx = :idx")
     void unLimitById(@Param("idx")Long idx);
 
     @Query(value = "select m from Member m where m.isLimited = true")

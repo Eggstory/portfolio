@@ -7,7 +7,7 @@
 
     <div th:replace="~{/client/fragments/Head.html :: common-head}" />
 
-    <script src="/assets/client/css/join.js"></script>
+    <script src="/assets/client/js/join.js"></script>
     <link rel="stylesheet" href="/assets/client/css/login.css" type="text/css" />
     <link rel="stylesheet" href="/assets/client/css/join.css" type="text/css" />
   </head>
@@ -28,13 +28,20 @@
             <input type="password" name="memberPw" id="memberPw" />
           </div>
           <div class="form-flex">
+            <label for="confirmPw">비밀번호</label>
+            <input type="password" name="confirmPw" id="confirmPw" />
+          </div>
+          <div id="result"></div>
+          <div class="form-flex">
             <label for="memberName">이름</label>
             <input type="text" name="memberName" id="memberName" />
           </div>
           <div>
-            <input class="btn-submit btn btn-primary" type="submit" value="회원가입" />
+            <input class="btn-submit btn btn-primary" type="button" onclick="validatePassword()" value="회원가입" />
+            <hr/>
           </div>
         </form>
+        <button onclick="location.href='/login'" class="btn">뒤로가기</button>
       </div>
     </div>
   </body>

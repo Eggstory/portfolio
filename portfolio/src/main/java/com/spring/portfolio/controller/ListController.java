@@ -136,7 +136,7 @@ public class ListController {
      */
 
     @GetMapping("/list/board")  // 게시판 리스트 찾기
-    public String getQnAList(Model model, @RequestParam(value = "search", required = false) String keyword,
+    public String loadBoardList(Model model, @RequestParam(value = "search", required = false) String keyword,
                              @RequestParam(value = "page", defaultValue = "1") int page,
                              HttpServletRequest request,
                              @AuthenticationPrincipal PrincipalDetails principalDetails){
@@ -164,7 +164,7 @@ public class ListController {
     }
 
     @GetMapping("/list/reply")  // 댓글 리스트 찾기
-    public String getNoticeList(Model model, @RequestParam(value = "search", required = false) String keyword,
+    public String loadReplyList(Model model, @RequestParam(value = "search", required = false) String keyword,
                                 @RequestParam(value = "page", defaultValue = "1") int page,
                                 HttpServletRequest request,
                                 @AuthenticationPrincipal PrincipalDetails principalDetails){

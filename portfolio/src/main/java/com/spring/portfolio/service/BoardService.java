@@ -4,6 +4,8 @@ import com.spring.portfolio.dto.BoardRequestDto;
 import com.spring.portfolio.dto.BoardResponseDto;
 import com.spring.portfolio.entity.Board;
 import com.spring.portfolio.entity.Reply;
+import com.spring.portfolio.exception.CustomException;
+import com.spring.portfolio.exception.ErrorCode;
 import com.spring.portfolio.store.repository.BoardRepository;
 import com.spring.portfolio.store.repository.ReplyRepository;
 import jakarta.servlet.http.Cookie;
@@ -96,7 +98,7 @@ public class BoardService {
     public BoardResponseDto loadBoardView(Long idx, HttpServletRequest request, HttpServletResponse response) {
 
         Board board = boardRepository.findById(idx)
-                .orElseThrow(() -> new UsernameNotFoundException("Not Found Board"));
+                .orElseThrow(() -> new CustomException(ErrorCode.BOARD_NOT_FOUND));
 
         BoardResponseDto boardDto = new BoardResponseDto(board);
 
