@@ -28,8 +28,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
 	implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.12.5'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -39,6 +42,8 @@ dependencies {
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.12.5'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation('org.junit.jupiter:junit-jupiter:5.5.0')
+	testImplementation 'it.ozimov:embedded-redis:0.7.2'
 	/*
 	// queryDSL 설정
 	// 버전이 끝에 붙으면 생략하여 버전관리를 spring에게 맡길 수 있지만, 중간에 나오는경우 불가능하다. 그래서 아래줄과 같이 추가 코딩을 해줌
@@ -55,6 +60,9 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+//test {
+//	useJUnitPlatform()
+//}
 
 /*
 // Querydsl 설정부 : build 디렉토리 안에 생길 Q 파일을 src/main에  generated를 생성하고 그 안에 만들도록 설정

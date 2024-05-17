@@ -13,12 +13,19 @@ spring:
     console:
       enabled: true
       path: /h2
+  profiles:
+    active: local
+  data:
+    redis:
+      port: 6379
+      host: localhost
+
 
   mail:
     host: smtp.gmail.com
     port: 587
     username: khm9963@gmail.com
-    password: hqkwitcmigdcugvz
+    password: ${SMTP_PASSWORD}
     properties:
       mail:
         smtp:
@@ -50,8 +57,9 @@ spring:
     username: root
     password: 1234
 
-  jpa:
 
+
+  jpa:
     database-platform: org.hibernate.dialect.MariaDB103Dialect
     # org.hibernate.dialect.H2Dialect
     # mariaDB -> org.hibernate.dialect.MariaDB103Dialect
@@ -86,20 +94,20 @@ spring:
         registration:
           google:
             client-id: 855614872358-nmape2578gt7l9i3agcbamm9dpigeq21.apps.googleusercontent.com
-            client-secret: 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
+            client-secret: ${GOOGLE_OAUTH2_KEY}
             scope:
               - profile
               - email
           # google 은 OAuth2-client 라이브러리의 provider 에 redirect-uri , authorization-grant-type 이 있어서 적어줄 필요없다.
           naver:
             client-id: hQ8n8QDlARkf76ZlNvU7
-            client-secret: rFNVRNF0vm
+            client-secret: ${NAVER_OAUTH2_KEY}
             client-name: Naver
             authorization-grant-type: authorization_code
             redirect-uri: http://localhost:8090/login/oauth2/code/naver
           kakao:
             client-id: 1a7d83a034c1e381dd4c56ec7529832f # 앱키 -> REST API 키
-            client-secret: NO7fjKwt6S1Sh9VCm0KtDlacA1JikcOh # 카카오 로그인 -> 보안 -> Client Secret 코드
+            client-secret: ${KAKAO_OAUTH2_KEY} # 카카오 로그인 -> 보안 -> Client Secret 코드
             client-name: kakao
             client-authentication-method: client_secret_post  # kakao는 인증 토큰 발급 요청 메서드가 post이다. (최근 버전에는 작성 방법이 이렇게 바뀌었다.)
             authorization-grant-type: authorization_code
@@ -130,3 +138,8 @@ spring:
 #jwt:
 #  header: Authorization
 #  secret: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.jBs1AeGIHL1G-Z6yWXp1F0Lg1ysMfy1V_AlUiAaKV82Eo6GMKtkyYfphZs_ReEoVwZWAjduegiWKdSJMoUBb9g
+
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    password: ${key}
