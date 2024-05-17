@@ -1,8 +1,8 @@
 .demnodey-swiper {
 	display: table; 
 	position: relative;
-	width: 1600px;
-	height: 750px;
+	width: 1040px;
+	height: 500px;
 	overflow: hidden;
 	margin: 0 auto;
 }
@@ -10,14 +10,14 @@
 .demnodey-wrapper { 
 	display: table; 
 	position: absolute;
-	width: 1600px;
+	width: 1040px;
 	transition: all .8s ease;
 }
 
 .demnodey-wrapper .demnodey-slider {
 	display: table-cell;
-	width: 500px;
-	height: 300px;
+	width: 1040px;
+	height: 500px;
 }
 
 .demnodey-pagination { 

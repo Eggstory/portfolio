@@ -42,7 +42,7 @@ b {
 }
 
 .main-container {
-  height: 2400px;
+  height: 1200px;
   display: block;
   margin: 0px;
   padding: 0px;
@@ -53,21 +53,20 @@ b {
   z-index: -1;
   top: 100px;
   display: block;
-  height: 750px;
+  height: 500px;
 }
 
 .main-img {
-  height: 750px;
+  height: 500px;
   overflow: hidden;
   background-size: cover;
-  width: 1600px;
+  width: 1040px;
 }
 
 .section {
   display: flex;
   height: 650px;
   justify-content: center;
-  padding-top: 100px;
 }
 
 .section-title {
@@ -80,7 +79,7 @@ b {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  width: 1600px;
+  width: 1040px;
   flex-wrap: wrap;
 }
 
@@ -90,7 +89,7 @@ b {
 }
 
 .section-content {
-  width: 385px;
+  width: 245px;
   height: 400px;
   display: flex;
   flex-direction: column;
@@ -137,6 +136,6 @@ b {
 }
 
 img {
-    width: 385px;
+    width: 245px;
     height: 240px;
 }

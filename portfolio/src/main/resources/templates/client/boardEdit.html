@@ -11,50 +11,52 @@
     <link rel="stylesheet" href="/assets/client/css/boardEdit.css" type="text/css"/>
 </head>
 <body>
-<form action="/board/editAction" class="form-group" method="post">
-    <input type="hidden" name="boardIdx" th:value="${board.boardIdx}">
-    <input type="hidden" name="viewCount" th:value="${board.viewCount}">
-    <input type="hidden" name="likeCount" th:value="${board.likeCount}">
-    <input type="hidden" name="memberIdx" th:value="${board.memberIdx}">
-    <input type="hidden" id="hiddenInput" name="boardImage" th:value="${board.boardImage}">
-    <div>
-        <div>
-            <span>게시판</span>
-            <select name="boardCategory1" th:value="${board.boardCategory1}">
-                <optgroup label="커뮤니티">
-                    <option value="게시판" th:selected="${board.boardCategory1 == '게시판'}">게시판</option>
-                    <option value="갤러리" th:selected="${board.boardCategory1 == '갤러리'}">갤러리</option>
-                </optgroup>
-            </select>
-            <select name="boardCategory2" th:value="${board.boardCategory2}">
-                <optgroup label="카테고리">
-                    <option value="유머" th:selected="${board.boardCategory2 == '유머'}">유머</option>
-                    <option value="자유" th:selected="${board.boardCategory2 == '자유'}">자유</option>
-                    <option value="QnA" th:selected="${board.boardCategory2 == 'QnA'}">QnA</option>
-                    <option value="짤방" th:selected="${board.boardCategory2 == '짤방'}">짤방</option>
-                    <option value="그림" th:selected="${board.boardCategory2 == '그림'}">그림</option>
-                </optgroup>
-            </select>
-            <select name="boardSubject" th:value="${board.boardSubject}">
-                <optgroup label="말머리">
-                    <option value="NOTICE" th:selected="${board.boardSubject == '공지'}">공지</option>
-                    <option value="NORMAL" th:selected="${board.boardSubject == '일반'}">일반</option>
-                    <option value="PICTURE" th:selected="${board.boardSubject == '그림'}">그림</option>
-                </optgroup>
-            </select>
+<div class="wrap">
+    <form action="/board/editAction" class="form-group" method="post">
+        <input type="hidden" name="boardIdx" th:value="${board.boardIdx}">
+        <input type="hidden" name="viewCount" th:value="${board.viewCount}">
+        <input type="hidden" name="likeCount" th:value="${board.likeCount}">
+        <input type="hidden" name="memberIdx" th:value="${board.memberIdx}">
+        <input type="hidden" id="hiddenInput" name="boardImage" th:value="${board.boardImage}">
+        <div class="column-gap">
+            <div class="flex-gap">
+                <select name="boardCategory1" th:value="${board.boardCategory1}">
+                    <optgroup label="커뮤니티">
+                        <option value="게시판" th:selected="${board.boardCategory1 == '게시판'}">게시판</option>
+                        <option value="갤러리" th:selected="${board.boardCategory1 == '갤러리'}">갤러리</option>
+                    </optgroup>
+                </select>
+                <select name="boardCategory2" th:value="${board.boardCategory2}">
+                    <optgroup label="카테고리">
+                        <option value="자유" th:selected="${board.boardCategory2 == '자유'}">자유</option>
+                        <option value="유머" th:selected="${board.boardCategory2 == '유머'}">유머</option>
+                        <option value="QnA" th:selected="${board.boardCategory2 == 'QnA'}">QnA</option>
+                        <option value="짤방" th:selected="${board.boardCategory2 == '짤방'}">짤방</option>
+                        <option value="그림" th:selected="${board.boardCategory2 == '그림'}">그림</option>
+                    </optgroup>
+                </select>
+                <select name="boardSubject" th:value="${board.boardSubject}">
+                    <optgroup label="말머리">
+                        <option value="NORMAL" th:selected="${board.boardSubject == '일반'}">일반</option>
+                        <option value="NOTICE" th:selected="${board.boardSubject == '공지'}">공지</option>
+                        <option value="PICTURE" th:selected="${board.boardSubject == '그림'}">그림</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div>
+                <textarea class="boardTitle" name="boardTitle" placeholder="제목" th:text="${board.boardTitle}"></textarea>
+            </div>
         </div>
-        <div>
-            <span>제목</span>
-            <textarea name="boardTitle" placeholder="제목" th:text="${board.boardTitle}"></textarea>
+        <label for="boardContent"></label>
+        <div class="summernote-content">
+            <textarea name="boardContent" id="boardContent" th:utext="${board.boardContent}"></textarea>
         </div>
-    </div>
-    <label for="boardContent">글쓰기</label>
-    <textarea name="boardContent" id="boardContent" th:utext="${board.boardContent}"></textarea>
-    <button type="submit">등록</button>
-    <button type="button" class="cancel-button"
-            onclick="alert('작성한 글이 저장되지 않습니다. 취소하시겠습니까?'); location.href=document.referrer">취소</button>
-</form>
-
+        <button type="submit">등록</button>
+        <button type="button" class="cancel-button"
+                onclick="alert('작성한 글이 저장되지 않습니다. 취소하시겠습니까?'); location.href=document.referrer">취소
+        </button>
+    </form>
+</div>
 
 </body>
 </html>

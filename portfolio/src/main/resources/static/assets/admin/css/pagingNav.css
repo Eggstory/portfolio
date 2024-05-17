@@ -2,6 +2,7 @@
 /*페이징 css*/
 
 .page_wrap {
+    height: 50px;
 	text-align:center;
 	font-size:0;
  }

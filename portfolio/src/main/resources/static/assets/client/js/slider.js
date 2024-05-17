@@ -10,7 +10,7 @@ $(document).ready(function () {
 		if (!pause) {
 			s = s + 1;
 			s = s == length ? 0 : s;
-			var slide = 1600 * s;
+			var slide = 1040 * s;
 			
 			pagination(bullet[s])
 			
@@ -22,7 +22,7 @@ $(document).ready(function () {
 		
 		s = $(this).attr("idx") - 1;
 		s = s == length ? 0 : s;
-		var slide = s * 1600;
+		var slide = s * 1040;
 		
 		pause = true; // bullet 클릭시 auto slider 잠시 멈춤
 		

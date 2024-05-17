@@ -8,9 +8,18 @@
     <link rel="stylesheet" href="/assets/error/css/error.css" type="text/css"/>
 </head>
 <body>
-<p> 500 오류 화면 입니다.</p>
-<button type="button" class="cancel-button"
-        onclick="location.href=document.referrer">뒤로가기
-</button>
+<div class="wrap">
+    <div class="container">
+        <div class="py-5 text-center">
+            <h2>에러 발생</h2>
+        </div>
+        <div>
+            <p th:text="${model}"> 500 오류 화면 입니다.</p>
+        </div>
+        <button type="button" class="cancel-button"
+                onclick="location.href=document.referrer">뒤로가기
+        </button>
+    </div>
+</div>
 </body>
 </html>

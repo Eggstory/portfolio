@@ -61,12 +61,20 @@ public class ExceptionAdviceHandler {
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>("에러코드(" + HttpStatus.BAD_REQUEST + "): " + e.getMessage(), HttpStatus.BAD_REQUEST);
 
-        model.addAttribute("ResponseEntity", responseEntity);
-        System.out.println(responseEntity.getStatusCode());
-        System.out.println(responseEntity.getBody());
-        System.out.println(e.getMessage());
+//        model.addAttribute("ResponseEntity", responseEntity);
+//        System.out.println(responseEntity.getStatusCode());
+//        System.out.println(responseEntity.getBody());
+//        System.out.println(e.getMessage());
+//        System.out.println(e);
+        String except = e.toString();
+        String[] split = except.split(":");
+        System.out.println(split[0]);
+        if(split[0].contains("NullPointerException")) {
+            model.addAttribute("model", "로그인을 해주세요.");
+        }
 
-        return "error/4xx.html";
+
+        return "error/500.html";
     }
 
 

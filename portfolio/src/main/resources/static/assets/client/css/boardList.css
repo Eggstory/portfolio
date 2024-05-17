@@ -39,7 +39,6 @@ td {
 }
 
 .main-container {
-  height: 1000px;
   width: 850px;
   display: flex;
   flex-direction: column;
