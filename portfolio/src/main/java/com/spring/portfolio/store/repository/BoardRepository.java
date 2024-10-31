@@ -20,12 +20,12 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Modifying
     @Query(value = "update Board b set b.viewCount = b.viewCount + 1 where b.boardIdx = :idx")
-    int updateViewCount(Long idx);
+    int updateViewCount(@Param("idx") Long idx);
 
     // count 쿼리를 쓰고싶으면 @Query를 써서 직접 쿼리를 짜줘야한다.
     @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query(value = "select b from Board b join b.member m where b.boardTitle like %:keyword% or m.memberName like %:keyword%")
-    Page<Board> findByBoardTitleContaining(String keyword, Pageable pageable);
+    Page<Board> findByBoardTitleContaining(@Param("keyword") String keyword, Pageable pageable);
 
     @Modifying
     @Query(value = "delete from Board b where b.boardIdx = :idx")

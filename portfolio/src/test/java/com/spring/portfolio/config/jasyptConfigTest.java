@@ -11,8 +11,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class jasyptConfigTest {
 
-	@Value("${jasypt.encryptor.password}")
-	private String key;
+//	@Value("${jasypt.encryptor.password}")
+//	private String key;
 
 	@Test
 	void jasypt() {

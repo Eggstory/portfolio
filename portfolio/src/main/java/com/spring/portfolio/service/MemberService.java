@@ -25,8 +25,6 @@ public class MemberService {
     private final MemberRepository memberRepo;
     private final BCryptPasswordEncoder passwordEncoder;
 
-
-
     @Transactional
     public void registerMember(MemberRequestDto memberRequestDto, Errors errors) {
         String encodePw = passwordEncoder.encode(memberRequestDto.getMemberPw());

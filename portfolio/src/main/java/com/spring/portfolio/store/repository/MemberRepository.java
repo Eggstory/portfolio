@@ -30,19 +30,19 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByMemberName(String memberName);
 
     @Query(value = "select m from Member m where m.memberName like %:keyword% or m.memberMail like %:keyword%")
-    Page<Member> findByMemberNameContaining(String keyword, Pageable pageable);
+    Page<Member> findByMemberNameContaining(@Param("keyword") String keyword, Pageable pageable);
 
     @Modifying
     @Query(value = "update Member m set m.isLimited = true, m.memberRole = 'limit' where m.memberIdx = :idx")
-    void limitById(@Param("idx")Long idx);
+    void limitById(@Param("idx") Long idx);
 
     @Modifying
     @Query(value = "update Member m set m.isLimited = false, m.memberRole = 'user' where m.memberIdx = :idx")
-    void unLimitById(@Param("idx")Long idx);
+    void unLimitById(@Param("idx") Long idx);
 
     @Query(value = "select m from Member m where m.isLimited = true")
     Page<Member> findByIsLimited(Pageable pageable);
 
     @Query(value = "select m from Member m where m.isLimited = true and m.memberName like %:keyword% or m.memberMail like %:keyword%")
-    Page<Member> findByLimitedMemberNameContaining(String keyword, Pageable pageable);
+    Page<Member> findByLimitedMemberNameContaining(@Param("keyword") String keyword, Pageable pageable);
 }

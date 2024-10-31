@@ -19,7 +19,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     @EntityGraph(attributePaths = {"board"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query(value = "select r from Reply r join r.board b where b.boardIdx = :idx")
 //    @Query(value = "SELECT r FROM Reply r WHERE r.board.boardIdx = :idx")
-    List<Reply> findByBoardIdx(long idx);
+    List<Reply> findByBoardIdx(@Param("idx") long idx);
 
     @Modifying
     @Query(value = "delete from Reply r where r.board.boardIdx = :idx")
@@ -46,7 +46,7 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
     @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query(value = "select r from Reply r join r.member m where r.replyComment like %:keyword% or m.memberName like %:keyword%")
-    Page<Reply> findByReplyCommentContaining(String keyword, Pageable pageable);
+    Page<Reply> findByReplyCommentContaining(@Param("keyword") String keyword, Pageable pageable);
 
     List<Reply> findAllByBoard(Board board);
 

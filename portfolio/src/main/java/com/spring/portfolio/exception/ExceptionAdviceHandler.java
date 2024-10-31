@@ -1,3 +1,5 @@
+
+
 package com.spring.portfolio.exception;
 
 import jakarta.validation.ConstraintViolation;
@@ -55,6 +57,7 @@ public class ExceptionAdviceHandler {
 //
 //        return new ResponseEntity<>("에러코드("+HttpStatus.BAD_REQUEST+"): "+e.getMessage(), HttpStatus.BAD_REQUEST);
 //    }
+
 
     @ExceptionHandler({RuntimeException.class})
     protected String handlerEtcException(RuntimeException e, Model model) {
