@@ -11,12 +11,17 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
 
     // BoardIdx를 DESC방식으로 정렬 시킨 후 제일 최상단 4개를 가져온다는 메소드이름
     List<Board> findTop4ByOrderByBoardIdxDesc();
+
+    @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query(value = "select b from Board b join b.member m where m.memberIdx = :memberIdx")
+    List<Board> findByMemberIdx(@Param("memberIdx") Long memberIdx);
 
     @Modifying
     @Query(value = "update Board b set b.viewCount = b.viewCount + 1 where b.boardIdx = :idx")
@@ -34,4 +39,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Modifying
     @Query(value = "update Board b set b.member.id = null where b.member.id = :idx")
     void updateMemberNull(@Param("idx") Long idx);
+
+
 }

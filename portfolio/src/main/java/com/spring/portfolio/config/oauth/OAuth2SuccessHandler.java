@@ -1,5 +1,6 @@
 package com.spring.portfolio.config.oauth;
 
+import com.spring.portfolio.config.PrincipalDetails;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -32,13 +33,14 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 //
 //        response.sendRedirect(redirectUrl);
 
-        WebAuthenticationDetails web = (WebAuthenticationDetails) authentication.getDetails();
+//        WebAuthenticationDetails web = (WebAuthenticationDetails) authentication.getDetails();
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         HttpSession session = request.getSession();
-        session.setAttribute("memberMail", request.getParameter("memberMail"));
-        session.setAttribute("memberIdx", request.getParameter("memberIdx"));
-        session.setAttribute("greeting",authentication.getName() + "님 반갑습니다.");
+        session.setAttribute("memberMail", principal.getUsername());
+        session.setAttribute("memberIdx", principal.getMember().getMemberIdx());
         response.sendRedirect("/");
-        System.out.println("세션값 들어가나? "+request.getParameter("memberMail"));
+        System.out.println("세션값 들어가나? "+principal.getUsername());
+        System.out.println("authentication 의 getname : "+authentication.getName());
     }
 
 

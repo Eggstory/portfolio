@@ -1,5 +1,6 @@
 package com.spring.portfolio.service;
 
+import com.spring.portfolio.config.PrincipalDetails;
 import com.spring.portfolio.dto.MemberRequestDto;
 import com.spring.portfolio.dto.MemberResponseDto;
 import com.spring.portfolio.entity.Member;
@@ -109,6 +110,17 @@ public class MemberService {
         memberRepo.unLimitById(idx);
     }
 
+    public MemberResponseDto loadMemberInfo(PrincipalDetails principalDetails) {
+
+        Member member = principalDetails.getMember();
+        Long memberIdx = member.getMemberIdx();
+        String memberName = member.getMemberName();
+        String memberMail = member.getMemberMail();
+        String introduction = member.getIntroduction();
+        String profileImage = member.getProfileImage();
+
+        return new MemberResponseDto(memberIdx, memberName, memberMail, introduction, profileImage);
+    }
 
 
 //    public MemberResponseDto signin(MemberRequestDto memberRequestDto) {

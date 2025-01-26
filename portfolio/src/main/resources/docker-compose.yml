@@ -6,3 +6,19 @@ services :
     hostname: redis
     ports:
       - "6379:6379"
+
+  db:
+    image: mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=9963
+    ports:
+      - "3308:3306"
+
+#  web:
+#    build:
+#      context: .
+#      dockerfile: ./compose/springboot/Dockerfile
+#    ports:
+#      - "8090:8080"
+#    volumes:
+#      - ./:/app/

@@ -1,3 +1,4 @@
+
 package com.spring.portfolio.config;
 
 import org.jasypt.encryption.StringEncryptor;

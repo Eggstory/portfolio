@@ -139,7 +139,15 @@ spring:
 #  header: Authorization
 #  secret: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.jBs1AeGIHL1G-Z6yWXp1F0Lg1ysMfy1V_AlUiAaKV82Eo6GMKtkyYfphZs_ReEoVwZWAjduegiWKdSJMoUBb9g
 
+#---
+#spring:
+#  profiles: local
+
 jasypt:
   encryptor:
     bean: jasyptStringEncryptor
     password: ${key}
+
+driver:
+  chrome:
+    driver_path: "C:\\chromeDriver\\132.0.6834.83\\chromedriver-win64\\chromedriver.exe"

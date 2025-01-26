@@ -1,3 +1,124 @@
+@media screen and (max-width: 480px) {
+
+span {
+        font-size: 20px;
+    }
+
+    a {
+        font-size: 20px;
+        text-decoration: none;
+        color: black;
+    }
+
+}
+
+
+@media screen and (max-width: 768px) and (min-width: 480px) {
+
+
+
+    a {
+          font-size: 20px;
+          text-decoration: none;
+          color: black;
+        }
+
+        span {
+          font-size: 20px;
+        }
+
+        .section-wrap {
+          display: flex;
+          flex-direction: row;
+          overflow: hidden;
+        /*  width: 1040px; */
+        	width: 100%;
+          flex-wrap: wrap;
+        }
+
+        .section-grid {
+          display: grid;
+          grid-template-columns: repeat(2, 50%);
+          justify-items: center;
+        /*  display: flex;
+          justify-content: space-between; */
+        }
+
+        .main-container {
+            width: 100%
+        }
+
+
+
+}
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+    a {
+      font-size: 30px;
+      text-decoration: none;
+      color: black;
+    }
+
+    span {
+      font-size: 30px;
+    }
+
+    .section-wrap {
+      display: flex;
+      flex-direction: row;
+      overflow: hidden;
+    /*  width: 1040px; */
+    	width: 100%;
+      flex-wrap: wrap;
+    }
+
+
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 33.3% 33.3% 33.3%);
+      justify-items: center;
+    /*  display: flex;
+      justify-content: space-between; */
+    }
+
+    .main-container {
+        width: 100%
+    }
+
+}
+@media screen and (min-width: 1024px) {
+
+    a {
+      font-size: 30px;
+      text-decoration: none;
+      color: black;
+    }
+
+    span {
+      font-size: 30px;
+    }
+
+    .section-wrap {
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    /*  width: 1040px; */
+    	width: 1000px;
+      flex-wrap: wrap;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 25%);
+      justify-items: center;
+    /*  display: flex;
+      justify-content: space-between; */
+    }
+
+}
+
+
 html, body {
       position: relative;
       height: 100%;
@@ -17,15 +138,7 @@ li {
   padding: 2px 0px;
 }
 
-a {
-  font-size: 30px;
-  text-decoration: none;
-  color: black;
-}
 
-span {
-  font-size: 30px;
-}
 
 ul {
   padding: 0px;
@@ -60,12 +173,22 @@ b {
   height: 500px;
   overflow: hidden;
   background-size: cover;
-  width: 1040px;
+/*  width: 1040px; */
+    width: 1000px;
 }
+
+/*
+.main-img {
+  height: 500px;
+  overflow: hidden;
+  background-size: cover;
+    width: 1000px;
+}
+*/
 
 .section {
   display: flex;
-  height: 650px;
+/*  height: 650px; */
   justify-content: center;
 }
 
@@ -75,21 +198,26 @@ b {
   height: 90px;
 }
 
+/*
 .section-wrap {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  width: 1040px;
+	width: 1000px;
   flex-wrap: wrap;
 }
+*/
 
+/*
 .section-grid {
-  display: flex;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 25%);
+  justify-items: center;
 }
+*/
 
 .section-content {
-  width: 245px;
+  padding: 10px;
   height: 400px;
   display: flex;
   flex-direction: column;
@@ -97,6 +225,9 @@ b {
 
 .section-content:hover {
   cursor: pointer;
+  filter: brightness(0.8);
+
+  transition: all 0.5s 0s ease-in;
 }
 
 .section-thum {
@@ -136,6 +267,26 @@ b {
 }
 
 img {
-    width: 245px;
+    /*width: 245px; */
+    width: 100%;
     height: 240px;
+}
+
+.simple-icon {
+    z-index: 10;
+    color: purple;
+    align-content: center;
+    text-align: center;
+    border-radius: 30px;
+    height: 50px;
+    width: 50px;
+    background-color: rgba(13, 110, 253, 0.25);
+    bottom: 30px;
+    right: 30px;
+    position: fixed;
+}
+
+.simple-icon:hover {
+    cursor: pointer;
+    filter: brightness(0.6);
 }

@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -75,6 +76,18 @@ public class BoardService {
                 String s = boardImage.split(",")[0];
                 boardResponseDto.setBoardImage(s);
             }
+            boardDto.add(boardResponseDto);
+        }
+
+        return boardDto;
+    }
+
+    public List<BoardResponseDto> loadBoardList(Long memberIdx) {
+        List<Board> board = boardRepository.findByMemberIdx(memberIdx);
+
+        List<BoardResponseDto> boardDto = new ArrayList<>();
+        for(Board entity : board){
+            BoardResponseDto boardResponseDto = new BoardResponseDto(entity);
             boardDto.add(boardResponseDto);
         }
 

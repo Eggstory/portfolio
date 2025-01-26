@@ -20,6 +20,11 @@
     <link rel="stylesheet" href="/assets/client/css/slider.css" type="text/css" />
   </head>
   <body>
+  <div>
+    <th:block sec:authorize="isAuthenticated()">
+        <div onclick="location.href='/myInfo'" class="simple-icon">my Info</div>
+    </th:block>
+  </div>
     <div class="wrap">
       <div th:replace="~{/client/fragments/nav.html :: common-nav}" />
       <main class="main-container">

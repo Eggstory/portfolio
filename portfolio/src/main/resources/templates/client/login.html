@@ -23,6 +23,7 @@
         </div>
         <form method="post" action="/loginAction">
             <div class="input-container">
+                <input type="hidden" name="_csrf" value="${_csrf.token}" />
                 <input class="id" name="memberMail" id="memberMail" type="text" placeholder="이메일"/>
                 <span class="id-warn"></span>
                 <input class="pw" name="memberPw" id="memberPw" type="password" placeholder="비밀번호"/>
@@ -41,6 +42,11 @@
             </div>
         </form>
         <button onclick="location.href='join'" class="btn">회원가입</button>
+        <div>
+            <br>
+            <a href="/findId">아이디 찾기</a>
+            <a href="/findPw">비밀번호 찾기</a>
+        </div>
     </div>
 </div>
 </body>

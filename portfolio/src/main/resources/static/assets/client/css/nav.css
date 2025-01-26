@@ -1,11 +1,15 @@
 
+
+
 .header-fix {
   width: 100%;
   display: block;
   position: fixed;
+  z-index: 20;
 }
 
 .header {
+  background-color: #eee;
   display: flex;
   justify-content: center;
   position: relative;
@@ -79,4 +83,36 @@
 
 ul > li:hover {
     cursor: pointer;
+}
+
+@media screen and (max-width: 768px) and (min-width: 480px) {
+    .header-gap {
+        gap: 20px;
+    }
+
+    .flex-side {
+        /* height: 50px; */
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+        .header-gap {
+            gap: 20px;
+        }
+
+        .flex-side {
+            /* height: 30px; */
+        }
+
+    span {
+            /* font-size: 10px; */
+        }
+
+        a {
+            /* font-size: 10px; */
+            text-decoration: none;
+            color: black;
+        }
+
 }

@@ -1,10 +1,14 @@
 package com.spring.portfolio.controller;
 
 import com.spring.portfolio.config.PrincipalDetails;
+import com.spring.portfolio.dto.BoardResponseDto;
 import com.spring.portfolio.dto.MemberRequestDto;
+import com.spring.portfolio.dto.MemberResponseDto;
 import com.spring.portfolio.entity.Member;
+import com.spring.portfolio.service.BoardService;
 import com.spring.portfolio.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -14,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -21,6 +27,7 @@ import java.util.Map;
 public class MemberController {
 
     private final MemberService memberService;
+    private final BoardService boardService;
 
 //    @GetMapping("/login")
 //    public String login() {
@@ -36,7 +43,7 @@ public class MemberController {
         return "client/login";
     }
 
-    // spring security 때문에 여기 컨트롤러 안탐
+//     spring security 때문에 여기 컨트롤러 안탐
 //    @PostMapping("/loginAction")
 //    public String loginAction(String memberMail, String memberPw, HttpServletRequest request) throws Exception {
 //
@@ -84,6 +91,28 @@ public class MemberController {
 //
 //        return member.toString();
 //    }
+
+    @GetMapping("/myInfo")
+    public String myInfo(Model model,
+                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
+
+        MemberResponseDto memberResponseDto = memberService.loadMemberInfo(principalDetails);
+        List<BoardResponseDto> boardResponseDtos = boardService.loadBoardList(memberResponseDto.getMemberIdx());
+
+        model.addAttribute("member", memberResponseDto);
+        model.addAttribute("board", boardResponseDtos);
+
+        return "client/myInfo";
+    }
+
+    @GetMapping("/findId")
+    public String findId() {
+        return "client/findId";
+    }
+    @GetMapping("/findPw")
+    public String findPw() {
+        return "client/findPw";
+    }
 
 
 

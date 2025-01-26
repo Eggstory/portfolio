@@ -55,7 +55,7 @@ td {
 }
 
 .col3 {
-  
+  width: 57%;
 }
 
 .col4 {
@@ -153,6 +153,10 @@ td {
 	background-color:#42454c;
 	color:#fff;
 	border:1px solid #42454c;
+}
+
+.display-inline {
+  display: inline;
 }
 
 

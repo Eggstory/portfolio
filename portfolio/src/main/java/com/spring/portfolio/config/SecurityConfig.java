@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -58,6 +60,7 @@ public class SecurityConfig {
 //    //
 //    // 여기까지
 
+
     @Bean
     public static BCryptPasswordEncoder passwordEncoder() {
 
@@ -86,8 +89,10 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
 //        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
-//        authenticationManagerBuilder.userDetailsService(memberDetailsService).passwordEncoder(passwordEncoder());
-
+//        authenticationManagerBuilder.userDetailsService(principalDetailsService).passwordEncoder(passwordEncoder());
+//
+//        // AuthenticationManager 생성
+//        AuthenticationManager authenticationManager = authenticationManagerBuilder.build();
         
         // csrf와 cors에 쓰인 람다랑 AbstractHttpConfigurer 방식 두가지 중 아무거나 쓰면 될듯
         http    // csrf : cookie를 사용하지 않으면 꺼도됨 (cookie를 사용할 경우 httpOnly(XSS 방어), sameSite(CSRF 방어)로 방어해야 한다.)
@@ -118,7 +123,8 @@ public class SecurityConfig {
                                         AntPathRequestMatcher.antMatcher("/board/write"),
                                         AntPathRequestMatcher.antMatcher("/board/writeAction"),
                                         AntPathRequestMatcher.antMatcher("/board/replyDelete"),
-                                        AntPathRequestMatcher.antMatcher("/board/replyAction")
+                                        AntPathRequestMatcher.antMatcher("/board/replyAction"),
+                                        AntPathRequestMatcher.antMatcher("/myInfo")
                                 )
                                 .hasAnyAuthority(Role.USER.name(), Role.ADMIN.name(), Role.MASTER.name())
                                 .requestMatchers(
@@ -127,11 +133,14 @@ public class SecurityConfig {
                                 .hasAnyAuthority(Role.ADMIN.name(), Role.MASTER.name())
                                 .requestMatchers(
                                         AntPathRequestMatcher.antMatcher("/login/**"),
+                                        AntPathRequestMatcher.antMatcher("/join"),
                                         AntPathRequestMatcher.antMatcher("/"),
                                         AntPathRequestMatcher.antMatcher("/joinAction"),
                                         AntPathRequestMatcher.antMatcher("/loginAction"),
                                         AntPathRequestMatcher.antMatcher("/board/**"),
-                                        AntPathRequestMatcher.antMatcher("/join/**")
+                                        AntPathRequestMatcher.antMatcher("/board/**"),
+                                        AntPathRequestMatcher.antMatcher("/findId"),
+                                        AntPathRequestMatcher.antMatcher("/findPw")
                                 )
                                 .permitAll()
                                 .anyRequest().authenticated()
@@ -142,12 +151,12 @@ public class SecurityConfig {
                                 .usernameParameter("memberMail")
                                 .passwordParameter("memberPw")
                                 .loginProcessingUrl("/loginAction")
-                                .defaultSuccessUrl("/")
+//                                .defaultSuccessUrl("/")   //이게 여기있으면 아래꺼 못탐
                                 .failureUrl("/login")
                                 .successHandler(customLoginSuccessHandler)
                                 .failureHandler(customLoginFailureHandler)
                 )
-//                .userDetailsService(principalDetailsService)   // 이거 주석해도될거같은데? 위에 loginProcessingUrl 호출덕분에
+                .userDetailsService(principalDetailsService)
 
                 .logout((logoutConfig) ->
                         logoutConfig
@@ -158,7 +167,7 @@ public class SecurityConfig {
                 )
                 .oauth2Login((oauth2) -> oauth2 // OAuth2 로그인 구성을 위한 설정을 가져옴
                         .loginPage("/oauth2/authorization/google") // 권한 접근 실패 시 로그인 페이지로 이동
-                        .defaultSuccessUrl("http://localhost:8090") // 로그인 성공 시 이동할 페이지
+//                        .defaultSuccessUrl("http://localhost:8090") // 로그인 성공 시 이동할 페이지
                         .failureUrl("/oauth2/authorization/google") // 로그인 실패 시 이동 페이지
                         // 사용자 정보 엔드포인트에 대한 설정 추가 // 사용자 서비스 구성(로그인 성공 후 사용자 정보 처리)
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(OAuth2UserService))

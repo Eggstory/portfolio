@@ -27,8 +27,20 @@ public class MemberResponseDto {
     private String memberRole;
     private boolean isLimited;
     private String memberStatus;
+    private String introduction;
+    private String profileImage;
+
 //    private int failedAttempt;
 //    private LocalDateTime lockTime;
+
+    @Builder
+    public MemberResponseDto(Long memberIdx, String memberName, String memberMail, String introduction, String profileImage) {
+        this.memberIdx = memberIdx;
+        this.memberName = memberName;
+        this.memberMail = memberMail;
+        this.introduction = introduction;
+        this.profileImage = profileImage;
+    }
 
     @Builder
     public MemberResponseDto(Member member) {
