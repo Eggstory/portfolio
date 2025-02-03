@@ -1,5 +1,6 @@
 package com.spring.portfolio.entity;
 
+import com.spring.portfolio.dto.MemberRequestDto;
 import com.spring.portfolio.dto.Role;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -30,6 +31,8 @@ public class Member extends BaseEntity {
     @ColumnDefault("false")
     @Column(nullable = false)
     private boolean isLimited;
+    @ColumnDefault("N")
+    private String visible;
 
 //    @Embedded
 //    private Address address;
@@ -50,7 +53,7 @@ public class Member extends BaseEntity {
 //    private String refreshToken;   //  jwt 토큰키 인거같은데(refresh Token)
 
     @Builder
-    public Member(String memberPw, String memberName, String memberMail, String profileImage, String introduction, boolean isLimited, Role memberRole, String provider, String providerId) {
+    public Member(String memberPw, String memberName, String memberMail, String profileImage, String introduction, boolean isLimited, Role memberRole, String provider, String providerId, String visible) {
 //        this.memberId = memberId;
         this.memberPw = memberPw;
         this.memberName = memberName;
@@ -61,7 +64,15 @@ public class Member extends BaseEntity {
         this.memberRole = memberRole;
         this.provider = provider;
         this.providerId = providerId;
+        this.visible = visible;
 //        this.refreshToken = refreshToken;
+    }
+
+    public void modifyInfo(MemberRequestDto dto) {
+
+        this.visible = dto.getVisible();
+        this.memberName = dto.getMemberName();
+        this.introduction = dto.getIntroduction();
     }
 
 //    // , Address address, String detailAddress, String memberPhone, String memberLock

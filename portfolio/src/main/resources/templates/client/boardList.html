@@ -35,7 +35,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="board : ${board}" th:if="${board.visible}">
+            <tr th:each="board : ${board}" th:if="${board.forceVisible}">
                 <td th:text="${board.boardIdx}">111111</td>
                 <td th:text="${board.boardSubject}">공지</td>
                 <td th:text="${board.boardTitle}" class="table-title td-href"

@@ -17,6 +17,7 @@ import org.springframework.validation.FieldError;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -118,8 +119,19 @@ public class MemberService {
         String memberMail = member.getMemberMail();
         String introduction = member.getIntroduction();
         String profileImage = member.getProfileImage();
+        String visible = member.getVisible();
 
-        return new MemberResponseDto(memberIdx, memberName, memberMail, introduction, profileImage);
+        return new MemberResponseDto(memberIdx, memberName, memberMail, introduction, profileImage, visible);
+    }
+
+    @Transactional
+    public void editMember(MemberRequestDto dto) {
+
+        Member memberEntity = memberRepo.findById(dto.getMemberIdx()).orElseThrow(() -> new UsernameNotFoundException("인증되지 않았습니다."));
+
+        // 더티체킹
+        memberEntity.modifyInfo(dto);
+
     }
 
 

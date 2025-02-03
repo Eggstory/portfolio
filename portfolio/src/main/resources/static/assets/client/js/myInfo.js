@@ -47,12 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
       isPublic = !isPublic; // 상태 변경
       console.log(isPublic);
   
-      if (isPublic) {
+      if (switchVal.value == "Y") {
         open.style.display = 'none';
         private.style.display = "block";
         switchVal.value = "N";
         console.log(switchVal.value);
-      } else {
+      } else if (switchVal.value == "N") {
         open.style.display = 'block';
         private.style.display = "none";
         switchVal.value = "Y";
@@ -62,5 +62,84 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // =========================================================
 
+    // 데이터 전송
+    const editInfo = document.querySelector("#editInfo");
+    editInfo.addEventListener('click', function() {
+      let visible = document.querySelector("#switch").value;
+      let memberIdx = document.querySelector("#idx").value;
+      let memberName = document.querySelector("#inputName").value;
+      let introduction = document.querySelector("#inputIntroduction").value;
 
+      let requestData =  {
+        "memberIdx": memberIdx,
+        "memberName": memberName,
+        "introduction": introduction,
+        "visible": visible
+      };
+
+      // http://localhost:8090
+
+      // fetch
+      fetch("/myInfo/editAction", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(requestData)
+      })
+      .then(response => {
+        if(!response.ok) {
+          throw new Error("오류 발생")
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("서버응답 : ", data);
+        alert("데이터가 성공적으로 전송되었습니다.");
+        window.location.href='/myInfo'
+        document.querySelector("#displayName").textContent = data.memberName;
+        document.querySelector("#displayIntroduction").textContent = data.introduction;
+      })
+      .catch(error => {
+        console.error("오류 발생:", error);
+        alert("데이터 전송에 실패했습니다.");
+      })
+
+
+    //axios
+//    axios.post("/myInfo/editAction", requestData, {
+//        headers: {
+//          'Accept': 'application/json',
+//          "Content-Type": "application/json"
+//        }
+//      })
+//      .then(response => {
+//        console.log("서버응답 : ", response.data);
+//        alert("데이터가 성공적으로 전송되었습니다.");
+//      })
+//      .catch(error => {
+//        console.error("오류 발생:", error);
+//        alert("데이터 전송에 실패했습니다.");
+//      });
+
+    // jQuery AJAX 사용
+//      $.ajax({
+//        url: "/myInfo/editAction",
+//        type: "POST",
+//        contentType: "application/json",  // JSON 형식으로 보내기
+//        dataType: "json",  // 응답 데이터 형식
+//        data: JSON.stringify(requestData),  // 요청 데이터를 JSON으로 변환하여 보내기
+//        success: function(response) {
+//          console.log("서버응답 : ", response);
+//          alert("데이터가 성공적으로 전송되었습니다.");
+//        },
+//        error: function(xhr, status, error) {
+//          console.error("오류 발생:", error);
+//          alert("데이터 전송에 실패했습니다.");
+//        }
+//      });
+
+
+    })
 });

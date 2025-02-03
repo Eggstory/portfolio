@@ -29,17 +29,19 @@ public class MemberResponseDto {
     private String memberStatus;
     private String introduction;
     private String profileImage;
+    private String visible;
 
 //    private int failedAttempt;
 //    private LocalDateTime lockTime;
 
     @Builder
-    public MemberResponseDto(Long memberIdx, String memberName, String memberMail, String introduction, String profileImage) {
+    public MemberResponseDto(Long memberIdx, String memberName, String memberMail, String introduction, String profileImage, String visible) {
         this.memberIdx = memberIdx;
         this.memberName = memberName;
         this.memberMail = memberMail;
         this.introduction = introduction;
         this.profileImage = profileImage;
+        this.visible = visible;
     }
 
     @Builder
@@ -68,6 +70,7 @@ public class MemberResponseDto {
         } else {
             this.memberStatus = "정지";
         }
+        this.visible = member.getVisible();
 //        this.failedAttempt = member.getFailedAttempt();
 //        this.lockTime = member.getLockTime();
     }

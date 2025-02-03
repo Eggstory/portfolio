@@ -12,6 +12,8 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberRequestDto {
 
+    private Long memberIdx;
+
 //    private String memberId;
     @NotBlank(message = "비밀번호는 필수 입력 값입니다.")
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
@@ -26,16 +28,29 @@ public class MemberRequestDto {
 
     private Role memberRole;
     private boolean isLimited;
+    private String visible;
+
+    private String introduction;
+    private String profileImage;
 
 
     @Builder
-    public MemberRequestDto(String memberPw, String memberName, String memberMail, String profile, Address memberAddress, String detailAddress, String memberPhone, boolean isLimited) {
+    public MemberRequestDto(String memberName, Long memberIdx, String introduction, String visible) {
+        this.memberIdx = memberIdx;
+        this.memberName = memberName;
+        this.introduction = introduction;
+        this.visible = visible;
+    }
+
+    @Builder
+    public MemberRequestDto(String memberName, String memberMail, String profile, Address memberAddress, String detailAddress, String memberPhone, boolean isLimited, String visible) {
 //        this.memberId = memberId;
         this.memberPw = memberPw;
         this.memberName = memberName;
         this.memberMail = memberMail;
         this.memberRole = Role.USER;
         this.isLimited = false;
+        this.visible = "N";
     }
 
 
@@ -53,10 +68,9 @@ public class MemberRequestDto {
 //                .memberLock(memberLock)
                 .memberRole(memberRole)
                 .isLimited(isLimited)
+                .visible(visible)
 //                .failedAttempt(failedAttempt)
                 .build();
     }
-
-
 
 }

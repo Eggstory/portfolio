@@ -41,6 +41,7 @@ public class ExceptionAdviceHandler {
 //        return ResponseEntity.status(response.getStatus()).body(response);
 //    }
 
+
     @ExceptionHandler(ConstraintViolationException.class)
     protected String handleConstraintViolationException(ConstraintViolationException e, Model model) {
         ErrorResponse response = new ErrorResponse(ErrorCode.BOARD_TITLE_IS_EMPTY);

@@ -18,6 +18,8 @@ import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity // 스프링 시큐리티 필터가 스프링 필터체인으로 등록됨
@@ -124,7 +126,8 @@ public class SecurityConfig {
                                         AntPathRequestMatcher.antMatcher("/board/writeAction"),
                                         AntPathRequestMatcher.antMatcher("/board/replyDelete"),
                                         AntPathRequestMatcher.antMatcher("/board/replyAction"),
-                                        AntPathRequestMatcher.antMatcher("/myInfo")
+                                        AntPathRequestMatcher.antMatcher("/myInfo"),
+                                        AntPathRequestMatcher.antMatcher("/myInfo/editAction")
                                 )
                                 .hasAnyAuthority(Role.USER.name(), Role.ADMIN.name(), Role.MASTER.name())
                                 .requestMatchers(
@@ -215,5 +218,24 @@ public class SecurityConfig {
 //    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
 //        return authenticationConfiguration.getAuthenticationManager();
 //    }
+
+    // 프론트랑 백엔드 포트가 다를때 cors 허용해주는거
+    /*
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**")
+                        .allowedOrigins("http://localhost:3000")  // 프론트엔드 URL
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowCredentials(true);
+            }
+        };
+    }
+
+     */
+
+
 
 }

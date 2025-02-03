@@ -8,6 +8,7 @@
     <div th:replace="~{/client/fragments/Head.html :: common-head}" />
 
     <script src="/assets/client/js/myInfo.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link
       rel="stylesheet"
       href="/assets/client/css/myInfo.css"
@@ -23,17 +24,20 @@
               <div class="top">
                   <div class="title">개인 정보 수정
                     <span class="wrapper">
-                      <input type="checkbox" id="switch" name="visible">
+                      <input type="checkbox" id="switch" name="visible" th:value="${member.visible}">
                       <label for="switch" class="switch_label">
                         <span class="onf_btn"></span>
                       </label>
                     </span>
                     <div>
+                      <div class="private font-size12 font-color-blue" style="display: block;">
+                        *비공개상태 입니다.
+                      </div>
                       <div class="open font-size12 font-color-blue" style="display: none;">
                         *공개상태 입니다.
                       </div>
-                      <div class="private font-size12 font-color-blue" style="display: block;">
-                        *비공개상태 입니다.
+                      <div class="font-size12 font-color-red">
+                        *저장을 해주셔야 반영됩니다.
                       </div>
                     </div>
                   </div>
@@ -42,11 +46,12 @@
               <div class="ct">
                 <div>
                   <form class="modify-form">
-                    <label for="inputName" th:text="${member.memberName}">이름</label>
-                    <input type="text" name="name" id="inputName" placeholder="" maxlength="10">
+                    <input type="hidden" name="idx" id="idx" th:value="${member.memberIdx}">
+                    <label for="inputName">이름</label>
+                    <input type="text" name="name" id="inputName" th:placeholder="${member.memberName}" maxlength="10" minlength="1">
                     <div class="empty-space20"></div>
-                    <label for="inputIntroduce">자기소개</label>
-                    <textarea class="modify-introduce" type="text" name="introduce" id="inputIntroduce" placeholder=""></textarea>
+                    <label for="inputIntroduction">자기소개</label>
+                    <textarea class="modify-introduce" type="text" name="introduction" id="inputIntroduction" th:placeholder="${member.introduction}"></textarea>
                   </form>
                   <div class="float-right">
                     <div class="info-btn">사진 변경</div>
@@ -55,7 +60,7 @@
                   </div>
                   <div class="empty-space"></div>
                   <div class="submit-container">
-                    <div class="info-btn">저장</div>
+                    <div class="info-btn" id="editInfo">저장</div>
                     <div class="info-btn">취소</div>
                   </div>
                 </div>
@@ -66,7 +71,7 @@
       </div>
       <div class="main-container">
         <div class="header">
-          <span class="go-back" onclick="location.href=document.referrer">
+          <span class="go-back" onclick="location.href='/'">
             ← 뒤로가기</span
           >
         </div>
@@ -79,8 +84,8 @@
           </div>
           <div class="profile-info">
             <div class="z-index-1">
-              <div class="name" th:text="${member.memberName}">이름</div>
-              <div class="email font-size15 font-color-gray"  th:text="${member.memberMail}">이메일주소</div>
+              <div class="name" id="displayName" th:text="${member.memberName}">이름</div>
+              <div class="email font-size15 font-color-gray" id="displayIntroduction" th:text="${member.memberMail}">이메일주소</div>
             </div>
             <div class="introduce font-size15 font-color-gray"  th:text="${member.introduction}">
               자기 소개자기 소개자기 소개자기 소개자기 소개자기 소개자기

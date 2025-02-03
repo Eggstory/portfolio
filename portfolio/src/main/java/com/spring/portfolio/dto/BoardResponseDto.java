@@ -23,7 +23,7 @@ public class BoardResponseDto {
     private Long memberIdx;
     private int viewCount;
     private int likeCount;
-    private boolean visible;
+    private boolean forceVisible;
     private String boardImage;
     private String boardContent;
     private LocalDateTime createDate;
@@ -41,19 +41,19 @@ public class BoardResponseDto {
             this.boardMail = "";
             this.memberId = "";
             this.memberIdx = 0L;
-            this.visible = true;
+            this.forceVisible = true;
         } else if(board.getMember().isLimited()) {
             this.boardWriter = "[정지된 계정]";
             this.boardMail = "";
             this.memberId = "";
             this.memberIdx = board.getMember().getMemberIdx();
-            this.visible = false;
+            this.forceVisible = false;
         } else {
             this.boardWriter = board.getMember().getMemberName();
             this.boardMail = board.getMember().getMemberMail();
             this.memberId = "("+boardMail.split("@")[0]+")";
             this.memberIdx = board.getMember().getMemberIdx();
-            this.visible = true;
+            this.forceVisible = true;
         }
         this.viewCount = board.getViewCount();
         this.likeCount = board.getLikeCount();

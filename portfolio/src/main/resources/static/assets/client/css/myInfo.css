@@ -251,6 +251,10 @@
   color: blue;
 }
 
+.font-color-red {
+  color: red;
+}
+
 .empty-space {
   height: 30px;
 }

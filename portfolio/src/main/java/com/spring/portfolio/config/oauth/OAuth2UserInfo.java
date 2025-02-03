@@ -82,6 +82,7 @@ public class OAuth2UserInfo {
                 .memberRole(Role.USER)
                 .provider(provider)
                 .providerId(providerId)
+                .visible("N")
                 .build();
     }
 
