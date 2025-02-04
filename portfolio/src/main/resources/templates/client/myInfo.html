@@ -24,18 +24,18 @@
               <div class="top">
                   <div class="title">개인 정보 수정
                     <span class="wrapper">
-                      <input type="checkbox" id="switch" name="visible" th:value="${member.visible}">
+                      <input type="checkbox" id="switch" name="visible" th:checked="${checked}" th:value="${member.visible}">
                       <label for="switch" class="switch_label">
                         <span class="onf_btn"></span>
                       </label>
                     </span>
                     <div>
-                      <div class="private font-size12 font-color-blue" style="display: block;">
+                      <div class="private font-size12 font-color-blue">
                         *비공개상태 입니다.
                       </div>
-                      <div class="open font-size12 font-color-blue" style="display: none;">
-                        *공개상태 입니다.
-                      </div>
+<!--                      <div class="open font-size12 font-color-blue" th:if="${member.visible eq 'Y'}" style="display: block;">-->
+<!--                        *공개상태 입니다.-->
+<!--                      </div>-->
                       <div class="font-size12 font-color-red">
                         *저장을 해주셔야 반영됩니다.
                       </div>
@@ -48,20 +48,20 @@
                   <form class="modify-form">
                     <input type="hidden" name="idx" id="idx" th:value="${member.memberIdx}">
                     <label for="inputName">이름</label>
-                    <input type="text" name="name" id="inputName" th:placeholder="${member.memberName}" maxlength="10" minlength="1">
+                    <input type="text" name="name" id="inputName" maxlength="10" minlength="1" th:placeholder="${member.memberName}">
                     <div class="empty-space20"></div>
                     <label for="inputIntroduction">자기소개</label>
                     <textarea class="modify-introduce" type="text" name="introduction" id="inputIntroduction" th:placeholder="${member.introduction}"></textarea>
                   </form>
                   <div class="float-right">
-                    <div class="info-btn">사진 변경</div>
-                    <div class="info-btn">비밀번호 재발급</div>
-                    <div class="info-btn">계정 삭제</div>
+                    <div class="info-btn" id="changePic">사진 변경</div>
+                    <div class="info-btn" id="reissuePw">비밀번호 재발급</div>
+                    <div class="info-btn" id="deleteAccount">계정 삭제</div>
                   </div>
                   <div class="empty-space"></div>
                   <div class="submit-container">
                     <div class="info-btn" id="editInfo">저장</div>
-                    <div class="info-btn">취소</div>
+                    <div class="info-btn close2">취소</div>
                   </div>
                 </div>
               </div>
@@ -85,9 +85,9 @@
           <div class="profile-info">
             <div class="z-index-1">
               <div class="name" id="displayName" th:text="${member.memberName}">이름</div>
-              <div class="email font-size15 font-color-gray" id="displayIntroduction" th:text="${member.memberMail}">이메일주소</div>
+              <div class="email font-size15 font-color-gray" id="displayMail" th:text="${member.memberMail}" >이메일주소</div>
             </div>
-            <div class="introduce font-size15 font-color-gray"  th:text="${member.introduction}">
+            <div class="introduce font-size15 font-color-gray" id="displayIntroduction" th:text="${member.introduction}">
               자기 소개자기 소개자기 소개자기 소개자기 소개자기 소개자기
               소개자기 소개자기 소개자기 소개자기 소개자기 소개자기 소개자기
               소개자기 소개자기 소개자기 소개자기 소개자기 소개자기 소개자기
@@ -201,5 +201,26 @@
       </div>
       <div class="footer"></div>
     </div>
+
+  <script>
+
+<!--  document.addEventListener("DOMContentLoaded", function () {-->
+<!--  fetch("http://localhost:8090/api/myInfo")-->
+<!--    .then(response => response.json())-->
+<!--    .then(data => {-->
+<!--    console.log(data.memberName);-->
+<!--    console.log(data.memberMail);-->
+<!--    console.log(data.introduction);-->
+<!--        document.querySelector("#displayName").textContent = data.memberName;-->
+<!--        document.querySelector("#inputName").placeholder = data.memberName;-->
+<!--        document.querySelector("#displayMail").textContent = data.memberMail;-->
+<!--        document.querySelector("#displayIntroduction").textContent = data.introduction;-->
+<!--        document.querySelector("#inputIntroduction").placeholder = data.introduction;-->
+<!--    })-->
+<!--    .catch(error => console.error("데이터 불러오기 실패:", error));-->
+<!--  });-->
+  </script>
+
+
   </body>
 </html>

@@ -3,10 +3,13 @@ package com.spring.portfolio.service;
 import com.spring.portfolio.config.PrincipalDetails;
 import com.spring.portfolio.dto.MemberRequestDto;
 import com.spring.portfolio.dto.MemberResponseDto;
+import com.spring.portfolio.dto.Role;
 import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.store.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,6 +34,8 @@ public class MemberService {
     public void registerMember(MemberRequestDto memberRequestDto, Errors errors) {
         String encodePw = passwordEncoder.encode(memberRequestDto.getMemberPw());
         memberRequestDto.setMemberPw(encodePw);
+        memberRequestDto.setMemberRole(Role.USER);
+        memberRequestDto.setVisible("N");
         Member memberEntity = memberRequestDto.toEntity();
         memberRepo.save(memberEntity);
     }
@@ -113,7 +118,11 @@ public class MemberService {
 
     public MemberResponseDto loadMemberInfo(PrincipalDetails principalDetails) {
 
-        Member member = principalDetails.getMember();
+        Long dbIdx = principalDetails.getMember().getMemberIdx();
+
+        Member member = memberRepo.findById(dbIdx).orElseThrow(() -> new UsernameNotFoundException("인증되지 않았습니다."));
+
+//        Member member = principalDetails.getMember();
         Long memberIdx = member.getMemberIdx();
         String memberName = member.getMemberName();
         String memberMail = member.getMemberMail();
@@ -134,7 +143,4 @@ public class MemberService {
 
     }
 
-
-//    public MemberResponseDto signin(MemberRequestDto memberRequestDto) {
-//    }
 }

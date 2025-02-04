@@ -98,4 +98,35 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 //        );
 //    }
 
+
+// ==========================================================================================================
+    // 여기는 chatGPT에서 검색해본 방식
+    /*
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        OAuth2User oAuth2User = super.loadUser(userRequest);
+
+        String registrationId = userRequest.getClientRegistration().getRegistrationId();
+        String userNameAttributeName = userRequest.getClientRegistration().getProviderDetails()
+            .getUserInfoEndpoint().getUserNameAttributeName();
+
+        OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(registrationId, oAuth2User.getAttributes());
+
+        Member member = saveOrUpdate(oAuth2UserInfo, registrationId);
+
+        return new CustomOAuth2User(member, oAuth2User.getAttributes());
+    }
+
+    private Member saveOrUpdate(OAuth2UserInfo oAuth2UserInfo, String registrationId) {
+        Member member = memberRepository.findByEmail(oAuth2UserInfo.getEmail())
+            .orElseGet(() -> memberRepository.save(Member.builder()
+                .email(oAuth2UserInfo.getEmail())
+                .name(oAuth2UserInfo.getName())
+                .picture(oAuth2UserInfo.getPicture())
+                .role(Role.USER)
+                .provider(registrationId)
+                .build()));
+        return member;
+    }
+     */
 }

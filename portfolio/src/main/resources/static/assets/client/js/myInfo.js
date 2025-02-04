@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const modal = document.querySelector('#modal');
     const btn = document.querySelector('.modify-btn');
     const close = document.querySelector('.close');
+    const close2 = document.querySelector('.close2');
   
     // 수정하기 모달창 열기
     btn.addEventListener('click', ()=> {
@@ -14,8 +15,14 @@ document.addEventListener("DOMContentLoaded", () => {
   
     // 수정하기 모달창 닫기
     close.addEventListener('click', ()=> {
-      modal.style.display = 'none';
+//      modal.style.display = 'none';
+//        location.reload();
+        history.go(0);
     } )
+
+    close2.addEventListener('click', () => {
+      history.go(0);
+    })
     // close.onclick = function () {
     //   modal.style.display = 'none';
     // };
@@ -38,29 +45,84 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 개인정보 상태변경
     const switchLabel = document.querySelector(".switch_label");
-    const open = document.querySelector(".open");
-    const private = document.querySelector(".private");
+//    let open = document.querySelector(".open");
+    let private = document.querySelector(".private");
     let switchVal = document.querySelector("#switch");
     let isPublic = true;
 
-    switchLabel.addEventListener("click", function () {
+    if (switchVal.value == "Y") {
+      private.textContent = "*공개상태 입니다";
+    } else if (switchVal.value == "N") {
+      private.textContent = "*비공개상태 입니다";
+    }
+
+
+    switchLabel.addEventListener("click", () => {
       isPublic = !isPublic; // 상태 변경
       console.log(isPublic);
   
       if (switchVal.value == "Y") {
-        open.style.display = 'none';
-        private.style.display = "block";
+        switchVal.checked = true;
+//        open.style.display = 'none';
+//        private.style.display = "block";
         switchVal.value = "N";
+        private.textContent = "*비공개상태 입니다";
         console.log(switchVal.value);
       } else if (switchVal.value == "N") {
-        open.style.display = 'block';
-        private.style.display = "none";
+      switchVal.checked = false;
+//        open.style.display = 'block';
+//        private.style.display = "none";
         switchVal.value = "Y";
+        private.textContent = "*공개상태 입니다";
         console.log(switchVal.value);
       }
     })
 
+    // ========================================================
+
+    // 버튼들 기능구현
+    const changePic = document.querySelector("#changePic");
+    const reissuePw = document.querySelector("#reissuePw");
+    const delAccount = document.querySelector("#deleteAccount");
+
+    let checkDelete = "계정삭제"
+
+    delAccount.addEventListener('click', () => {
+      let memberIdx = parseInt(document.querySelector("#idx").value);
+      let queryData = { "memberIdx": memberIdx}
+
+      let delPrompt = prompt(`계정 삭제를 원하신다면, '${checkDelete}'를 입력해주세요`);
+      if(delPrompt == checkDelete) {
+        fetch("/myInfo/delete", {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(queryData)
+        })
+        .then(response => {
+          if(response.ok) {
+            alert("삭제 완료");
+            location.href = '/';
+          } else {
+            console.error("요청 실패! 상태 코드:", response.status);
+          }
+        })
+        .catch(error => {
+          console.error("오류 발생", error);
+          alert("데이터 전송에 실패했습니다.");
+        })
+      } else {
+        alert("문구가 달라 삭제되지 않았습니다.")
+      }
+    })
+
+
     // =========================================================
+
+    // 이름 조건
+    var pattern_name = /^[ㄱ-ㅎ가-힣a-z0-9-_]{2,10}$/;
 
     // 데이터 전송
     const editInfo = document.querySelector("#editInfo");
@@ -80,31 +142,37 @@ document.addEventListener("DOMContentLoaded", () => {
       // http://localhost:8090
 
       // fetch
-      fetch("/myInfo/editAction", {
-        method: "POST",
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(requestData)
-      })
-      .then(response => {
-        if(!response.ok) {
-          throw new Error("오류 발생")
+      if(pattern_name.test(memberName)) {
+        fetch("/myInfo/editAction", {
+          method: "POST",
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(requestData)
+        })
+        .then(response => {
+          if(!response.ok) {
+            throw new Error("오류 발생")
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log("서버응답 : ", data);
+          alert("데이터가 성공적으로 전송되었습니다.");
+          location.reload();
+  //        modal.style.display = 'none';
+  //        document.querySelector("#displayName").textContent = data.memberName;
+  //        document.querySelector("#displayIntroduction").textContent = data.introduction;
+        })
+        .catch(error => {
+          console.error("오류 발생:", error);
+          alert("데이터 전송에 실패했습니다.");
+        })
+      } else {
+            alert("이름 조건 : 2이상 10이하 글자수");
+            return;
         }
-        return response.json();
-      })
-      .then(data => {
-        console.log("서버응답 : ", data);
-        alert("데이터가 성공적으로 전송되었습니다.");
-        window.location.href='/myInfo'
-        document.querySelector("#displayName").textContent = data.memberName;
-        document.querySelector("#displayIntroduction").textContent = data.introduction;
-      })
-      .catch(error => {
-        console.error("오류 발생:", error);
-        alert("데이터 전송에 실패했습니다.");
-      })
 
 
     //axios

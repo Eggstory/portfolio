@@ -126,8 +126,7 @@ public class SecurityConfig {
                                         AntPathRequestMatcher.antMatcher("/board/writeAction"),
                                         AntPathRequestMatcher.antMatcher("/board/replyDelete"),
                                         AntPathRequestMatcher.antMatcher("/board/replyAction"),
-                                        AntPathRequestMatcher.antMatcher("/myInfo"),
-                                        AntPathRequestMatcher.antMatcher("/myInfo/editAction")
+                                        AntPathRequestMatcher.antMatcher("/myInfo/**")
                                 )
                                 .hasAnyAuthority(Role.USER.name(), Role.ADMIN.name(), Role.MASTER.name())
                                 .requestMatchers(
@@ -169,9 +168,9 @@ public class SecurityConfig {
                                 .logoutSuccessUrl("/")
                 )
                 .oauth2Login((oauth2) -> oauth2 // OAuth2 로그인 구성을 위한 설정을 가져옴
-                        .loginPage("/oauth2/authorization/google") // 권한 접근 실패 시 로그인 페이지로 이동
+                        .loginPage("/login") // 권한 접근 실패 시 로그인 페이지로 이동
 //                        .defaultSuccessUrl("http://localhost:8090") // 로그인 성공 시 이동할 페이지
-                        .failureUrl("/oauth2/authorization/google") // 로그인 실패 시 이동 페이지
+//                        .failureUrl("/oauth2/authorization/google") // 로그인 실패 시 이동 페이지
                         // 사용자 정보 엔드포인트에 대한 설정 추가 // 사용자 서비스 구성(로그인 성공 후 사용자 정보 처리)
                         .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(OAuth2UserService))
                         .successHandler(oAuth2SuccessHandler)

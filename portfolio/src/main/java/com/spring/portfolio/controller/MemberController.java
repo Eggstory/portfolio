@@ -68,11 +68,14 @@ public class MemberController {
     }
 
     @PostMapping("/joinAction")
-    public String joinAction(@Valid MemberRequestDto memberRequestDto, Errors errors) {
+    @ResponseBody
+    public ResponseEntity<?> joinAction(@RequestBody @Valid MemberRequestDto memberRequestDto, Errors errors) {
 
         memberService.registerMember(memberRequestDto,errors);
 
-        return "redirect:/";
+//        return "<script>alert('회원가입 완료'); location.href='/'</script>";
+//        return "redirect:/";
+        return ResponseEntity.ok((Map.of("message", "회원가입이 완료되었습니다.")));
     }
 
 
@@ -104,8 +107,28 @@ public class MemberController {
         model.addAttribute("member", memberResponseDto);
         model.addAttribute("board", boardResponseDtos);
 
+        boolean checked;
+        String visible = memberResponseDto.getVisible();
+        if(visible.equals("Y")) {
+            checked = true;
+        } else {
+            checked = false;
+        }
+
+        model.addAttribute("checked", checked);
+
         return "client/myInfo";
     }
+
+//    @GetMapping("/api/myInfo")
+//    @ResponseBody
+//    public ResponseEntity<MemberResponseDto> getMyInfo(@AuthenticationPrincipal PrincipalDetails principalDetails) {
+//
+//        MemberResponseDto memberResponseDto = memberService.loadMemberInfo(principalDetails);
+// //        List<BoardResponseDto> boardResponseDtos = boardService.loadBoardList(memberResponseDto.getMemberIdx());
+//
+//        return ResponseEntity.ok(memberResponseDto);
+//    }
 
     @ResponseBody
     @PostMapping("/myInfo/editAction")
@@ -142,6 +165,19 @@ public class MemberController {
     @GetMapping("/findPw")
     public String findPw() {
         return "client/findPw";
+    }
+
+    @PostMapping("/myInfo/delete")
+    @ResponseBody
+    public ResponseEntity<?> deleteAccount(@RequestBody Map<String,Long> request, HttpServletRequest sessionInfo) {
+
+        memberService.deleteMember(request.get("memberIdx"));
+        HttpSession session = sessionInfo.getSession(false);
+        if(session != null) {
+            session.invalidate();
+        }
+
+        return ResponseEntity.ok().build();
     }
 
 
