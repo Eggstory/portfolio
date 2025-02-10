@@ -1,6 +1,5 @@
 ## 프로젝트 요약
- - spring boot + spring security + spirng JPA + mariaDB + OAuth2 를 사용한 종합 사이트
- - 게시판과 쇼핑몰을 합친 사이트를 구현하려고 했으나, 현재는 게시판까지만 구현
+ - spring boot + spring security + spirng JPA + mariaDB + OAuth2 를 사용한 게시판 사이트
 
 ## 버전
  - Java : 17
@@ -14,12 +13,5 @@
  - SummerNote 에디터를 이용한 게시글 쓰기 페이지
  - 댓글, 대댓글 기능 구현
  - 페이징처리 및 검색 기능
- - 오류 작동시 예외 페이지
+ - Java Mail을 이용한 비밀번호 재발급
  - 게시글 필터 기능
-
- ## 미구현 (구현예정)
-  - Redis를 이용한 JWT 로그인 및 회원가입 (Redis 공부중)
-  - WebSocket을 이용한 1:1 채팅 문의 페이지
-  - 쇼핑몰 사이트 (배송 api는 넣을지 말지 고민중)
-  - 오라클 클라우드를 이용한 배포 (AWS 클라우드는 비용문제 때문에 오라클 클라우드를 선택하게 되었습니다.)
-  - SMTP를 사용한 비밀번호 재발급
