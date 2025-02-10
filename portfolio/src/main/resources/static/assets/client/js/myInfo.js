@@ -82,11 +82,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 버튼들 기능구현
     const changePic = document.querySelector("#changePic");
-    const reissuePw = document.querySelector("#reissuePw");
+    const resetPw = document.querySelector("#resetPw");
     const delAccount = document.querySelector("#deleteAccount");
 
     let checkDelete = "계정삭제"
 
+    // 계정 삭제
     delAccount.addEventListener('click', () => {
       let memberIdx = parseInt(document.querySelector("#idx").value);
       let queryData = { "memberIdx": memberIdx}
@@ -117,6 +118,11 @@ document.addEventListener("DOMContentLoaded", () => {
         alert("문구가 달라 삭제되지 않았습니다.")
       }
     })
+
+    // 비밀번호 변경 사이트로 이동
+    resetPw.addEventListener('click', () => {
+      location.href = "/changePw"
+    });
 
 
     // =========================================================

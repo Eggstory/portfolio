@@ -66,3 +66,12 @@ img {
   width: 120px;
   height: 40px;
 }
+
+.a-tag {
+  color: #0d6efd;
+  text-decoration-line: underline;
+}
+
+.a-tag:hover {
+  cursor: pointer;
+}

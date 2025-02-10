@@ -75,6 +75,11 @@ public class Member extends BaseEntity {
         this.introduction = dto.getIntroduction();
     }
 
+    public void modifyPw(String memberPw) {
+
+        this.memberPw = memberPw;
+    }
+
 //    // , Address address, String detailAddress, String memberPhone, String memberLock
 //    @Builder
 //    public Member(String memberId, String memberPw, String memberName, String memberMail, String profileImage, Role memberRole,String provider, String providerId, String memberKey) {

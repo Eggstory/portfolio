@@ -140,9 +140,7 @@ public class SecurityConfig {
                                         AntPathRequestMatcher.antMatcher("/joinAction"),
                                         AntPathRequestMatcher.antMatcher("/loginAction"),
                                         AntPathRequestMatcher.antMatcher("/board/**"),
-                                        AntPathRequestMatcher.antMatcher("/board/**"),
-                                        AntPathRequestMatcher.antMatcher("/findId"),
-                                        AntPathRequestMatcher.antMatcher("/findPw")
+                                        AntPathRequestMatcher.antMatcher("/resetPw")
                                 )
                                 .permitAll()
                                 .anyRequest().authenticated()

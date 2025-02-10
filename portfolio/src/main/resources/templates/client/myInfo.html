@@ -55,7 +55,7 @@
                   </form>
                   <div class="float-right">
                     <div class="info-btn" id="changePic">사진 변경</div>
-                    <div class="info-btn" id="reissuePw">비밀번호 재발급</div>
+                    <div class="info-btn" id="resetPw">비밀번호 변경</div>
                     <div class="info-btn" id="deleteAccount">계정 삭제</div>
                   </div>
                   <div class="empty-space"></div>
@@ -120,7 +120,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr th:each="board : ${board}">
+              <tr th:if="${not #lists.isEmpty(board)}" th:each="board : ${board}">
                 <td th:text="${board.boardIdx}">111111</td>
                 <td
                   th:text="${board.boardTitle}"
@@ -136,6 +136,9 @@
                 </td>
                 <td class="center" th:text="${board.viewCount}">10000</td>
                 <td class="center" th:text="${board.likeCount}">1000</td>
+              </tr>
+              <tr th:if="${#lists.isEmpty(board)}">
+                <td colspan="5" class="non-write">작성한 게시글이 없습니다.</td>
               </tr>
             </tbody>
           </table>

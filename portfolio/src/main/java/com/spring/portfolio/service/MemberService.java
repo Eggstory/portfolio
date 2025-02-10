@@ -98,6 +98,24 @@ public class MemberService {
     }
 
     @Transactional
+    public void changePw(Long memberIdx, String beforePw, String newPw1, String newPw2) {
+
+        Member member = memberRepo.findById(memberIdx).orElseThrow(() -> new UsernameNotFoundException("인증되지 않았습니다."));
+
+        boolean matches = passwordEncoder.matches(beforePw, member.getMemberPw());
+
+        String encodePw = passwordEncoder.encode(newPw1);
+
+        if (matches) {
+            if (newPw1.equals(newPw2)) {
+                // 더티체킹
+                member.modifyPw(encodePw);
+            }
+        }
+
+    }
+
+    @Transactional
     public void deleteMember(Long idx) {
 
         memberRepo.deleteById(idx);
@@ -142,5 +160,6 @@ public class MemberService {
         memberEntity.modifyInfo(dto);
 
     }
+
 
 }

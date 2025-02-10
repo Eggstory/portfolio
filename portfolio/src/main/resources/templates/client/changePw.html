@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>changePw</title>
+
+    <div th:replace="~{/client/fragments/Head.html :: common-head}" />
+
+    <script src="/assets/client/js/changePw.js"></script>
+    <link
+            rel="stylesheet"
+            href="/assets/client/css/changePw.css"
+            type="text/css"
+    />
+</head>
+<body>
+    <div class="wrap">
+        <div class="main-container">
+            <div class="top">
+                <div class="title">비밀번호 변경</div>
+                <a href="/myInfo" class="close">X</a>
+            </div>
+            <div>
+                <form>
+
+                    <label for="pw">현재 비밀번호</label>
+                    <input type="text" name="pw" id="pw">
+
+                    <label for="newPw1">새로운 비밀번호</label>
+                    <input type="text" name="newPw1" id="newPw1">
+
+                    <label for="newPw2">새로운 비밀번호 확인</label>
+                    <input type="text" name="newPw2" id="newPw2">
+
+                </form>
+                <div id="result"></div>
+                <div class="display-flex btn-box">
+                    <div id="changePw">비밀번호 변경하기</div>
+                </div>
+            </div>
+        </div>
+        <div>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -7,11 +7,14 @@ import com.spring.portfolio.dto.MemberRequestDto;
 import com.spring.portfolio.dto.MemberResponseDto;
 import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.service.BoardService;
+import com.spring.portfolio.service.MailService;
 import com.spring.portfolio.service.MemberService;
+import com.spring.portfolio.service.ReplyService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -30,6 +33,8 @@ public class MemberController {
 
     private final MemberService memberService;
     private final BoardService boardService;
+    private final ReplyService replyService;
+    private final MailService mailService;
 
 //    @GetMapping("/login")
 //    public String login() {
@@ -158,20 +163,20 @@ public class MemberController {
 //        return "<script>location.href='/myInfo'</script>";
     }
 
-    @GetMapping("/findId")
-    public String findId() {
-        return "client/findId";
-    }
-    @GetMapping("/findPw")
+    @GetMapping("/changePw")
     public String findPw() {
-        return "client/findPw";
+        return "client/changePw";
     }
 
     @PostMapping("/myInfo/delete")
     @ResponseBody
     public ResponseEntity<?> deleteAccount(@RequestBody Map<String,Long> request, HttpServletRequest sessionInfo) {
 
-        memberService.deleteMember(request.get("memberIdx"));
+        Long idx = request.get("memberIdx");
+
+        replyService.updateMemberNull(idx);
+        boardService.updateMemberNull(idx);
+        memberService.deleteMember(idx);
         HttpSession session = sessionInfo.getSession(false);
         if(session != null) {
             session.invalidate();
@@ -180,6 +185,38 @@ public class MemberController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/resetPw")
+    @ResponseBody
+    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> request) {
+        String email = request.get("memberMail");
+
+        try {
+            mailService.sendResetPasswordEmail(email);
+            return ResponseEntity.ok("비밀번호 재설정 이메일이 전송되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("비밀번호 재설정 이메일 전송이 실패했습니다.");
+        }
+    }
+
+    @PostMapping("/myInfo/changePw")
+    @ResponseBody
+    public ResponseEntity<String> changePassword(@RequestBody Map<String, String> request, HttpServletRequest sessionInfo) {
+        String memberPw = request.get("memberPw");
+        String newPw1 = request.get("newPw1");
+        String newPw2 = request.get("newPw2");
+
+        HttpSession session = sessionInfo.getSession();
+        Long memberIdx = (Long) session.getAttribute("memberIdx");
+
+        try {
+            memberService.changePw(memberIdx, memberPw, newPw1, newPw2);
+            return ResponseEntity.ok("비밀번호가 변경되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("비밀번호 변경이 실패했습니다.");
+        }
+    }
 
 
 
