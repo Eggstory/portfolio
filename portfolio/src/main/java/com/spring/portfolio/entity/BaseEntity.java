@@ -25,12 +25,5 @@ public abstract class BaseEntity {
 
     @LastModifiedDate
     private LocalDateTime updateDate;
-    
-//    생성일 포맷 바꾸는 코드였는데 작동안되서 주석
-//    @PrePersist
-//    public void onPerPersist() {
-//        String customLocalDateTimeFormat = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-//        LocalDateTime parsedCreateDate = LocalDateTime.parse(customLocalDateTimeFormat, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-//        this.createDate = parsedCreateDate;
-//    }
+
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Embeddable
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+// 안쓰는듯
 public class Address {
     // 지역 (경기도 성남시 분당구)
     private String city;

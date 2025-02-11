@@ -7,20 +7,12 @@ import com.spring.portfolio.dto.Role;
 import com.spring.portfolio.entity.Member;
 import com.spring.portfolio.store.repository.MemberRepository;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -40,14 +32,6 @@ public class MemberService {
         memberRepo.save(memberEntity);
     }
 
-    public void modify(Long MemberId) {
-
-    }
-
-    public void remove(Long MemberId) {
-
-    }
-
     public MemberResponseDto login(String memberMail, String memberPw) throws Exception {
 
         Member member = memberRepo.findByMemberMail(memberMail)
@@ -55,7 +39,7 @@ public class MemberService {
         String encodePw = passwordEncoder.encode(memberPw);
         boolean matches = passwordEncoder.matches(encodePw, member.getMemberPw());
 
-        if(matches) {
+        if (matches) {
             MemberResponseDto dto = new MemberResponseDto(member);
             return dto;
         }
@@ -140,7 +124,6 @@ public class MemberService {
 
         Member member = memberRepo.findById(dbIdx).orElseThrow(() -> new UsernameNotFoundException("인증되지 않았습니다."));
 
-//        Member member = principalDetails.getMember();
         Long memberIdx = member.getMemberIdx();
         String memberName = member.getMemberName();
         String memberMail = member.getMemberMail();

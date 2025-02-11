@@ -2,10 +2,7 @@ package com.spring.portfolio.service;
 
 import com.spring.portfolio.dto.ReplyRequestDto;
 import com.spring.portfolio.dto.ReplyResponseDto;
-import com.spring.portfolio.entity.Board;
 import com.spring.portfolio.entity.Reply;
-import com.spring.portfolio.store.repository.BoardRepository;
-import com.spring.portfolio.store.repository.MemberRepository;
 import com.spring.portfolio.store.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,13 +22,11 @@ import java.util.Optional;
 public class ReplyService {
 
     private final ReplyRepository replyRepository;
-    private final BoardRepository boardRepository;
-    private final MemberRepository memberRepository;
 
     public List<ReplyResponseDto> loadReply(long idx) {
         List<Reply> replyList = replyRepository.findByBoardIdx(idx);
         List<ReplyResponseDto> dtoList = new ArrayList<>();
-        for(Reply entity : replyList) {
+        for (Reply entity : replyList) {
             ReplyResponseDto dto = new ReplyResponseDto(entity);
             dtoList.add(dto);
         }
@@ -43,7 +37,7 @@ public class ReplyService {
         List<Reply> replyList = replyRepository.findByMemberIdx(memberIdx);
 
         List<ReplyResponseDto> dtoList = new ArrayList<>();
-        for(Reply entity : replyList) {
+        for (Reply entity : replyList) {
             ReplyResponseDto dto = new ReplyResponseDto(entity);
             dtoList.add(dto);
         }
@@ -96,7 +90,7 @@ public class ReplyService {
         Reply reply = replyRepository.findById(idx)
                 .orElseThrow(() -> new UsernameNotFoundException("Not Found Reply"));
 
-        if(reply.getParent() != null) {
+        if (reply.getParent() != null) {
             replyRepository.deleteById(idx);
         }
     }
@@ -113,12 +107,4 @@ public class ReplyService {
         replyRepository.updateIsDeleted(idx);
     }
 
-
-
-
-//    public Reply addReply(Long boardIdx, Long MemberIx) throws Exception {
-//        Board board = boardRepository.findById(boardIdx)
-//                .orElseThrow(() -> new Exception("Board Not Found"));
-//        memberRepository.findByMemberMail()
-//    }
 }

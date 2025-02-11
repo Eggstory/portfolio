@@ -12,9 +12,9 @@ import java.util.stream.Stream;
 @Getter
 public enum Subject {
 
-    NORMAL("NORMAL","일반"),
-    NOTICE("NOTICE","공지"),
-    PICTURE("PICTURE","그림");
+    NORMAL("NORMAL", "일반"),
+    NOTICE("NOTICE", "공지"),
+    PICTURE("PICTURE", "그림");
 
     private final String key;
     private final String value;
@@ -23,6 +23,7 @@ public enum Subject {
         this.key = key;
         this.value = value;
     }
+
     // Collections.unmodifiableMap : 읽기 전용 (변경이 있을 시 예외발생)
     // stream : 배열생성 , of(값) : 배열의 값들을 배열에 넣음
     // .collect() : stream 을 사용할 경우 최종연산에 쓰임

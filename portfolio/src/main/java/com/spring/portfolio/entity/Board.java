@@ -20,7 +20,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 //@DynamicUpdate // Entity update시, 원하는 데이터만 update하기 위함
-public class Board extends BaseEntity{
+public class Board extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class Board extends BaseEntity{
     private int likeCount;
     @Column(length = 1000)
     private String boardImage;
-//    @Column(columnDefinition = "TEXT", nullable = false)  //  columnDefinition : db 컬럼 정보를 여기다 줄 수 있음
+    //    @Column(columnDefinition = "TEXT", nullable = false)  //  columnDefinition : db 컬럼 정보를 여기다 줄 수 있음
     @Column(length = 1000)
     private String boardContent;
 
@@ -48,7 +48,7 @@ public class Board extends BaseEntity{
     @JoinColumn(name = "member_idx")
     private Member member;
 
-//cascade = CascadeType.REMOVE
+    //cascade = CascadeType.REMOVE
 //CascadeType.ALL + orphanRemoval=true
 //이 두개를 같이 사용하게 되면 부모 엔티티가 자식의 생명주기를 모두 관리할 수 있게 된다.
 //    @JoinColumn(name = "replies_idx")
@@ -59,7 +59,7 @@ public class Board extends BaseEntity{
 
 
     @Builder
-    protected Board(Long boardIdx,String boardCategory1, String boardCategory2, String boardTitle, Subject boardSubject, int viewCount, int likeCount, String boardImage, String boardContent, Member member, List<Reply> replies) {
+    protected Board(Long boardIdx, String boardCategory1, String boardCategory2, String boardTitle, Subject boardSubject, int viewCount, int likeCount, String boardImage, String boardContent, Member member, List<Reply> replies) {
         this.boardIdx = boardIdx;
         this.boardCategory1 = boardCategory1;
         this.boardCategory2 = boardCategory2;
@@ -73,37 +73,21 @@ public class Board extends BaseEntity{
         this.replies = replies;
     }
 
-    public void modifyBoard(BoardRequestDto dto) {
-
-        this.boardIdx = dto.getBoardIdx();
-        this.boardCategory1 = dto.getBoardCategory1();
-        this.boardCategory2 = dto.getBoardCategory2();
-        this.boardTitle = dto.getBoardTitle();
-        this.boardSubject = dto.getBoardSubject();
-        this.viewCount = dto.getViewCount();
-        this.likeCount = dto.getLikeCount();
-        this.boardImage = dto.getBoardImage();
-        this.boardContent = dto.getBoardContent();
-        this.member = dto.getMemberIdx();
-        this.replies = dto.toEntity().getReplies();
-
-    }
-
-
-//    @Builder
-//    protected Board(String boardCategory1, String boardCategory2, String boardTitle, Subject boardSubject, String boardWriter, int viewCount, int likeCount, String boardImage, String boardContent) {
-//        this.boardCategory1 = boardCategory1;
-//        this.boardCategory2 = boardCategory2;
-//        this.boardTitle = boardTitle;
-//        this.boardSubject = boardSubject;
-//        this.boardWriter = boardWriter;
-//        this.viewCount = viewCount;
-//        this.likeCount = likeCount;
-//        this.boardImage = boardImage;
-//        this.boardContent = boardContent;
+    // JPA 더티체킹으로 대체
+//    public void modifyBoard(BoardRequestDto dto) {
+//
+//        this.boardIdx = dto.getBoardIdx();
+//        this.boardCategory1 = dto.getBoardCategory1();
+//        this.boardCategory2 = dto.getBoardCategory2();
+//        this.boardTitle = dto.getBoardTitle();
+//        this.boardSubject = dto.getBoardSubject();
+//        this.viewCount = dto.getViewCount();
+//        this.likeCount = dto.getLikeCount();
+//        this.boardImage = dto.getBoardImage();
+//        this.boardContent = dto.getBoardContent();
+//        this.member = dto.getMemberIdx();
+//        this.replies = dto.toEntity().getReplies();
+//
 //    }
-
-
-
 
 }

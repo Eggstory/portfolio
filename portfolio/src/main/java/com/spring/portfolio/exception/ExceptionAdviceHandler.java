@@ -2,7 +2,6 @@
 
 package com.spring.portfolio.exception;
 
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -12,7 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @ControllerAdvice
 @Slf4j
@@ -35,13 +33,6 @@ public class ExceptionAdviceHandler {
         // e.getBindingResult()는 각각의 데이터가 바인딩된 결과를 하나씩 반환
     }
 
-//    @ExceptionHandler(ConstraintViolationException.class)
-//    protected ResponseEntity<ErrorResponse> handleConstraintViolationException(ConstraintViolationException e) {
-//        ErrorResponse response = new ErrorResponse(ErrorCode.BOARD_TITLE_IS_EMPTY);
-//        return ResponseEntity.status(response.getStatus()).body(response);
-//    }
-
-
     @ExceptionHandler(ConstraintViolationException.class)
     protected String handleConstraintViolationException(ConstraintViolationException e, Model model) {
         ErrorResponse response = new ErrorResponse(ErrorCode.BOARD_TITLE_IS_EMPTY);
@@ -51,29 +42,15 @@ public class ExceptionAdviceHandler {
         return "error/4xx.html";
     }
 
-//    @ExceptionHandler({RuntimeException.class})
-//    protected ResponseEntity<String> handlerEtcException(RuntimeException e) {
-//
-//        String message = e.getMessage();
-//
-//        return new ResponseEntity<>("에러코드("+HttpStatus.BAD_REQUEST+"): "+e.getMessage(), HttpStatus.BAD_REQUEST);
-//    }
-
-
     @ExceptionHandler({RuntimeException.class})
     protected String handlerEtcException(RuntimeException e, Model model) {
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>("에러코드(" + HttpStatus.BAD_REQUEST + "): " + e.getMessage(), HttpStatus.BAD_REQUEST);
 
-//        model.addAttribute("ResponseEntity", responseEntity);
-//        System.out.println(responseEntity.getStatusCode());
-//        System.out.println(responseEntity.getBody());
-//        System.out.println(e.getMessage());
-//        System.out.println(e);
         String except = e.toString();
         String[] split = except.split(":");
         System.out.println(split[0]);
-        if(split[0].contains("NullPointerException")) {
+        if (split[0].contains("NullPointerException")) {
             model.addAttribute("model", "로그인을 해주세요.");
         }
 
@@ -86,8 +63,6 @@ public class ExceptionAdviceHandler {
     protected ResponseEntity<?> handlerDataIntegrityViolationException(DataIntegrityViolationException e) {
         return new ResponseEntity<>("이메일 중복 오류", ErrorCode.DUPLICATE_MEMBER_MAIL.getCode());
     }
-
-
 
 
 //    MissingServletRequestParameterException.class: request parameter가 없을 때 에러를 리턴한다.

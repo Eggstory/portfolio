@@ -1,6 +1,5 @@
 package com.spring.portfolio.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,17 +8,17 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    BOARD_TITLE_IS_EMPTY(HttpStatus.NOT_FOUND,400,"게시글 제목을 정해주십시오."),
-    BOARD_NOT_FOUND(HttpStatus.BAD_REQUEST,401,"게시판을 불러 올 수 없습니다."),
-    PASSWORDS_DO_NOT_MATCH(HttpStatus.BAD_REQUEST,401,"비밀번호가 일치 하지 않습니다."),
-    INVALID_TOKEN(HttpStatus.BAD_REQUEST,401,"유효하지 않은 토큰입니다."),
-    AUTHORIZATION_EXCEPTION(HttpStatus.BAD_REQUEST,403,"접근할 수 있는 권한이 없습니다."),
-    POST_IS_EMPTY(HttpStatus.BAD_REQUEST,404,"해당 게시글이 존재 하지 않습니다."),
-    COMMENT_IS_EMPTY(HttpStatus.BAD_REQUEST,404,"해당 댓글이 존재 하지 않습니다."),
-    USER_IS_NOT_EXIST(HttpStatus.BAD_REQUEST,404,"사용자가 존재 하지 않습니다."),
-    REQUEST_IS_EMPTY(HttpStatus.BAD_REQUEST,404,"요청이 존재하지 않습니다."),
-    PAGE_IS_NOT_EXIST(HttpStatus.BAD_REQUEST,404,"요청하신 페이지 내역이 존재하지 않습니다."),
-    USERNAME_IS_EXIST(HttpStatus.BAD_REQUEST,409,"이미 등록된 userName 입니다."),
+    BOARD_TITLE_IS_EMPTY(HttpStatus.NOT_FOUND, 400, "게시글 제목을 정해주십시오."),
+    BOARD_NOT_FOUND(HttpStatus.BAD_REQUEST, 401, "게시판을 불러 올 수 없습니다."),
+    PASSWORDS_DO_NOT_MATCH(HttpStatus.BAD_REQUEST, 401, "비밀번호가 일치 하지 않습니다."),
+    INVALID_TOKEN(HttpStatus.BAD_REQUEST, 401, "유효하지 않은 토큰입니다."),
+    AUTHORIZATION_EXCEPTION(HttpStatus.BAD_REQUEST, 403, "접근할 수 있는 권한이 없습니다."),
+    POST_IS_EMPTY(HttpStatus.BAD_REQUEST, 404, "해당 게시글이 존재 하지 않습니다."),
+    COMMENT_IS_EMPTY(HttpStatus.BAD_REQUEST, 404, "해당 댓글이 존재 하지 않습니다."),
+    USER_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, 404, "사용자가 존재 하지 않습니다."),
+    REQUEST_IS_EMPTY(HttpStatus.BAD_REQUEST, 404, "요청이 존재하지 않습니다."),
+    PAGE_IS_NOT_EXIST(HttpStatus.BAD_REQUEST, 404, "요청하신 페이지 내역이 존재하지 않습니다."),
+    USERNAME_IS_EXIST(HttpStatus.BAD_REQUEST, 409, "이미 등록된 userName 입니다."),
     DUPLICATE_MEMBER_MAIL(HttpStatus.CONFLICT, 409, "이미 등록된 MemberMail이 있습니다.");
 
 //    //Common -> http 요청시 발생할만한 예외
@@ -35,7 +34,7 @@ public enum ErrorCode {
 //    LOGIN_INPUT_INVALID(HttpStatus.BAD_REQUEST, "Member-002", "Login input is invalid"),
 //
 //    //room Validation
-    
+
     // 위에 주석들 쓸려면 StatusCode 파라미터가 문자열이기 때문에 int 대신 String을 넣어야할듯
 //  private final String StatusCode;
 
@@ -94,14 +93,9 @@ public enum ErrorCode {
 //    /* 500 INTERNAL_SERVER_ERROR */
 //    SERVER_ERROR(500, "INTERNAL_SERVER_ERROR", "예기치 못한 오류가 발생하였습니다.")
 
-
-
     private final HttpStatus code;
     private final int status;
     private final String reason;
-
-
-
 
 //    USERNAME_NOT_FOUND(HttpStatus.NOT_FOUND, "유저를 찾을 수 없습니다"),
 //    INVALID_PERMISSION(HttpStatus.UNAUTHORIZED, "권한이 없습니다"),

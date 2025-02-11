@@ -20,17 +20,13 @@ public class ReplyController {
 
         // 이전 페이지로 이동되는 코드
         String referer = request.getHeader("Referer");
-        return "redirect:"+ referer;
+        return "redirect:" + referer;
     }
 
     @PostMapping("/board/replyUpdate")
     public String replyUpdate(ReplyRequestDto dto, HttpServletRequest request) throws Exception {
 
         replyService.updateReply(dto);
-
-//        // 이전 페이지로 이동되는 코드
-//        String referer = request.getHeader("Referer");
-//        return "redirect:"+ referer;
 
         return "redirect:/board";
     }
@@ -50,7 +46,6 @@ public class ReplyController {
 
         return "redirect:/board";
     }
-
 
 
 }

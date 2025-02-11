@@ -18,7 +18,6 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
     @EntityGraph(attributePaths = {"board"}, type = EntityGraph.EntityGraphType.FETCH)
     @Query(value = "select r from Reply r join r.board b where b.boardIdx = :idx")
-//    @Query(value = "SELECT r FROM Reply r WHERE r.board.boardIdx = :idx")
     List<Reply> findByBoardIdx(@Param("idx") long idx);
 
     @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
@@ -33,9 +32,6 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     @Query(value = "delete from Reply r where r.board.id = :idx and r.parent.id is not null")
     void deleteReReplyByBoardIdx(@Param("idx")Long idx);
 
-
-//    @Query(value = "delete from Reply where reply_idx = :idx OR parent_idx = :idx", nativeQuery = true)
-//    void deleteByReplyIdx(long idx);
     @Modifying
     @Query(value = "update Reply r set r.isDeleted = true where r.replyIdx = :idx")
     void deleteByReplyIdx(@Param("idx") Long idx);
@@ -69,11 +65,5 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     @Modifying
     @Query(value = "update Reply r set r.parent.id = null where r.board.id = :idx")
     void updateParentId(@Param("idx") Long idx);
-
-
-
-
-//    @Query(value = "select * from reply where board_idx = :idx", nativeQuery = true)
-//    List<Reply> findByBoardIdx(long idx);
 
 }

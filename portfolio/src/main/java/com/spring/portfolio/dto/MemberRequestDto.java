@@ -1,6 +1,5 @@
 package com.spring.portfolio.dto;
 
-import com.spring.portfolio.entity.Address;
 import com.spring.portfolio.entity.Member;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -14,7 +13,7 @@ public class MemberRequestDto {
 
     private Long memberIdx;
 
-//    private String memberId;
+    //    private String memberId;
     @NotBlank(message = "비밀번호는 필수 입력 값입니다.")
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,16}", message = "비밀번호는 8~16자 영문 대 소문자, 숫자, 특수문자를 사용하세요.")
     private String memberPw;
@@ -42,34 +41,27 @@ public class MemberRequestDto {
         this.visible = visible;
     }
 
-    @Builder
-    public MemberRequestDto(String memberName, String memberMail, String profile, Address memberAddress, String detailAddress, String memberPhone, boolean isLimited, String visible) {
-//        this.memberId = memberId;
-        this.memberPw = memberPw;
-        this.memberName = memberName;
-        this.memberMail = memberMail;
-        this.memberRole = Role.USER;
-        this.isLimited = false;
-        this.visible = "N";
-    }
+    // 아마 안쓰는듯
+//    @Builder
+//    public MemberRequestDto(String memberName, String memberMail, String profile, Address memberAddress, String detailAddress, String memberPhone, boolean isLimited, String visible) {
+//        this.memberPw = memberPw;
+//        this.memberName = memberName;
+//        this.memberMail = memberMail;
+//        this.memberRole = Role.USER;
+//        this.isLimited = false;
+//        this.visible = "N";
+//    }
 
 
     // to Entity방식은 return builder.build() 방식이 맞는듯
     public Member toEntity() {
         return Member.builder()
-//                .memberId(memberId)
                 .memberPw(memberPw)
                 .memberName(memberName)
                 .memberMail(memberMail)
-//                .profile(profile)
-//                .address(memberAddress)
-//                .detailAddress(detailAddress)
-//                .memberPhone(memberPhone)
-//                .memberLock(memberLock)
                 .memberRole(memberRole)
                 .isLimited(isLimited)
                 .visible(visible)
-//                .failedAttempt(failedAttempt)
                 .build();
     }
 

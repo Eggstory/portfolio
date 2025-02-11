@@ -27,7 +27,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,14 +41,11 @@ public class BoardService {
     private final ReplyRepository replyRepository;
 
     public Page<Board> loadBoardList(String keyword, int page) {
-//        List<Sort.Order> sorts = new ArrayList<>();
-//        sorts.add(Sort.Order.desc("idx"));
-//         Sort.by(sorts) : 아래줄 PageRequest.of의 세번째 인자
         Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("boardIdx").descending());
 
         Page<Board> boardPage;
 
-        if(keyword == null || keyword.equals("")) {
+        if (keyword == null || keyword.equals("")) {
             boardPage = boardRepository.findAll(pageable);
         } else {
             boardPage = boardRepository.findByBoardTitleContaining(keyword, pageable);
@@ -58,9 +54,6 @@ public class BoardService {
     }
 
     public Page<Board> loadBoardInMyInfo(Long memberIdx, int page) {
-//        List<Sort.Order> sorts = new ArrayList<>();
-//        sorts.add(Sort.Order.desc("idx"));
-//         Sort.by(sorts) : 아래줄 PageRequest.of의 세번째 인자
         Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("boardIdx").descending());
 
         Page<Board> boardPage = boardRepository.findByMemberNameContaining(memberIdx, pageable);
@@ -68,19 +61,12 @@ public class BoardService {
         return boardPage;
     }
 
-//    public Page<Board> boardSearchList(String keyword, int page) {
-//
-//        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("boardIdx").descending());
-//        Page<Board> boardPage = boardRepository.findByBoardTitleContaining(keyword,pageable);
-//        return boardPage;
-//    }
-
     public List<BoardResponseDto> loadBoardList() {
         List<Board> first4Board = boardRepository.findTop4ByOrderByBoardIdxDesc();
 
         List<BoardResponseDto> boardDto = new ArrayList<>();
 
-        for(Board entity : first4Board){
+        for (Board entity : first4Board) {
             BoardResponseDto boardResponseDto = new BoardResponseDto(entity);
             String boardContent = boardResponseDto.getBoardContent();
             String boardImage = boardResponseDto.getBoardImage();
@@ -89,30 +75,12 @@ public class BoardService {
             Pattern pattern = Pattern.compile("/images/upload/([a-f0-9\\-]+)\\.(png|jpg)");
             Matcher matcher = pattern.matcher(boardContent);
 
-//            List<String> imgFiles = new ArrayList<>();
-//            List<String> imgExtensions = new ArrayList<>();
-//
-//            while (matcher.find()) {
-//                imgFiles.add(matcher.group(1)); // UUID 값 추출 후 리스트에 추가
-//                imgExtensions.add(matcher.group(2)); // 확자자 지정
-//            }
-
-
-
-            if(boardImage.isEmpty()) {
+            if (boardImage.isEmpty()) {
                 boardResponseDto.setBoardImage("/images/no-image.png");
-//            } else if (!boardImage.contains(",")) {
-//                // 이미지가 한개일때
-//                boardResponseDto.setBoardImage(boardImage);
-//            } else if(boardImage.contains(",") && !Thumb.equals(s)) {
-//                // 이미지가 여러개 들어가 있을 경우, 제일 첫번째 이미지를 썸네일용으로 쓰기 위한 코드
-//                boardResponseDto.setBoardImage(Thumb);
-//            }
             } else if (matcher.find()) {
                 String imgFile = matcher.group(1); // 첫 번째 UUID
                 String iImgExtension = matcher.group(2); // 첫 번째 확장자
                 String Thumb = "/images/upload/" + imgFile + "." + iImgExtension;
-                // 이미지가 여러개 들어가 있을 경우, 제일 첫번째 이미지를 썸네일용으로 쓰기 위한 코드
                 boardResponseDto.setBoardImage(Thumb);
             }
             boardDto.add(boardResponseDto);
@@ -125,27 +93,13 @@ public class BoardService {
         List<Board> board = boardRepository.findByMemberIdx(memberIdx);
 
         List<BoardResponseDto> boardDto = new ArrayList<>();
-        for(Board entity : board){
+        for (Board entity : board) {
             BoardResponseDto boardResponseDto = new BoardResponseDto(entity);
             boardDto.add(boardResponseDto);
         }
 
         return boardDto;
     }
-
-
-//      paging 안쓰는 방식
-//    public List<BoardResponseDto> loadBoardList() {
-//
-//        List<Board> board = boardRepository.findAll(Sort.by(Sort.Direction.DESC, "idx"));
-//        List<BoardResponseDto> boardDto = new ArrayList<>();
-//        for(Board entity : board){
-//            boardDto.add(new BoardResponseDto(entity));
-//        }
-//
-//        return boardDto;
-//    }
-
 
     public BoardResponseDto loadBoardView(Long idx, HttpServletRequest request, HttpServletResponse response) {
 
@@ -163,15 +117,15 @@ public class BoardService {
 
         Cookie oldCookie = null;
         Cookie[] cookies = request.getCookies();
-        if( cookies != null) {
+        if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if(cookie.getName().equals("boardView")) {
+                if (cookie.getName().equals("boardView")) {
                     oldCookie = cookie;
                 }
             }
         }
-        if( oldCookie != null) {
-            if(!oldCookie.getValue().contains("["+ idx.toString() +"]")) {
+        if (oldCookie != null) {
+            if (!oldCookie.getValue().contains("[" + idx.toString() + "]")) {
                 updateViewCount(idx);
                 oldCookie.setValue(oldCookie.getValue() + "_[" + idx + "]");
                 oldCookie.setPath("/");
@@ -219,8 +173,9 @@ public class BoardService {
 
         List<Reply> replies = replyRepository.findAllByBoard(board);
 
-        boardRepository.save(dto.toEntity(dto.getBoardIdx(), board.getMember(), replies ));
+        boardRepository.save(dto.toEntity(dto.getBoardIdx(), board.getMember(), replies));
 
+        // 더티체킹으로 아래꺼 필요없음 (심지어 @Transactional을 쓰면 위 save도 필요없음)
 //        board.modifyBoard(dto);
     }
 
@@ -254,10 +209,10 @@ public class BoardService {
         String uuidFileName = UUID.randomUUID().toString() + fileExtension;
 
         // 위에서 설정한 서버 경로에 이미지 저장
-        file.transferTo(new File(save_folder , uuidFileName));
+        file.transferTo(new File(save_folder, uuidFileName));
 
         // ajax에서 get메소드로 보내지는 url
-        out.println("/images/upload/"+uuidFileName);
+        out.println("/images/upload/" + uuidFileName);
         out.close();
     }
 
@@ -266,28 +221,4 @@ public class BoardService {
 
         boardRepository.updateMemberNull(idx);
     }
-
-//    @Transactional
-//    public void clear(Board board) {
-//
-//        board.getReplies().clear();
-//
-//    }
-
-    /*
-    public String add(HttpServletRequest request, MultipartFile file, BannerInput parameter) {
-
-    if (file != null) {
-        // 파일 확장자 검사하는 코드
-        String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
-        if (extension != null) {
-            FileUtil files = new FileUtil();
-            String imgPath = files.save(file).getUrlFilePath();
-            parameter.setImgPath(imgPath);
-            }
-        }   
-    }
-     */
-
-
 }

@@ -25,10 +25,6 @@ public class Reply extends BaseEntity {
     @Column(length = 500)
     private String replyComment;
 
-//    private int group;
-//
-//    private int num;
-
     //해당 게시글
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_idx")
@@ -48,7 +44,6 @@ public class Reply extends BaseEntity {
     @OneToMany(mappedBy = "parent", orphanRemoval = true)
 //    @JoinColumn(name = "replies_idx")
     @Builder.Default
-    // 아래 필드 이름을 child로 할걸
     private List<Reply> replies = new ArrayList<>();
 
     @ColumnDefault("false")

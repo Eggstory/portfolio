@@ -47,75 +47,43 @@ public class BoardController {
     public String boardList(Model model, @RequestParam(value = "search", required = false) String keyword,
                             @RequestParam(value = "page", defaultValue = "1") int page) {
 
-        Page<Board> paging = boardService.loadBoardList(keyword,page);
+        Page<Board> paging = boardService.loadBoardList(keyword, page);
         List<BoardResponseDto> list = new ArrayList<>();
-        for(Board board : paging) {
+        for (Board board : paging) {
             list.add(new BoardResponseDto(board));
         }
-        if(keyword == null) {
+        if (keyword == null) {
             model.addAttribute("keyword", "");
         } else {
             model.addAttribute("keyword", keyword);
         }
 
         model.addAttribute("paging", paging);
-        model.addAttribute("board",list);
+        model.addAttribute("board", list);
         return "client/boardList";
     }
 
-//    @GetMapping("/board/list")
-//    public String boardSearchList(Model model, @RequestParam("search") String keyword,
-//                            @RequestParam(value = "page", defaultValue = "1") int page) {
-//
-//        Page<Board> paging = boardService.boardSearchList(keyword,page);
-//        List<BoardResponseDto> list = new ArrayList<>();
-//        for(Board board : paging) {
-//            list.add(new BoardResponseDto(board));
-//        }
-//
-//        model.addAttribute("paging", paging);
-//        model.addAttribute("board",list);
-//        return "client/boardList";
-//    }
-    
-//      paging 안쓰는 방식인데 paging 쓰는걸 더 선호해서 주석
-//    @GetMapping("/board")
-//    public String boardList(Model model) {
-//
-//        List<BoardResponseDto> board = boardService.loadBoardList();
-//        model.addAttribute("board", board);
-//        return "client/boardList";
-//    }
-
     @GetMapping("/board/view")
     public String boardView(@RequestParam(value = "boardIdx") Long boardIdx,
-            Model model, HttpServletRequest request, HttpServletResponse response,
+                            Model model, HttpServletRequest request, HttpServletResponse response,
                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
-        BoardResponseDto boardView = boardService.loadBoardView(boardIdx,request,response);
+        BoardResponseDto boardView = boardService.loadBoardView(boardIdx, request, response);
         String mail = "";
         Long writerIdx;
-        if(principalDetails == null || principalDetails.equals("")) {
-//            String writer = memberService.loadWriter(request.getSession());
+        if (principalDetails == null || principalDetails.equals("")) {
             mail = request.getSession().getAttribute("memberMail").toString();
             writerIdx = memberService.loadMemberIdx(request.getSession());
-        } else  {
-//            String writer = memberService.loadWriter(principalDetails.getMember().getMemberMail());
+        } else {
             mail = principalDetails.getMember().getMemberMail();
             writerIdx = memberService.loadMemberIdx(principalDetails.getMember().getMemberMail());
         }
-//        String writer = memberService.loadWriter(request.getSession());
-//        Long writerIdx = memberService.loadMemberIdx(request.getSession());
-//        String writer = memberService.loadWriter(principalDetails.getMember().getMemberMail());
-//        String mail = principalDetails.getMember().getMemberMail();
-//        Long writerIdx = memberService.loadMemberIdx(principalDetails.getMember().getMemberMail());
         List<ReplyResponseDto> replyResponseDto = replyService.loadReply(boardIdx);
         int count = (int) replyResponseDto.stream().count();
-//        List<Integer> integers = IntStream.range(0, count).boxed().toList();
 
-        model.addAttribute("board",boardView);
-        model.addAttribute("mail",mail);
-        model.addAttribute("writerIdx",writerIdx);
+        model.addAttribute("board", boardView);
+        model.addAttribute("mail", mail);
+        model.addAttribute("writerIdx", writerIdx);
         model.addAttribute("reply", replyResponseDto);
         model.addAttribute("count", count);
 
@@ -127,13 +95,13 @@ public class BoardController {
                              @AuthenticationPrincipal PrincipalDetails principalDetails) {
 
         Long writer;
-        if(principalDetails == null || principalDetails.equals("")) {
+        if (principalDetails == null || principalDetails.equals("")) {
             writer = memberService.loadMemberIdx(request.getSession());
-        } else  {
+        } else {
             writer = memberService.loadMemberIdx(principalDetails.getMember().getMemberMail());
         }
 
-        model.addAttribute("writer",writer);
+        model.addAttribute("writer", writer);
 
         return "client/boardWrite";
     }
@@ -158,7 +126,7 @@ public class BoardController {
     public String boardEdit(@RequestParam(value = "boardIdx") Long boardIdx, Model model) {
 
         BoardResponseDto boardResponseDto = boardService.loadBoardInfo(boardIdx);
-        model.addAttribute("board",boardResponseDto);
+        model.addAttribute("board", boardResponseDto);
 
         return "client/boardEdit";
     }

@@ -17,22 +17,13 @@ public class MemberResponseDto {
     private String memberPw;
     private String memberName;
     private String memberMail;
-    private String memberAddress;
-    private String detailAddress;
-    private String zonecode;
-    private String memberPhone;
     private LocalDateTime createDate;
-    private LocalDateTime updateDate;
-    private String memberLock;
     private String memberRole;
     private boolean isLimited;
     private String memberStatus;
     private String introduction;
     private String profileImage;
     private String visible;
-
-//    private int failedAttempt;
-//    private LocalDateTime lockTime;
 
     @Builder
     public MemberResponseDto(Long memberIdx, String memberName, String memberMail, String introduction, String profileImage, String visible) {
@@ -57,22 +48,14 @@ public class MemberResponseDto {
 //        }
         this.memberMail = member.getMemberMail();
         this.createDate = member.getCreateDate();
-//        this.memberAddress = member.getAddress().getCity() + " " +
-//                member.getAddress().getStreet() + " " + member.getAddress().getZipcode();
-//        this.zonecode = member.getAddress().getZonecode();
-//        this.detailAddress = member.getDetailAddress();
-//        this.memberPhone = member.getMemberPhone();
-//        this.memberLock = member.getMemberLock();
         this.memberRole = member.getMemberRole().getAuthority();
         this.isLimited = member.isLimited();
-        if(!isLimited) {
+        if (!isLimited) {
             this.memberStatus = "활동";
         } else {
             this.memberStatus = "정지";
         }
         this.visible = member.getVisible();
-//        this.failedAttempt = member.getFailedAttempt();
-//        this.lockTime = member.getLockTime();
     }
 
 

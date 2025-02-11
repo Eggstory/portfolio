@@ -1,10 +1,10 @@
 package com.spring.portfolio.controller;
 
 import com.spring.portfolio.config.PrincipalDetails;
-import com.spring.portfolio.dto.*;
-import com.spring.portfolio.entity.Board;
-import com.spring.portfolio.entity.Member;
-import com.spring.portfolio.entity.Reply;
+import com.spring.portfolio.dto.BoardResponseDto;
+import com.spring.portfolio.dto.MemberRequestDto;
+import com.spring.portfolio.dto.MemberResponseDto;
+import com.spring.portfolio.dto.ReplyResponseDto;
 import com.spring.portfolio.service.BoardService;
 import com.spring.portfolio.service.MailService;
 import com.spring.portfolio.service.MemberService;
@@ -13,18 +13,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 
@@ -37,11 +33,6 @@ public class MemberController {
     private final ReplyService replyService;
     private final MailService mailService;
 
-//    @GetMapping("/login")
-//    public String login() {
-//        return "client/login";
-//    }
-
     @GetMapping("/login")
     public String login(@RequestParam(value = "error", required = false) String error,
                         @RequestParam(value = "exception", required = false) String exception,
@@ -50,23 +41,6 @@ public class MemberController {
         model.addAttribute("exception", exception);
         return "client/login";
     }
-
-//     spring security 때문에 여기 컨트롤러 안탐
-//    @PostMapping("/loginAction")
-//    public String loginAction(String memberMail, String memberPw, HttpServletRequest request) throws Exception {
-//
-//        MemberResponseDto dto = memberService.login(memberMail, memberPw);
-//        if(dto.getMemberMail() == null || dto.getMemberMail().equals("")) {
-//            return "redirect:/login";
-//        }
-//
-//        request.getSession().invalidate();
-//        HttpSession session = request.getSession();
-//        session.setAttribute("memberMail", dto.getMemberMail());
-//
-//        System.out.println("테스트4");
-//        return "redirect:/";
-//    }
 
     @GetMapping("/join")
     public String join() {
@@ -77,57 +51,21 @@ public class MemberController {
     @ResponseBody
     public ResponseEntity<?> joinAction(@RequestBody @Valid MemberRequestDto memberRequestDto, Errors errors) {
 
-        memberService.registerMember(memberRequestDto,errors);
+        memberService.registerMember(memberRequestDto, errors);
 
+        // json 말고 html로 보냈을때 이걸 썼었는데
 //        return "<script>alert('회원가입 완료'); location.href='/'</script>";
-//        return "redirect:/";
         return ResponseEntity.ok((Map.of("message", "회원가입이 완료되었습니다.")));
     }
-
-
-//    // 뭔코드인지 궁금해서 가져와봄
-//    @GetMapping("/form/loginInfo")
-//    @ResponseBody
-//    public String formLoginInfo(Authentication authentication, @AuthenticationPrincipal PrincipalDetails principalDetails){
-//
-//        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
-//        Member member = principal.getMember();
-//        System.out.println(member);
-//        //Member(id=2, username=11, password=$2a$10$m/1Alpm180jjsBpYReeml.AzvGlx/Djg4Z9/JDZYz8TJF1qUKd1fW, email=11@11, role=ROLE_USER, createTime=2022-01-30 19:07:43.213, provider=null, providerId=null)
-//
-//        Member member1 = principalDetails.getMember();
-//        System.out.println(member1);
-//        //Member(id=2, username=11, password=$2a$10$m/1Alpm180jjsBpYReeml.AzvGlx/Djg4Z9/JDZYz8TJF1qUKd1fW, email=11@11, role=ROLE_USER, createTime=2022-01-30 19:07:43.213, provider=null, providerId=null)
-//        //Member == user1
-//
-//        return member.toString();
-//    }
 
     @GetMapping("/myInfo")
     public String myInfo(Model model,
                          @AuthenticationPrincipal PrincipalDetails principalDetails
-//                         ,@RequestParam(value = "type", required = false) String type
-//                         ,@RequestParam(value = "page", defaultValue = "1") int page
-                        ) {
+    ) {
 
         MemberResponseDto memberResponseDto = memberService.loadMemberInfo(principalDetails);
         List<BoardResponseDto> boardResponseDtos = boardService.loadBoardList(memberResponseDto.getMemberIdx());
         List<ReplyResponseDto> replyResponseDtos = replyService.loadReplyList(memberResponseDto.getMemberIdx());
-
-
-//        Page<Board> boardPaging = boardService.loadBoardInMyInfo( memberResponseDto.getMemberIdx(),page);
-//        Page<Reply> replyPaging = replyService.loadReplyInMyInfo( memberResponseDto.getMemberIdx(),page);
-
-        // page 10개씩 나오게할때 쓸거
-//        List<BoardResponseDto> boardModel = new ArrayList<>();
-//        for(Board board : boardPaging) {
-//            boardModel.add(new BoardResponseDto(board));
-//        }
-//        List<ReplyResponseDto> replyModel = new ArrayList<>();
-//        for(Reply reply : replyPaging) {
-//            replyModel.add(new ReplyResponseDto(reply));
-//        }
-
 
         model.addAttribute("member", memberResponseDto);
         model.addAttribute("board", boardResponseDtos);
@@ -135,57 +73,34 @@ public class MemberController {
 
         boolean checked;
         String visible = memberResponseDto.getVisible();
-        if(visible.equals("Y")) {
+        if (visible.equals("Y")) {
             checked = true;
         } else {
             checked = false;
         }
 
         model.addAttribute("checked", checked);
-//        model.addAttribute("boardPaging", boardPaging);
-//        model.addAttribute("replyPaging", replyPaging);
         model.addAttribute("type1", "board");
         model.addAttribute("type2", "reply");
 
         return "client/myInfo";
     }
 
-//    @GetMapping("/api/myInfo")
-//    @ResponseBody
-//    public ResponseEntity<MemberResponseDto> getMyInfo(@AuthenticationPrincipal PrincipalDetails principalDetails) {
-//
-//        MemberResponseDto memberResponseDto = memberService.loadMemberInfo(principalDetails);
-// //        List<BoardResponseDto> boardResponseDtos = boardService.loadBoardList(memberResponseDto.getMemberIdx());
-//
-//        return ResponseEntity.ok(memberResponseDto);
-//    }
-
     @ResponseBody
     @PostMapping("/myInfo/editAction")
     public ResponseEntity<?> memberEditAction(@RequestBody Map<String, String> requestData) {
-//    public ResponseEntity<?> memberEditAction(@RequestBody MemberRequestDto requestData) {
-//    public String memberEditAction(@RequestBody Map<String, String> requestData) {
 
         String visible = requestData.get("visible");
         Long memberIdx = Long.valueOf(requestData.get("memberIdx"));
         String memberName = requestData.get("memberName");
         String introduction = requestData.get("introduction");
 
-//        String visible = requestData.getVisible();
-//        Long memberIdx = requestData.getMemberIdx();
-//        String memberName = requestData.getMemberName();
-//        String introduction = requestData.getIntroduction();
-
         MemberRequestDto memberRequestDto = new MemberRequestDto(memberName, memberIdx, introduction, visible);
 
         memberService.editMember(memberRequestDto);
 
-
-        // 이전 페이지로 이동되는 코드
-//        String referer = request.getHeader("Referer");
 //        return ResponseEntity.ok(Map.of("message", "데이터가 성공적으로 저장되었습니다."));
         return ResponseEntity.ok(requestData);
-//        return "<script>location.href='/myInfo'</script>";
     }
 
     @GetMapping("/changePw")
@@ -195,7 +110,7 @@ public class MemberController {
 
     @PostMapping("/myInfo/delete")
     @ResponseBody
-    public ResponseEntity<?> deleteAccount(@RequestBody Map<String,Long> request, HttpServletRequest sessionInfo) {
+    public ResponseEntity<?> deleteAccount(@RequestBody Map<String, Long> request, HttpServletRequest sessionInfo) {
 
         Long idx = request.get("memberIdx");
 
@@ -203,7 +118,7 @@ public class MemberController {
         boardService.updateMemberNull(idx);
         memberService.deleteMember(idx);
         HttpSession session = sessionInfo.getSession(false);
-        if(session != null) {
+        if (session != null) {
             session.invalidate();
         }
 
@@ -242,7 +157,6 @@ public class MemberController {
                     .body("비밀번호 변경이 실패했습니다.");
         }
     }
-
 
 
 }
