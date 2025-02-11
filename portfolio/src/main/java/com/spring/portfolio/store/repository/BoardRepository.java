@@ -32,6 +32,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Query(value = "select b from Board b join b.member m where b.boardTitle like %:keyword% or m.memberName like %:keyword%")
     Page<Board> findByBoardTitleContaining(@Param("keyword") String keyword, Pageable pageable);
 
+    @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query(value = "select b from Board b join b.member m where m.memberIdx = :memberIdx")
+    Page<Board> findByMemberNameContaining(@Param("memberIdx") Long memberIdx, Pageable pageable);
+
     @Modifying
     @Query(value = "delete from Board b where b.boardIdx = :idx")
     void deleteByBoardIdx(@Param("idx") Long idx);
@@ -39,6 +43,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     @Modifying
     @Query(value = "update Board b set b.member.id = null where b.member.id = :idx")
     void updateMemberNull(@Param("idx") Long idx);
+
 
 
 }

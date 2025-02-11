@@ -2,11 +2,16 @@ package com.spring.portfolio.service;
 
 import com.spring.portfolio.dto.ReplyRequestDto;
 import com.spring.portfolio.dto.ReplyResponseDto;
+import com.spring.portfolio.entity.Board;
 import com.spring.portfolio.entity.Reply;
 import com.spring.portfolio.store.repository.BoardRepository;
 import com.spring.portfolio.store.repository.MemberRepository;
 import com.spring.portfolio.store.repository.ReplyRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +37,26 @@ public class ReplyService {
             dtoList.add(dto);
         }
         return dtoList;
+    }
+
+    public List<ReplyResponseDto> loadReplyList(Long memberIdx) {
+        List<Reply> replyList = replyRepository.findByMemberIdx(memberIdx);
+
+        List<ReplyResponseDto> dtoList = new ArrayList<>();
+        for(Reply entity : replyList) {
+            ReplyResponseDto dto = new ReplyResponseDto(entity);
+            dtoList.add(dto);
+        }
+
+        return dtoList;
+    }
+
+    public Page<Reply> loadReplyInMyInfo(Long memberIdx, int page) {
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("replyIdx").descending());
+
+        Page<Reply> replyPage = replyRepository.findByMemberNameContaining(memberIdx, pageable);
+
+        return replyPage;
     }
 
     @Transactional
@@ -87,6 +112,8 @@ public class ReplyService {
 
         replyRepository.updateIsDeleted(idx);
     }
+
+
 
 
 //    public Reply addReply(Long boardIdx, Long MemberIx) throws Exception {

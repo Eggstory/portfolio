@@ -4,13 +4,23 @@
 $(function() {
 
     // 이전 페이지의 URL을 가져옴
-//    let previousUrl = document.referrer;
+    let previousUrl = document.referrer;
 //    const url = previousUrl.split('?');
 //    const detail = url[1];
 
     $('.back').on("click", function() {
+    const keywords1 = ["/writeAction", "/editAction", "/replyAction", "/replyUpdate", "/replyDelete", "/replyRestore", "/delete", "/view"];
+    const keywords2 = ["/admin/list/board", "/myInfo"];
+    if(keywords1.some(keyword => previousUrl.includes(keyword)) ) {
+      window.location.href = "/board"
+    } else if(keywords2.some(keyword => previousUrl.includes(keyword))) {
+      window.history.back();
+    } else {
+      window.history.back();
+    }
 
-    window.location.href = "/board"
+
+
 
 //    if (previousUrl.includes("?page=")) {
 //        // 페이지 번호 파라미터를 가져옴

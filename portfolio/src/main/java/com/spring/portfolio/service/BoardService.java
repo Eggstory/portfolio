@@ -29,6 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -55,6 +57,17 @@ public class BoardService {
         return boardPage;
     }
 
+    public Page<Board> loadBoardInMyInfo(Long memberIdx, int page) {
+//        List<Sort.Order> sorts = new ArrayList<>();
+//        sorts.add(Sort.Order.desc("idx"));
+//         Sort.by(sorts) : 아래줄 PageRequest.of의 세번째 인자
+        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("boardIdx").descending());
+
+        Page<Board> boardPage = boardRepository.findByMemberNameContaining(memberIdx, pageable);
+
+        return boardPage;
+    }
+
 //    public Page<Board> boardSearchList(String keyword, int page) {
 //
 //        Pageable pageable = PageRequest.of(page - 1, 10, Sort.by("boardIdx").descending());
@@ -66,15 +79,41 @@ public class BoardService {
         List<Board> first4Board = boardRepository.findTop4ByOrderByBoardIdxDesc();
 
         List<BoardResponseDto> boardDto = new ArrayList<>();
+
         for(Board entity : first4Board){
             BoardResponseDto boardResponseDto = new BoardResponseDto(entity);
+            String boardContent = boardResponseDto.getBoardContent();
             String boardImage = boardResponseDto.getBoardImage();
-            if(boardImage == null || boardImage.equals("")) {
+
+            String s = boardImage.split(",")[0];
+            Pattern pattern = Pattern.compile("/images/upload/([a-f0-9\\-]+)\\.(png|jpg)");
+            Matcher matcher = pattern.matcher(boardContent);
+
+//            List<String> imgFiles = new ArrayList<>();
+//            List<String> imgExtensions = new ArrayList<>();
+//
+//            while (matcher.find()) {
+//                imgFiles.add(matcher.group(1)); // UUID 값 추출 후 리스트에 추가
+//                imgExtensions.add(matcher.group(2)); // 확자자 지정
+//            }
+
+
+
+            if(boardImage.isEmpty()) {
                 boardResponseDto.setBoardImage("/images/no-image.png");
-            } else if (boardImage != null) {
+//            } else if (!boardImage.contains(",")) {
+//                // 이미지가 한개일때
+//                boardResponseDto.setBoardImage(boardImage);
+//            } else if(boardImage.contains(",") && !Thumb.equals(s)) {
+//                // 이미지가 여러개 들어가 있을 경우, 제일 첫번째 이미지를 썸네일용으로 쓰기 위한 코드
+//                boardResponseDto.setBoardImage(Thumb);
+//            }
+            } else if (matcher.find()) {
+                String imgFile = matcher.group(1); // 첫 번째 UUID
+                String iImgExtension = matcher.group(2); // 첫 번째 확장자
+                String Thumb = "/images/upload/" + imgFile + "." + iImgExtension;
                 // 이미지가 여러개 들어가 있을 경우, 제일 첫번째 이미지를 썸네일용으로 쓰기 위한 코드
-                String s = boardImage.split(",")[0];
-                boardResponseDto.setBoardImage(s);
+                boardResponseDto.setBoardImage(Thumb);
             }
             boardDto.add(boardResponseDto);
         }

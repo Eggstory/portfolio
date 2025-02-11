@@ -170,7 +170,7 @@
 
         <th:block th:if="${type}=='member' or ${type}=='limitMember'">
             <div class="main_con">
-                <table class="table" style="margin-left: auto; margin-right: auto; width: 900px;">
+                <table class="table" style="margin-left: auto; margin-right: auto;">
                     <thead class="table-light">
                     <tr class="no">
                         <th><input type="checkbox" class="RowCheck" name="RowCheck" value="selectAll"
@@ -240,7 +240,7 @@
 
         <th:block th:if="${type}=='board'">
             <div class="main_con">
-                <table class="table" style="margin-left: auto; margin-right: auto; width: 900px;">
+                <table class="table" style="margin-left: auto; margin-right: auto;">
                     <thead class="table-light">
                     <tr class="no">
                         <th><input type="checkbox" class="RowCheck" name="RowCheck" value="selectAll"
@@ -261,7 +261,7 @@
                         <td class="id" th:text="${list.boardIdx}"></td>
                         <td th:text="${list.boardSubject}"></td>
                         <td>
-                            <a th:href="@{/admin/board/view(boardIdx=${list.boardIdx})}"
+                            <a th:href="@{/board/view(boardIdx=${list.boardIdx})}"
                                th:text="${list.boardTitle}" style="overflow: hidden;"></a>
                         </td>
                         <td th:text="${list.boardWriter}"></td>
@@ -291,7 +291,7 @@
 
         <th:block th:if="${type}=='reply'">
             <div class="main_con">
-                <table class="table" style="margin-left: auto; margin-right: auto; width: 900px;">
+                <table class="table" style="margin-left: auto; margin-right: auto;">
                     <thead class="table-light">
                     <tr class="no">
                         <th><input type="checkbox" class="RowCheck" name="RowCheck" value="selectAll"
@@ -309,7 +309,10 @@
                         <td><input name="RowCheck" class="reply" th:value="${list.idx}" type="checkbox"/></td>
                         <td class="id" th:text="${list.idx}"></td>
                         <td th:text="${list.boardIdx}"></td>
-                        <td th:text="${list.boardTitle}"></td>
+                        <td>
+                            <a th:href="@{/board/view(boardIdx=${list.boardIdx})}"
+                               th:text="${list.boardTitle}" style="overflow: hidden;"></a>
+                        </td>
                         <td th:text="${list.writer}"></td>
                         <td th:text="${list.blindYN}"></td>
                         <td th:text="${#temporals.format(list.createDate,'MM/dd HH:mm')}"></td>

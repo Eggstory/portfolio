@@ -97,12 +97,12 @@
         </div>
         <div class="empty-space"></div>
         <div class="table-header">
-          <div class="list-tab active">작성글</div>
-          <div class="list-tab">작성댓글</div>
+          <div class="list-tab board-tab active">작성글</div>
+          <div class="list-tab reply-tab">작성댓글</div>
         </div>
         <div class="empty-space horizon"></div>
         <div class="display-grid">
-          <table>
+          <table class="list-table board-table" style="display: table;">
             <colgroup class="myInfo-col">
               <col class="col1" />
               <col class="col2" />
@@ -142,64 +142,164 @@
               </tr>
             </tbody>
           </table>
+          <table class="list-table reply-table" style="display: none;">
+            <colgroup class="myInfo-col2">
+              <col class="col1" />
+              <col class="col2" />
+              <col class="col3" />
+              <col class="col4" />
+            </colgroup>
+            <thead>
+            <tr>
+              <th>번호</th>
+              <th>게시글</th>
+              <th>댓글내용</th>
+              <th>작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${not #lists.isEmpty(reply)}" th:each="reply : ${reply}">
+              <td th:text="${reply.idx}">111111</td>
+              <td
+                      th:text="${reply.boardTitle}"
+                      class="table-title td-href"
+                      th:onclick="|location.href='@{/board/view(boardIdx=${reply.boardIdx})}'|"
+              >
+                드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자드가자
+              </td>
+              <td
+                      th:text="${reply.replyComment}"
+                      class="table-title td-href"
+                      th:onclick="|location.href='@{/board/view(boardIdx=${reply.boardIdx})}'|"
+              >
+                댓글 내용
+              </td>
+              <td
+                      th:text="${#temporals.format(reply.createDate,'MM/dd HH:mm')}"
+              >
+                2025.01.15
+              </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(reply)}">
+              <td colspan="4" class="non-write">작성한 댓글이 없습니다.</td>
+            </tr>
+            </tbody>
+          </table>
           <div class="empty-space"></div>
-<!--          <div class="page_wrap">-->
-<!--            <div class="page_nation">-->
-<!--              <div-->
-<!--                class="display-inline"-->
-<!--                th:classappend="${!paging.hasPrevious} ? 'disabled'"-->
-<!--              >-->
-<!--                <a class="arrow pprev" th:href="@{|?search=${keyword}&page=1|}"-->
-<!--                  ><<</a-->
-<!--                >-->
-<!--                <a-->
-<!--                  class="arrow prev"-->
-<!--                  th:if="${paging.number > 0}"-->
-<!--                  th:href="@{|?search=${keyword}&page=${paging.number}|}"-->
-<!--                  ><</a-->
-<!--                >-->
-<!--              </div>-->
-<!--              <div-->
-<!--                th:each="page: ${#numbers.sequence((paging.number/10)*10, (((paging.number/10)+1)*10)-1)}"-->
-<!--                th:if="${(paging.totalPages)/(paging.number+1) >= 1 and paging.totalPages/10 > paging.number/10}"-->
-<!--                class="display-inline"-->
-<!--              >-->
-<!--                <a-->
-<!--                  th:text="${page+1}"-->
-<!--                  th:href="@{|?search=${keyword}&page=${page+1}|}"-->
-<!--                  th:classappend="${page == paging.number} ? 'active'"-->
-<!--                ></a>-->
-<!--              </div>-->
-<!--              <div-->
-<!--                th:each="page: ${#numbers.sequence((paging.number/10)*10, paging.totalPages-1)}"-->
-<!--                th:if="${(paging.totalPages)/(paging.number+1) >= 1 and paging.totalPages/10 <= paging.number/10} "-->
-<!--                class="display-inline"-->
-<!--              >-->
-<!--                <a-->
-<!--                  th:text="${page+1}"-->
-<!--                  th:href="@{|?search=${keyword}&page=${page+1}|}"-->
-<!--                  th:classappend="${page == paging.number} ? 'active'"-->
-<!--                ></a>-->
-<!--              </div>-->
-<!--              <div-->
-<!--                class="display-inline"-->
-<!--                th:classappend="${!paging.hasNext} ? 'disabled'"-->
-<!--              >-->
-<!--                <a-->
-<!--                  class="arrow next"-->
-<!--                  th:if="${paging.number < paging.totalPages-1}"-->
-<!--                  th:href="@{|?search=${keyword}&page=${paging.number+2}|}"-->
-<!--                  >></a-->
-<!--                >-->
-<!--                <a-->
-<!--                  class="arrow nnext"-->
-<!--                  th:href="@{|?search=${keyword}&page=${paging.totalPages}|}"-->
-<!--                  >>></a-->
-<!--                >-->
-<!--              </div>-->
-<!--            </div>-->
-<!--            <div class="empty-space"></div>-->
-<!--          </div>-->
+          <div class="page_wrap board-nav" style="display: flex;">
+            <div class="page_nation">
+              <div
+                class="display-inline"
+                th:classappend="${!boardPaging.hasPrevious} ? 'disabled'"
+              >
+                <a class="arrow pprev" th:href="@{|?page=1|}"
+                  ><<</a
+                >
+                <a
+                  class="arrow prev"
+                  th:if="${boardPaging.number > 0}"
+                  th:href="@{|?page=${boardPaging.number}|}"
+                  ><</a
+                >
+              </div>
+              <div
+                th:each="page: ${#numbers.sequence((boardPaging.number/10)*10, (((boardPaging.number/10)+1)*10)-1)}"
+                th:if="${(boardPaging.totalPages)/(boardPaging.number+1) >= 1 and boardPaging.totalPages/10 > boardPaging.number/10}"
+                class="display-inline"
+              >
+                <a
+                  th:text="${page+1}"
+                  th:href="@{|?page=${page+1}|}"
+                  th:classappend="${page == boardPaging.number} ? 'active'"
+                ></a>
+              </div>
+              <div
+                th:each="page: ${#numbers.sequence((boardPaging.number/10)*10, boardPaging.totalPages-1)}"
+                th:if="${(boardPaging.totalPages)/(boardPaging.number+1) >= 1 and boardPaging.totalPages/10 <= boardPaging.number/10} "
+                class="display-inline"
+              >
+                <a
+                  th:text="${page+1}"
+                  th:href="@{|?page=${page+1}|}"
+                  th:classappend="${page == boardPaging.number} ? 'active'"
+                ></a>
+              </div>
+              <div
+                class="display-inline"
+                th:classappend="${!boardPaging.hasNext} ? 'disabled'"
+              >
+                <a
+                  class="arrow next"
+                  th:if="${boardPaging.number < boardPaging.totalPages-1}"
+                  th:href="@{|?page=${boardPaging.number+2}|}"
+                  >></a
+                >
+                <a
+                  class="arrow nnext"
+                  th:href="@{|?page=${boardPaging.totalPages}|}"
+                  >>></a
+                >
+              </div>
+            </div>
+            <div class="empty-space"></div>
+          </div>
+          <div class="page_wrap reply-nav" style="display: none;">
+            <div class="page_nation">
+              <div
+                      class="display-inline"
+                      th:classappend="${!replyPaging.hasPrevious} ? 'disabled'"
+              >
+                <a class="arrow pprev" th:href="@{|?page=1|}"
+                ><<</a
+                >
+                <a
+                        class="arrow prev"
+                        th:if="${replyPaging.number > 0}"
+                        th:href="@{|?page=${replyPaging.number}|}"
+                ><</a
+                >
+              </div>
+              <div
+                      th:each="page: ${#numbers.sequence((replyPaging.number/10)*10, (((replyPaging.number/10)+1)*10)-1)}"
+                      th:if="${(replyPaging.totalPages)/(replyPaging.number+1) >= 1 and replyPaging.totalPages/10 > replyPaging.number/10}"
+                      class="display-inline"
+              >
+                <a
+                        th:text="${page+1}"
+                        th:href="@{|?page=${page+1}|}"
+                        th:classappend="${page == replyPaging.number} ? 'active'"
+                ></a>
+              </div>
+              <div
+                      th:each="page: ${#numbers.sequence((replyPaging.number/10)*10, replyPaging.totalPages-1)}"
+                      th:if="${(replyPaging.totalPages)/(replyPaging.number+1) >= 1 and replyPaging.totalPages/10 <= replyPaging.number/10} "
+                      class="display-inline"
+              >
+                <a
+                        th:text="${page+1}"
+                        th:href="@{|?page=${page+1}|}"
+                        th:classappend="${page == replyPaging.number} ? 'active'"
+                ></a>
+              </div>
+              <div
+                      class="display-inline"
+                      th:classappend="${!replyPaging.hasNext} ? 'disabled'"
+              >
+                <a
+                        class="arrow next"
+                        th:if="${replyPaging.number < replyPaging.totalPages-1}"
+                        th:href="@{|?page=${replyPaging.number+2}|}"
+                >></a
+                >
+                <a
+                        class="arrow nnext"
+                        th:href="@{|?page=${replyPaging.totalPages}|}"
+                >>></a
+                >
+              </div>
+            </div>
+            <div class="empty-space"></div>
+          </div>
         </div>
       </div>
       <div class="footer"></div>

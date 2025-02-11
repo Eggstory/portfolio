@@ -1,11 +1,10 @@
 package com.spring.portfolio.controller;
 
 import com.spring.portfolio.config.PrincipalDetails;
-import com.spring.portfolio.dto.BoardRequestDto;
-import com.spring.portfolio.dto.BoardResponseDto;
-import com.spring.portfolio.dto.MemberRequestDto;
-import com.spring.portfolio.dto.MemberResponseDto;
+import com.spring.portfolio.dto.*;
+import com.spring.portfolio.entity.Board;
 import com.spring.portfolio.entity.Member;
+import com.spring.portfolio.entity.Reply;
 import com.spring.portfolio.service.BoardService;
 import com.spring.portfolio.service.MailService;
 import com.spring.portfolio.service.MemberService;
@@ -14,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -23,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -104,13 +105,30 @@ public class MemberController {
 
     @GetMapping("/myInfo")
     public String myInfo(Model model,
-                         @AuthenticationPrincipal PrincipalDetails principalDetails) {
-
+                         @AuthenticationPrincipal PrincipalDetails principalDetails,
+                         @RequestParam(value = "page", defaultValue = "1") int page) {
+        System.out.println(page);
         MemberResponseDto memberResponseDto = memberService.loadMemberInfo(principalDetails);
-        List<BoardResponseDto> boardResponseDtos = boardService.loadBoardList(memberResponseDto.getMemberIdx());
+//        List<BoardResponseDto> boardResponseDtos = boardService.loadBoardList(memberResponseDto.getMemberIdx());
+//        List<ReplyResponseDto> replyResponseDtos = replyService.loadReplyList(memberResponseDto.getMemberIdx());
+
+
+        Page<Board> boardPaging = boardService.loadBoardInMyInfo( memberResponseDto.getMemberIdx(),page);
+        Page<Reply> replyPaging = replyService.loadReplyInMyInfo( memberResponseDto.getMemberIdx(),page);
+
+        List<BoardResponseDto> boardModel = new ArrayList<>();
+        for(Board board : boardPaging) {
+            boardModel.add(new BoardResponseDto(board));
+        }
+        List<ReplyResponseDto> replyModel = new ArrayList<>();
+        for(Reply reply : replyPaging) {
+            replyModel.add(new ReplyResponseDto(reply));
+        }
+
 
         model.addAttribute("member", memberResponseDto);
-        model.addAttribute("board", boardResponseDtos);
+        model.addAttribute("board", boardModel);
+        model.addAttribute("reply", replyModel);
 
         boolean checked;
         String visible = memberResponseDto.getVisible();
@@ -121,6 +139,8 @@ public class MemberController {
         }
 
         model.addAttribute("checked", checked);
+        model.addAttribute("boardPaging", boardPaging);
+        model.addAttribute("replyPaging", replyPaging);
 
         return "client/myInfo";
     }

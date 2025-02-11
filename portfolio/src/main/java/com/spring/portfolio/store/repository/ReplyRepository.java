@@ -21,6 +21,10 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
 //    @Query(value = "SELECT r FROM Reply r WHERE r.board.boardIdx = :idx")
     List<Reply> findByBoardIdx(@Param("idx") long idx);
 
+    @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query(value = "select r from Reply r join r.member m where m.memberIdx = :idx")
+    List<Reply> findByMemberIdx(@Param("idx") Long memberIdx);
+
     @Modifying
     @Query(value = "delete from Reply r where r.board.boardIdx = :idx")
     void deleteByBoardIdx(@Param("idx") Long idx);
@@ -48,6 +52,10 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     @Query(value = "select r from Reply r join r.member m where r.replyComment like %:keyword% or m.memberName like %:keyword%")
     Page<Reply> findByReplyCommentContaining(@Param("keyword") String keyword, Pageable pageable);
 
+    @EntityGraph(attributePaths = {"member"}, type = EntityGraph.EntityGraphType.FETCH)
+    @Query(value = "select r from Reply r join r.member m where m.memberIdx = :memberIdx")
+    Page<Reply> findByMemberNameContaining(@Param("memberIdx")Long memberIdx, Pageable pageable);
+
     List<Reply> findAllByBoard(Board board);
 
     @Modifying
@@ -61,6 +69,8 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     @Modifying
     @Query(value = "update Reply r set r.parent.id = null where r.board.id = :idx")
     void updateParentId(@Param("idx") Long idx);
+
+
 
 
 //    @Query(value = "select * from reply where board_idx = :idx", nativeQuery = true)

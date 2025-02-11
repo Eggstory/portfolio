@@ -31,6 +31,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // 작성글 or 작성댓글 목록 보이기
     const items = document.querySelectorAll('.list-tab');
+    const boardTab = document.querySelector(".board-tab");
+    const replyTab = document.querySelector(".reply-tab");
+    const listTable = document.querySelectorAll(".list-table");
+    const boardTable = document.querySelector(".board-table");
+    const replyTable = document.querySelector(".reply-table");
+    const boardNav = document.querySelector(".board-nav");
+    const replyNav = document.querySelector(".reply-nav");
+
 
     items.forEach((item) => {
       item.addEventListener('click', () => {
@@ -38,8 +46,25 @@ document.addEventListener("DOMContentLoaded", () => {
           e.classList.remove('active');
         });
         item.classList.add('active');
+
+        if(boardTab.classList.contains('active')) {
+          boardTable.style.display = 'table';
+          replyTable.style.display = 'none';
+          boardNav.style.display = 'flex';
+          replyNav.style.display = 'none';
+        } else if(replyTab.classList.contains('active')) {
+          boardTable.style.display = 'none';
+          replyTable.style.display = 'table';
+          boardNav.style.display = 'none';
+          replyNav.style.display = 'flex';
+        }
+
       });
     });
+
+
+
+
 
     // =========================================================
 
@@ -213,6 +238,11 @@ document.addEventListener("DOMContentLoaded", () => {
 //          alert("데이터 전송에 실패했습니다.");
 //        }
 //      });
+
+// =============================================================================================================
+
+    // pageNav - board
+
 
 
     })
