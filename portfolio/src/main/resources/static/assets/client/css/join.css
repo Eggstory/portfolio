@@ -1,0 +1,20 @@
+.form-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+input {
+  width: 350px;
+}
+
+label {
+  color: gray;
+}
+
+.btn-submit {
+  width: 100%;
+}
+
+.input-container {
+  gap: 20px;
+}

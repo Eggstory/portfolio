@@ -1,0 +1,63 @@
+select {
+    height: 48px;
+    font-size: 16px;
+    position: relative;
+    width: 100%;
+    padding: 0 25px 0 11px;
+    border: 1px solid #ebecef;
+    background: #fff;
+    text-align: left;
+    box-sizing: border-box;
+    color: #000;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-radius: 10px;
+}
+
+button {
+    border-radius: 10px;
+    border: 1px solid #ebecef;
+    background-color: white;
+    color: gray;
+}
+
+.boardTitle {
+    height: 48px;
+    border-radius: 10px;
+    background-color: var(--themeColorBG8);
+    font-size: 16px;
+    line-height: 22px;
+    display: block;
+    width: 100%;
+    padding: 11px 12px 10px;
+    border: 1px solid #ebecef;
+    overflow: hidden;
+    resize: none;
+    word-break: break-all;
+    letter-spacing: -.23px;
+    outline: none;
+    font-weight: 400;
+}
+
+.wrap {
+    display: flex;
+    justify-content: center;
+}
+
+.flex-gap {
+    display: flex;
+    gap: 20px;
+}
+
+.column-gap {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    margin: 20px 0px;
+}
+
+.summernote-content {
+    margin-bottom: 10px;
+}

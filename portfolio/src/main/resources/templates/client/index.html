@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>home</title>
+
+    <div th:replace="~{/client/fragments/Head.html :: common-head}" />
+
+<!--    <link-->
+<!--      rel="stylesheet"-->
+<!--      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"-->
+<!--    />-->
+
+<!--    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>-->
+
+    <script src="/assets/client/js/index.js"></script>
+    <script src="/assets/client/js/slider.js"></script>
+    <link rel="stylesheet" href="/assets/client/css/index.css" type="text/css" />
+    <link rel="stylesheet" href="/assets/client/css/slider.css" type="text/css" />
+  </head>
+  <body>
+  <div>
+    <th:block sec:authorize="isAuthenticated()">
+        <div onclick="location.href='/myInfo'" class="simple-icon">my Info</div>
+    </th:block>
+  </div>
+    <div class="wrap">
+      <div th:replace="~{/client/fragments/nav.html :: common-nav}" />
+      <main class="main-container">
+        <div class="main-thum">
+<!--          <img src="/images/mainThum.jpg" class="main-img" alt="" />-->
+            <div class="demnodey-swiper">
+                <div class="demnodey-wrapper">
+                    <div class="demnodey-slider" id="slider-img-1">
+                        <a href="/">
+                            <img class="main-img" src="/images/mainThum.jpg">
+                        </a>
+                    </div>
+                    <div class="demnodey-slider" id="slider-img-2">
+                        <a href="/">
+                            <img class="main-img" src="/images/mainThum1.jpg">
+                        </a>
+                    </div>
+                    <div class="demnodey-slider" id="slider-img-3">
+                        <a href="/">
+                            <img class="main-img" src="/images/mainThum2.jpg">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="demnodey-pagination">
+                    <span idx='1' class="bullet active"></span>
+                    <span idx='2' class="bullet"></span>
+                    <span idx='3' class="bullet"></span>
+                </div>
+
+            </div>
+        </div>
+<!--        <section class="section">-->
+<!--          <div class="section-wrap">-->
+<!--            <div class="section-title">-->
+<!--              <b> 타이틀 </b>-->
+<!--              <span> 서브 타이틀 </span>-->
+<!--            </div>-->
+<!--            <div class="section-grid">-->
+<!--              <div class="section-content background-white">-->
+<!--                <div class="section-thum">-->
+<!--                  <img-->
+<!--                    src="https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_960_720.jpg 1x, https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_1280.jpg"-->
+<!--                    alt=""-->
+<!--                  />-->
+<!--                </div>-->
+<!--                <div class="section-descript">-->
+<!--                  <b class="font-size20">타이틀</b>-->
+<!--                  <span class="font-size20">그냥 침대</span>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="section-content background-white">-->
+<!--                <div class="section-thum">-->
+<!--                  <img-->
+<!--                    src="https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_960_720.jpg 1x, https://cdn.pixabay.com/photo/2020/10/18/09/16/bedroom-5664221_1280.jpg"-->
+<!--                    alt=""-->
+<!--                  />-->
+<!--                </div>-->
+<!--                <div class="section-descript">-->
+<!--                  <b class="font-size20">타이틀</b>-->
+<!--                  <span class="font-size20">그냥 침대</span>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </section>-->
+
+        <section class="section background-white">
+          <div class="section-wrap">
+            <div class="section-title">
+              <b> 게시글 </b>
+              <span> 최신순 </span>
+            </div>
+            <div class="section-grid">
+              <div th:each="board : ${board}" class="section-content background-white"
+                   th:onclick="|location.href='@{/board/view(boardIdx=${board.boardIdx})}'|">
+                <div class="section-thum">
+                  <img
+                    th:src="${board.boardImage}"
+                    alt=""
+                  />
+                </div>
+                <div class="section-descript">
+                  <b th:text="${board.boardTitle}" class="font-size20">타이틀</b>
+                  <span th:utext="${board.boardContent}" class="mini-board font-size20 text-overflow">그냥 침대</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>login</title>
+
+    <div th:replace="~{/client/fragments/Head.html :: common-head}"/>
+
+    <script src="/assets/client/js/login.js"></script>
+    <link rel="stylesheet" href="/assets/client/css/login.css" type="text/css"/>
+</head>
+<body>
+<div class="wrap">
+    <div class="main-container">
+        <div class="logo" onclick="location.href='/'">
+            <img src="images/red-304573_1280.png" alt=""/>
+        </div>
+        <div class="login-type">
+            <a href="/oauth2/authorization/google"><img class="oauth-btn" src="images/web_light_sq_SI@2x.png"></a><br>
+            <a href="/oauth2/authorization/naver"><img class="oauth-btn" src="images/btnG_축약형.png"></a><br>
+            <a href="/oauth2/authorization/kakao"><img class="oauth-btn" src="images/kakao_login_medium.png"></a>
+        </div>
+        <form method="post" action="/loginAction">
+            <div class="input-container">
+                <input type="hidden" name="_csrf" value="${_csrf.token}" />
+                <input class="id" name="memberMail" id="memberMail" type="text" placeholder="이메일"/>
+                <span class="id-warn"></span>
+                <input class="pw" name="memberPw" id="memberPw" type="password" placeholder="비밀번호"/>
+                <span class="pw-warn"></span>
+<!--                <div>-->
+<!--                    <input type="checkbox">-->
+<!--                    <span>자동 로그인</span>-->
+<!--                </div>-->
+                <div>
+                    <span th:if="${error}">
+                        <p id="valid" class="alert alert-danger" th:text="${exception}"></p>
+                    </span>
+                </div>
+                <button type="submit" class="btn btn-primary">로그인</button>
+                <hr/>
+            </div>
+        </form>
+        <button onclick="location.href='join'" class="btn">회원가입</button>
+        <div>
+            <br>
+            <div class="a-tag" id="findPw">비밀번호 찾기</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

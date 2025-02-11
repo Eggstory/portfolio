@@ -1,0 +1,105 @@
+span {
+  font-size: 14px;
+}
+
+textarea {
+  border: 0px;
+  resize: none;
+  outline: 0;
+}
+
+button {
+  background-color: rgb(135 127 255 / 50%);
+}
+
+
+img {
+  display: block;
+}
+
+.wrap {
+  display: flex;
+  justify-content: center;
+  
+}
+
+.main-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 850px;
+  gap: 30px
+}
+
+.header {
+  border-top: 1px solid blue ;
+  border-bottom: 1px solid lightgray;
+  padding: 10px 0px;
+}
+
+.title2 {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.comment-content {
+  border-top: 1px solid lightgray;
+}
+
+.comment-page {
+  display: flex;
+  justify-content: center;
+}
+
+.comment-write {
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px solid lightgray;
+  display: flex;
+  flex-direction: column;
+}
+
+.side {
+  display: flex;
+  justify-content: space-between;
+}
+
+.reply-setting {
+    border-left: solid lightgray 1px;
+    margin-left: 30px;
+    padding-left: 10px;
+}
+
+.hidden-replyForm {
+  display: none;
+}
+
+.body {
+    margin: 20px;
+    min-height: 200px;
+}
+
+.footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    height: 300px
+}
+
+.back {
+    height: 50px;
+    width: 100px;
+}
+
+.update:hover {
+    cursor: pointer;
+}
+
+.font-red {
+  color: red;
+}

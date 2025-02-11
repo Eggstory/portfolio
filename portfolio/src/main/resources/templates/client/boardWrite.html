@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+
+    <div th:replace="~{/client/fragments/Head.html :: board-head}"/>
+
+    <script src="/assets/client/js/boardWrite.js"></script>
+    <link rel="stylesheet" href="/assets/client/css/boardWrite.css" type="text/css"/>
+</head>
+<body>
+<div class="wrap">
+    <form action="/board/writeAction" class="form-group" method="post">
+        <input type="hidden" name="viewCount" value="0">
+        <input type="hidden" name="likeCount" value="0">
+        <input type="hidden" name="boardWriter" th:value="${writer}">
+        <input type="hidden" id="hiddenInput" name="boardImage" value="">
+        <div class="column-gap">
+            <div class="flex-gap">
+                <select name="boardCategory1">
+                    <optgroup label="커뮤니티">
+                        <option value="게시판">게시판</option>
+                        <option value="갤러리">갤러리</option>
+                    </optgroup>
+                </select>
+                <select name="boardCategory2">
+                    <optgroup label="카테고리">
+                        <option value="자유">자유</option>
+                        <option value="유머">유머</option>
+                        <option value="QnA">QnA</option>
+                        <option value="짤방">짤방</option>
+                        <option value="그림">창작</option>
+                    </optgroup>
+                </select>
+                <select name="boardSubject">
+                    <optgroup label="말머리">
+                        <option value="NORMAL">일반</option>
+                        <option value="NOTICE">공지</option>
+                        <option value="PICTURE">그림</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div>
+                <textarea class="boardTitle" name="boardTitle" placeholder="제목"></textarea>
+            </div>
+        </div>
+        <label for="boardContent"></label>
+        <div class="summernote-content">
+            <textarea name="boardContent" id="boardContent"></textarea>
+        </div>
+        <button type="submit">등록</button>
+        <button type="button" class="cancel-button"
+                onclick="alert('작성한 글이 저장되지 않습니다. 취소하시겠습니까?'); location.href='/board'">취소
+        </button>
+    </form>
+</div>
+
+</body>
+</html>
