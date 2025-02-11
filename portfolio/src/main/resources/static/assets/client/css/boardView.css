@@ -8,6 +8,10 @@ textarea {
   outline: 0;
 }
 
+button {
+  background-color: rgb(135 127 255 / 50%);
+}
+
 
 img {
   display: block;

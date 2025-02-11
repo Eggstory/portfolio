@@ -29,6 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // =========================================================
 
+
+
     // 작성글 or 작성댓글 목록 보이기
     const items = document.querySelectorAll('.list-tab');
     const boardTab = document.querySelector(".board-tab");
@@ -36,12 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const listTable = document.querySelectorAll(".list-table");
     const boardTable = document.querySelector(".board-table");
     const replyTable = document.querySelector(".reply-table");
-    const boardNav = document.querySelector(".board-nav");
-    const replyNav = document.querySelector(".reply-nav");
+//    const boardNav = document.querySelector(".board-nav");
+//    const replyNav = document.querySelector(".reply-nav");
 
 
     items.forEach((item) => {
       item.addEventListener('click', () => {
+
         items.forEach((e) => {
           e.classList.remove('active');
         });
@@ -50,20 +53,17 @@ document.addEventListener("DOMContentLoaded", () => {
         if(boardTab.classList.contains('active')) {
           boardTable.style.display = 'table';
           replyTable.style.display = 'none';
-          boardNav.style.display = 'flex';
-          replyNav.style.display = 'none';
+//          boardNav.style.display = 'flex';
+//          replyNav.style.display = 'none';
         } else if(replyTab.classList.contains('active')) {
           boardTable.style.display = 'none';
           replyTable.style.display = 'table';
-          boardNav.style.display = 'none';
-          replyNav.style.display = 'flex';
+//          boardNav.style.display = 'none';
+//          replyNav.style.display = 'flex';
         }
 
       });
     });
-
-
-
 
 
     // =========================================================
@@ -241,8 +241,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // =============================================================================================================
 
-    // pageNav - board
+      // type 쿼리 string 분기
+//    const urlParams = new URLSearchParams(window.location.search);
+//    const typeParam = urlParams.get("type");
+//
+//    if (typeParam === "board") {
+//        boardTab.classList.add("active");
+//    } else if (typeParam === "reply") {
+//        replyTab.classList.add("active");
+//    }
 
+// =======================================================================================================
+
+      // nav
+//      document.querySelectorAll(.page-nav).forEach((el) => {
+//        el.addEventListener("click", (event) => {
+//          if(event.target.classList.contains('board-pprev')) {
+//
+//          }
+//        })
+//      })
 
 
     })

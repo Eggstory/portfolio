@@ -99,6 +99,8 @@
         <div class="table-header">
           <div class="list-tab board-tab active">작성글</div>
           <div class="list-tab reply-tab">작성댓글</div>
+<!--          <a class="list-tab board-tab active">작성글</a>-->
+<!--          <a class="list-tab reply-tab">작성댓글</a>-->
         </div>
         <div class="empty-space horizon"></div>
         <div class="display-grid">
@@ -186,120 +188,124 @@
             </tbody>
           </table>
           <div class="empty-space"></div>
-          <div class="page_wrap board-nav" style="display: flex;">
-            <div class="page_nation">
-              <div
-                class="display-inline"
-                th:classappend="${!boardPaging.hasPrevious} ? 'disabled'"
-              >
-                <a class="arrow pprev" th:href="@{|?page=1|}"
-                  ><<</a
-                >
-                <a
-                  class="arrow prev"
-                  th:if="${boardPaging.number > 0}"
-                  th:href="@{|?page=${boardPaging.number}|}"
-                  ><</a
-                >
-              </div>
-              <div
-                th:each="page: ${#numbers.sequence((boardPaging.number/10)*10, (((boardPaging.number/10)+1)*10)-1)}"
-                th:if="${(boardPaging.totalPages)/(boardPaging.number+1) >= 1 and boardPaging.totalPages/10 > boardPaging.number/10}"
-                class="display-inline"
-              >
-                <a
-                  th:text="${page+1}"
-                  th:href="@{|?page=${page+1}|}"
-                  th:classappend="${page == boardPaging.number} ? 'active'"
-                ></a>
-              </div>
-              <div
-                th:each="page: ${#numbers.sequence((boardPaging.number/10)*10, boardPaging.totalPages-1)}"
-                th:if="${(boardPaging.totalPages)/(boardPaging.number+1) >= 1 and boardPaging.totalPages/10 <= boardPaging.number/10} "
-                class="display-inline"
-              >
-                <a
-                  th:text="${page+1}"
-                  th:href="@{|?page=${page+1}|}"
-                  th:classappend="${page == boardPaging.number} ? 'active'"
-                ></a>
-              </div>
-              <div
-                class="display-inline"
-                th:classappend="${!boardPaging.hasNext} ? 'disabled'"
-              >
-                <a
-                  class="arrow next"
-                  th:if="${boardPaging.number < boardPaging.totalPages-1}"
-                  th:href="@{|?page=${boardPaging.number+2}|}"
-                  >></a
-                >
-                <a
-                  class="arrow nnext"
-                  th:href="@{|?page=${boardPaging.totalPages}|}"
-                  >>></a
-                >
-              </div>
-            </div>
-            <div class="empty-space"></div>
-          </div>
-          <div class="page_wrap reply-nav" style="display: none;">
-            <div class="page_nation">
-              <div
-                      class="display-inline"
-                      th:classappend="${!replyPaging.hasPrevious} ? 'disabled'"
-              >
-                <a class="arrow pprev" th:href="@{|?page=1|}"
-                ><<</a
-                >
-                <a
-                        class="arrow prev"
-                        th:if="${replyPaging.number > 0}"
-                        th:href="@{|?page=${replyPaging.number}|}"
-                ><</a
-                >
-              </div>
-              <div
-                      th:each="page: ${#numbers.sequence((replyPaging.number/10)*10, (((replyPaging.number/10)+1)*10)-1)}"
-                      th:if="${(replyPaging.totalPages)/(replyPaging.number+1) >= 1 and replyPaging.totalPages/10 > replyPaging.number/10}"
-                      class="display-inline"
-              >
-                <a
-                        th:text="${page+1}"
-                        th:href="@{|?page=${page+1}|}"
-                        th:classappend="${page == replyPaging.number} ? 'active'"
-                ></a>
-              </div>
-              <div
-                      th:each="page: ${#numbers.sequence((replyPaging.number/10)*10, replyPaging.totalPages-1)}"
-                      th:if="${(replyPaging.totalPages)/(replyPaging.number+1) >= 1 and replyPaging.totalPages/10 <= replyPaging.number/10} "
-                      class="display-inline"
-              >
-                <a
-                        th:text="${page+1}"
-                        th:href="@{|?page=${page+1}|}"
-                        th:classappend="${page == replyPaging.number} ? 'active'"
-                ></a>
-              </div>
-              <div
-                      class="display-inline"
-                      th:classappend="${!replyPaging.hasNext} ? 'disabled'"
-              >
-                <a
-                        class="arrow next"
-                        th:if="${replyPaging.number < replyPaging.totalPages-1}"
-                        th:href="@{|?page=${replyPaging.number+2}|}"
-                >></a
-                >
-                <a
-                        class="arrow nnext"
-                        th:href="@{|?page=${replyPaging.totalPages}|}"
-                >>></a
-                >
-              </div>
-            </div>
-            <div class="empty-space"></div>
-          </div>
+<!--          <div class="page_wrap board-nav" style="display: flex;">-->
+<!--            <div class="page_nation">-->
+<!--              <div-->
+<!--                class="display-inline"-->
+<!--                th:classappend="${!boardPaging.hasPrevious} ? 'disabled'"-->
+<!--              >-->
+<!--                <a class="arrow pprev board-pprev page-nav" th:href="@{|?type=${type1}&page=1|}"-->
+<!--                  ><<</a-->
+<!--                >-->
+<!--                <a-->
+<!--                  class="arrow prev board-prev page-nav"-->
+<!--                  th:if="${boardPaging.number > 0}"-->
+<!--                  th:href="@{|?type=${type1}&page=${boardPaging.number}|}"-->
+<!--                  ><</a-->
+<!--                >-->
+<!--              </div>-->
+<!--              <div-->
+<!--                th:each="page: ${#numbers.sequence((boardPaging.number/10)*10, (((boardPaging.number/10)+1)*10)-1)}"-->
+<!--                th:if="${(boardPaging.totalPages)/(boardPaging.number+1) >= 1 and boardPaging.totalPages/10 > boardPaging.number/10}"-->
+<!--                class="display-inline"-->
+<!--              >-->
+<!--                <a-->
+<!--                  class="board-page1 page-nav"-->
+<!--                  th:text="${page+1}"-->
+<!--                  th:href="@{|?type=${type1}&page=${page+1}|}"-->
+<!--                  th:classappend="${page == boardPaging.number} ? 'active'"-->
+<!--                ></a>-->
+<!--              </div>-->
+<!--              <div-->
+<!--                th:each="page: ${#numbers.sequence((boardPaging.number/10)*10, boardPaging.totalPages-1)}"-->
+<!--                th:if="${(boardPaging.totalPages)/(boardPaging.number+1) >= 1 and boardPaging.totalPages/10 <= boardPaging.number/10} "-->
+<!--                class="display-inline"-->
+<!--              >-->
+<!--                <a-->
+<!--                  class="board-page2 page-nav"-->
+<!--                  th:text="${page+1}"-->
+<!--                  th:href="@{|type=${type1}&page=${page+1}|}"-->
+<!--                  th:classappend="${page == boardPaging.number} ? 'active'"-->
+<!--                ></a>-->
+<!--              </div>-->
+<!--              <div-->
+<!--                class="display-inline"-->
+<!--                th:classappend="${!boardPaging.hasNext} ? 'disabled'"-->
+<!--              >-->
+<!--                <a-->
+<!--                  class="arrow next board-next page-nav"-->
+<!--                  th:if="${boardPaging.number < boardPaging.totalPages-1}"-->
+<!--                  th:href="@{|?type=${type1}&page=${boardPaging.number+2}|}"-->
+<!--                  >></a-->
+<!--                >-->
+<!--                <a-->
+<!--                  class="arrow nnext board-nnext page-nav"-->
+<!--                  th:href="@{|?type=${type1}&page=${boardPaging.totalPages}|}"-->
+<!--                  >>></a-->
+<!--                >-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="empty-space"></div>-->
+<!--          </div>-->
+<!--          <div class="page_wrap reply-nav" style="display: none;">-->
+<!--            <div class="page_nation">-->
+<!--              <div-->
+<!--                      class="display-inline"-->
+<!--                      th:classappend="${!replyPaging.hasPrevious} ? 'disabled'"-->
+<!--              >-->
+<!--                <a class="arrow pprev reply-pprev page-nav" th:href="@{|?type=${type2}&page=1|}"-->
+<!--                ><<</a-->
+<!--                >-->
+<!--                <a-->
+<!--                        class="arrow prev reply-prev page-nav"-->
+<!--                        th:if="${replyPaging.number > 0}"-->
+<!--                        th:href="@{|?type=${type2}&page=${replyPaging.number}|}"-->
+<!--                ><</a-->
+<!--                >-->
+<!--              </div>-->
+<!--              <div-->
+<!--                      th:each="page: ${#numbers.sequence((replyPaging.number/10)*10, (((replyPaging.number/10)+1)*10)-1)}"-->
+<!--                      th:if="${(replyPaging.totalPages)/(replyPaging.number+1) >= 1 and replyPaging.totalPages/10 > replyPaging.number/10}"-->
+<!--                      class="display-inline"-->
+<!--              >-->
+<!--                <a-->
+<!--                        class="reply-page1 page-nav"-->
+<!--                        th:text="${page+1}"-->
+<!--                        th:href="@{|?type=${type2}&page=${page+1}|}"-->
+<!--                        th:classappend="${page == replyPaging.number} ? 'active'"-->
+<!--                ></a>-->
+<!--              </div>-->
+<!--              <div-->
+<!--                      th:each="page: ${#numbers.sequence((replyPaging.number/10)*10, replyPaging.totalPages-1)}"-->
+<!--                      th:if="${(replyPaging.totalPages)/(replyPaging.number+1) >= 1 and replyPaging.totalPages/10 <= replyPaging.number/10} "-->
+<!--                      class="display-inline"-->
+<!--              >-->
+<!--                <a-->
+<!--                        class="reply-page2 page-nav"-->
+<!--                        th:text="${page+1}"-->
+<!--                        th:href="@{|?type=${type2}&page=${page+1}|}"-->
+<!--                        th:classappend="${page == replyPaging.number} ? 'active'"-->
+<!--                ></a>-->
+<!--              </div>-->
+<!--              <div-->
+<!--                      class="display-inline"-->
+<!--                      th:classappend="${!replyPaging.hasNext} ? 'disabled'"-->
+<!--              >-->
+<!--                <a-->
+<!--                        class="arrow next reply-next page-nav"-->
+<!--                        th:if="${replyPaging.number < replyPaging.totalPages-1}"-->
+<!--                        th:href="@{|?type=${type2}&page=${replyPaging.number+2}|}"-->
+<!--                >></a-->
+<!--                >-->
+<!--                <a-->
+<!--                        class="arrow nnext reply-nnext page-nav"-->
+<!--                        th:href="@{|?type=${type2}&page=${replyPaging.totalPages}|}"-->
+<!--                >>></a-->
+<!--                >-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="empty-space"></div>-->
+<!--          </div>-->
         </div>
       </div>
       <div class="footer"></div>

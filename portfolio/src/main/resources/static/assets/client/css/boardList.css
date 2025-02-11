@@ -104,7 +104,9 @@ td {
   display: inline;
 }
 
-
+button {
+  background-color: rgb(135 127 255 / 50%);
+}
 
 /*페이징 css*/
 

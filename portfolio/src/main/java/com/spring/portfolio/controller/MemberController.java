@@ -105,30 +105,33 @@ public class MemberController {
 
     @GetMapping("/myInfo")
     public String myInfo(Model model,
-                         @AuthenticationPrincipal PrincipalDetails principalDetails,
-                         @RequestParam(value = "page", defaultValue = "1") int page) {
-        System.out.println(page);
+                         @AuthenticationPrincipal PrincipalDetails principalDetails
+//                         ,@RequestParam(value = "type", required = false) String type
+//                         ,@RequestParam(value = "page", defaultValue = "1") int page
+                        ) {
+
         MemberResponseDto memberResponseDto = memberService.loadMemberInfo(principalDetails);
-//        List<BoardResponseDto> boardResponseDtos = boardService.loadBoardList(memberResponseDto.getMemberIdx());
-//        List<ReplyResponseDto> replyResponseDtos = replyService.loadReplyList(memberResponseDto.getMemberIdx());
+        List<BoardResponseDto> boardResponseDtos = boardService.loadBoardList(memberResponseDto.getMemberIdx());
+        List<ReplyResponseDto> replyResponseDtos = replyService.loadReplyList(memberResponseDto.getMemberIdx());
 
 
-        Page<Board> boardPaging = boardService.loadBoardInMyInfo( memberResponseDto.getMemberIdx(),page);
-        Page<Reply> replyPaging = replyService.loadReplyInMyInfo( memberResponseDto.getMemberIdx(),page);
+//        Page<Board> boardPaging = boardService.loadBoardInMyInfo( memberResponseDto.getMemberIdx(),page);
+//        Page<Reply> replyPaging = replyService.loadReplyInMyInfo( memberResponseDto.getMemberIdx(),page);
 
-        List<BoardResponseDto> boardModel = new ArrayList<>();
-        for(Board board : boardPaging) {
-            boardModel.add(new BoardResponseDto(board));
-        }
-        List<ReplyResponseDto> replyModel = new ArrayList<>();
-        for(Reply reply : replyPaging) {
-            replyModel.add(new ReplyResponseDto(reply));
-        }
+        // page 10개씩 나오게할때 쓸거
+//        List<BoardResponseDto> boardModel = new ArrayList<>();
+//        for(Board board : boardPaging) {
+//            boardModel.add(new BoardResponseDto(board));
+//        }
+//        List<ReplyResponseDto> replyModel = new ArrayList<>();
+//        for(Reply reply : replyPaging) {
+//            replyModel.add(new ReplyResponseDto(reply));
+//        }
 
 
         model.addAttribute("member", memberResponseDto);
-        model.addAttribute("board", boardModel);
-        model.addAttribute("reply", replyModel);
+        model.addAttribute("board", boardResponseDtos);
+        model.addAttribute("reply", replyResponseDtos);
 
         boolean checked;
         String visible = memberResponseDto.getVisible();
@@ -139,8 +142,10 @@ public class MemberController {
         }
 
         model.addAttribute("checked", checked);
-        model.addAttribute("boardPaging", boardPaging);
-        model.addAttribute("replyPaging", replyPaging);
+//        model.addAttribute("boardPaging", boardPaging);
+//        model.addAttribute("replyPaging", replyPaging);
+        model.addAttribute("type1", "board");
+        model.addAttribute("type2", "reply");
 
         return "client/myInfo";
     }
