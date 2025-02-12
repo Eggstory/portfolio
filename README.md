@@ -18,8 +18,8 @@
 
 ## 프로젝트 영상 링크
 - AWS 프리티어가 끝나서 배포는 준비하지 못했습니다. 대신에 영상을 찍어 링크를 걸어두겠습니다.
-- 필요하시다면 면접 때 제 노트북으로 보여드리겠습니다.
-- 링크 : 
+- 필요하시다면 면접 때 제 노트북으로 코드를 보여드리겠습니다.
+- 링크 : https://youtu.be/sGcqs6LzoAk?feature=shared
 
 ## 프로젝트 이미지
 <img width="537" alt="Image" src="https://github.com/user-attachments/assets/8cb3a371-85f9-4e55-8cf0-67c2ed8ee668" /></br>
